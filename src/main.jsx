@@ -4,7 +4,7 @@ import { router } from "./routes/Router";
 import { RouterProvider } from "react-router-dom";
 import "../index.css";
 
-const basename = import.meta.env.MODE === 'production' ? '/dhrin900.github.io' : '';
+const basename = '/';
 console.log('Environment:', import.meta.env.MODE);
 console.log('Base URL:', basename);
 

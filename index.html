@@ -14,20 +14,22 @@
     
     <!-- Single Page Application for GitHub Pages -->
     <script>
-        (function(l) {
-            if (l.search[1] === '/' ) {
-                var decoded = l.pathname;
-                window.history.replaceState(null, null,
-                    l.pathname.slice(1, l.pathname.length) + l.search + l.hash
-                );
+        (function() {
+            const location = window.location;
+            if (location.search) {
+                const params = new URLSearchParams(location.search);
+                const path = params.get('p');
+                if (path) {
+                    window.history.replaceState({}, '', path);
+                }
             }
-        }(window.location))
+        })();
     </script>
 </head>
 
 <body>
     <div id="root"></div>
-    <script type="module" src="./src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
     <script type="module" src="https://unpkg.com/cally"></script>
 </body>
 
