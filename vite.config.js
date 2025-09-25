@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
   // Base path for GitHub Pages - since this is a user site (dhrin900.github.io), base should be '/'
-  const base = '/';
+  const base = '/dhrin900.github.io/';
   
   return {
     base,
