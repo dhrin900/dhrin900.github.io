@@ -8,7 +8,7 @@
     <meta name="description" content="DH Rin - Java Developer, UI/UX Design Enthusiast, and Figma Designer from Bangkok, Thailand. Combining coding expertise with creative design to create impactful digital experiences." />
     <meta name="keywords" content="DH Rin, Java Developer, UI/UX Designer, Figma Designer, Bangkok, Thailand, Portfolio, Web Development" />
     <meta name="author" content="DH Rin" />
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="./index.css">
 
     <title>DH Rin - Java Developer & UI/UX Designer | Portfolio</title>
     
@@ -16,18 +16,18 @@
     <script>
         (function(l) {
             if (l.search[1] === '/' ) {
-                var decoded = sessionStorage.redirect || l.pathname;
-                sessionStorage.removeItem('redirect');
-                l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-                    decoded + (l.search ? l.search + '&' : '?') + 'p=' + l.pathname);
+                var decoded = l.pathname;
+                window.history.replaceState(null, null,
+                    l.pathname.slice(1, l.pathname.length) + l.search + l.hash
+                );
             }
         }(window.location))
     </script>
 </head>
 
-<body class="">
-    <div id="root" class=""></div>
-    <script type="module" src="/src/main.jsx"></script>
+<body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.jsx"></script>
     <script type="module" src="https://unpkg.com/cally"></script>
 </body>
 
