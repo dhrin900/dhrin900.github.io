@@ -222,7 +222,12 @@ body {
   position: absolute;
   width: 800px;
   filter: drop-shadow(0 4px 10px rgba(236, 72, 153, 0.3));
-  animation-duration: 10s; /* Added explicit animation duration */
+  animation-duration: 6s;
+  transition: transform 0.3s ease;
+}
+
+.baloons img:hover {
+  transform: scale(1.05) rotate(5deg); /* Add subtle hover effect */
 }
 
 .baloons img:nth-child(even) {

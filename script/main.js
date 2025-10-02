@@ -209,17 +209,34 @@ const animationTimeline = () => {
     )
     .staggerFromTo(
       ".baloons img",
-      6,
+      6, // Animation duration
       {
-        opacity: 0.9,
-        y: 14000,
+        opacity: 0,
+        y: 1000,
+        rotation: -30,
+        scale: 0.5
       },
       {
         opacity: 1,
-        y: -10000,
+        y: -100,
+        rotation: 0,
+        scale: 1,
+        ease: "bounce.out" // Add bounce effect for spring-like feel
       },
-      0.5,
+      0.3, // Delay between balloons
     )
+    // Hold balloons in place during Promise section
+    .to(".baloons img", 0.1, {
+      // This is just to mark the timeline position
+    }, "-=2") // Start holding 2 seconds before the Promise section
+    .to(".baloons img", 10, {
+      y: -100, // Keep them at this position
+      rotation: 0,
+      scale: 1,
+    }, "promise") // Hold for 10 seconds during Promise section
+    .to(".baloons img", 0.5, {
+      opacity: 0, // Fade out after Promise section
+    }, "promise+=10")
     .from(
       ".profile-picture",
       0.5,
