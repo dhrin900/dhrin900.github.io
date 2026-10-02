@@ -1,0 +1,222 @@
+/* ============================================================================
+   base.css — reset, typography, page furniture, grain.
+
+   Progressive enhancement contract: with JavaScript disabled or blocked, this
+   file alone renders the entire site as a plain, readable, scrollable document.
+   Nothing in the cinematic layer is allowed to be load-bearing for content.
+   ========================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--espresso);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* No 100vw anywhere: it includes the scrollbar and forces horizontal scroll. */
+  overflow-x: clip;
+}
+
+/* Never hide the page until JS runs. 2025 set .container { visibility:hidden }
+   and a CDN failure produced a blank pink rectangle. Not repeating that. */
+
+img, video, svg { display: block; max-width: 100%; }
+img, video { height: auto; }
+
+h1, h2, h3, h4, p, figure, blockquote { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+a { color: inherit; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------- typography */
+
+.display, h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  line-height: var(--lh-display);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); font-weight: 400; line-height: 1.4; }
+
+p { max-width: var(--measure); }
+
+/* Small-caps metadata: dates, act numbers, labels. */
+.label {
+  font-family: var(--font-body);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lede {
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.4rem);
+  line-height: 1.65;
+  color: var(--espresso);
+  max-width: 46ch;
+}
+
+.muted { color: var(--muted); }
+
+/* ------------------------------------------------------------- structure */
+
+.shell {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.act {
+  position: relative;
+  padding-block: var(--section-pad);
+}
+
+/* A full-bleed act opts out of .shell and manages its own full width. */
+.act--bleed { padding-inline: 0; }
+
+/* ---------------------------------------------------------------- a11y */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -120%);
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-small);
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease);
+}
+.skip-link:focus-visible { transform: translate(-50%, 0); }
+
+/* One visible focus treatment for the whole site. 2025 had zero :focus rules. */
+:focus-visible {
+  outline: 2px solid var(--brass-deep);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+.on-dark :focus-visible,
+.act--dark :focus-visible { outline-color: var(--brass-light); }
+
+/* ---------------------------------------------------------------- grain
+   An inline SVG turbulence tile, fixed over everything, blending at low
+   opacity. Kills the flat-digital look and makes the page read photographic. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ------------------------------------------------------------- reveal
+   The hidden state is scoped to .js. If the script never runs, nothing is
+   ever hidden — a no-JS visitor gets the finished layout, not a blank page. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+}
+.js [data-reveal].is-revealed { opacity: 1; transform: none; }
+
+/* ------------------------------------------------------------ sound toggle
+   The WCAG 1.4.2 affordance for autoplaying background music. Hidden until
+   JS confirms the real play state, so it never lies about what is playing. */
+.sound-toggle {
+  position: fixed;
+  right: var(--gutter);
+  bottom: max(var(--gutter), env(safe-area-inset-bottom));
+  z-index: var(--z-chrome);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--stone);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  color: var(--espresso);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+.sound-toggle:hover { border-color: var(--brass); }
+.sound-toggle__wave { transition: opacity var(--dur-fast) var(--ease); }
+.sound-toggle[aria-pressed="false"] .sound-toggle__wave { opacity: 0.2; }
+
+/* autoplay was refused (every iOS browser) — invite, do not demand */
+.sound-toggle.is-waiting { border-color: var(--brass); }
+/* the off state is shown by dimming the waves; the label never changes, so the
+   accessible name stays stable and aria-pressed carries the state */
+.sound-toggle[aria-pressed="false"] { color: var(--clay, #6B5D4E); }
+.sound-toggle.is-nudging { animation: nudge 620ms var(--ease) 2; }
+@keyframes nudge {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-5px); }
+  75%      { transform: translateX(5px); }
+}
+
+/* --------------------------------------------------------------- scroll cue */
+.scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.scroll-cue::after {
+  content: "";
+  width: 1px; height: 2.5rem;
+  background: linear-gradient(var(--muted), transparent);
+}
+
+/* ------------------------------------------------------------ reduced motion
+   Everything still, everything visible. Not "shorter animation" — none. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain { display: none; }
+}

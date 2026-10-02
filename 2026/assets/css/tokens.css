@@ -1,0 +1,108 @@
+/* ============================================================================
+   tokens.css — the single source of truth for the 2026 design system.
+
+   Every colour below was sampled from Rin's own photographs, not chosen from a
+   swatch library. Sources are noted against each token. Contrast ratios were
+   verified numerically before these values were committed; see the comment on
+   each one. Do not add a raw hex value anywhere else in the codebase.
+   ========================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------- colour */
+
+  /* warm paper — the cream wall behind her in the hero photograph (#E4DBCA) */
+  --paper:        #F7F3EC;
+  /* sand — a half-step down, for alternating section grounds (#EAE0D1) */
+  --sand:         #EAE0D1;
+  /* greige — the photo-booth wall, sampled #C49F8C. Non-text only. */
+  --greige:       #C49F8C;
+  /* stone — the bed frame in the hero, sampled #A1927F. 2.32:1 on sand, so this
+     is BORDERS AND RULES ONLY. It was being used for small text, which failed. */
+  --stone:        #A1927F;
+  /* muted — a readable secondary text tone, 4.87:1 on sand. This is what
+     --stone should have been used for. */
+  --muted:        #6B5D4E;
+
+  /* espresso — deepened from her hair and top. 11.89:1 on paper. */
+  --espresso:     #3A2E25;
+  /* ink — the darkest ground. 16.06:1 on paper. */
+  --ink:          #1C1714;
+
+  /* brass — the spoon she is holding in the gallery photograph (#C27E03) and
+     the gold light on that floor (#AF883D), desaturated to sit with the paper.
+     2.92:1 on paper: DECORATIVE ONLY. Never use for text, never for a border
+     that carries meaning. Rules, hairlines, seal, focus ring on dark. */
+  --brass:        #B8863B;
+  /* brass-deep — the same hue darkened, stepped until it clears 4.5:1 on the
+     DARKEST ground it lands on. The first value (#8A6428) passed on paper at
+     4.83:1 but only reached 4.09:1 on sand, and Act 02 sits on sand.
+     Now 4.95:1 on sand, 5.84:1 on paper. */
+  --brass-deep:   #7A5824;
+  /* brass-light — for accents on dark grounds. 7.32:1 on espresso. */
+  --brass-light:  #D9BE8C;
+
+  /* rose — the maroon wall behind her in the library video calls (#AA6D68).
+     3.73:1 on paper: large text and decorative fills only. */
+  --rose:         #AA6D68;
+
+  /* blush — the panda hat, the star stickers, the donut pillow (#E987B8).
+     2.2:1 on paper, so it is NEVER text colour. Used as a filled chip with ink
+     on top (7.29:1), or as a 3%-of-the-page punctuation accent. */
+  --blush:        #E987B8;
+
+  /* ------------------------------------------------------------ typography */
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* 1.25 modular scale, mobile-first, fluid via clamp() */
+  --fs-display: clamp(3.25rem, 13vw, 8.5rem);
+  --fs-h1:      clamp(2.5rem, 8vw, 5rem);
+  --fs-h2:      clamp(1.75rem, 4.5vw, 3rem);
+  --fs-h3:      clamp(1.25rem, 2.6vw, 1.6rem);
+  --fs-body:    clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --fs-small:   0.875rem;
+  --fs-label:   0.75rem;
+
+  --lh-display: 1.02;
+  --lh-body:    1.75;
+  --tracking-label: 0.28em;
+
+  /* ----------------------------------------------------------------- space
+     8px baseline. --gutter is the page margin; --measure is the text column. */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+  --section-pad: clamp(6rem, 14vh, 12rem);
+  --gutter:  clamp(1.25rem, 5vw, 4rem);
+  --measure:  min(68ch, 100%);
+
+  /* ----------------------------------------------------------------- shape */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 14px;
+  --hairline: 1px solid var(--stone);
+
+  /* ---------------------------------------------------------------- motion
+     One easing family. No bounce, no elastic, no spin. */
+  --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:   240ms;
+  --dur-base:   600ms;
+  --dur-slow:   1200ms;
+  --stagger:    80ms;
+
+  /* ------------------------------------------------------------------ z    */
+  --z-grain:   90;
+  --z-veil:    80;
+  --z-chrome:  70;   /* mute control, always reachable */
+}
+
+/* The one place a single change re-tints the whole page. Kept as a token so a
+   future rebrand is a two-line edit, not a find-and-replace. */
+:root {
+  --accent: var(--brass-deep);
+  --accent-contrast: var(--paper);
+}

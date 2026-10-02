@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Rin — 3rd October</title>
+<meta name="description" content="A letter for Rin, from Nepal. October 3rd.">
+<meta name="theme-color" content="#F7F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C1714" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light">
+
+<!-- Link preview. og:image MUST be an absolute URL. Scrapers fetch it with a
+     bare HTTP request and do not resolve relative paths against the page, so a
+     relative "./assets/img/og.jpg" silently yields a preview with no image —
+     which is the one thing this site exists to get right, since it is a link
+     meant to be pasted into a chat. If the deploy path ever changes, this is
+     the line to change. -->
+<link rel="canonical" href="https://dhrin900.github.io/2026/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="For Rin">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://dhrin900.github.io/2026/">
+<meta property="og:title" content="For Rin — 3rd October">
+<meta property="og:description" content="A letter for Rin, from Nepal. Two time zones, one call, and a whole year of this.">
+<meta property="og:image" content="https://dhrin900.github.io/2026/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A letter for Rin, 3rd October">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="For Rin — 3rd October">
+<meta name="twitter:description" content="A letter for Rin, from Nepal.">
+<meta name="twitter:image" content="https://dhrin900.github.io/2026/assets/img/og.jpg">
+
+<link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./assets/img/favicon-180.png">
+
+<!-- Self-hosted: no third-party request, no CDN failure taking the page down -->
+<link rel="preload" href="./assets/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYp3tKgS4.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./assets/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./assets/img/hero-1315.webp" as="image" fetchpriority="high">
+
+<link rel="stylesheet" href="./assets/css/fonts.css">
+<link rel="stylesheet" href="./assets/css/tokens.css">
+<link rel="stylesheet" href="./assets/css/base.css">
+<link rel="stylesheet" href="./assets/css/acts.css">
+</head>
+
+<body>
+<a class="skip-link" href="#letter">Skip to the letter</a>
+
+<!-- Background music. Autoplay is attempted; if the browser blocks it, a small
+     control appears instead of a modal. Kept in the a11y tree, not display:none. -->
+<audio data-audio preload="auto" loop>
+  <source src="./assets/audio/hbd.m4a" type="audio/mp4">
+</audio>
+
+<!-- The WCAG 1.4.2 affordance for autoplaying background music. Hidden until
+     JS confirms the real play state, so it never lies about what is playing.
+
+     The visible label stays the literal word "Sound" and state is carried by
+     aria-pressed. An earlier version changed the visible text between "Sound on"
+     and "Sound off" while also setting aria-label, which is ambiguous; and a
+     later version pinned aria-label to "Sound" over the changing visible text,
+     which axe correctly flags as label-content-name-mismatch. A toggle button
+     wants a stable name and a state attribute — so both are stable. The crossed
+     speaker glyph shows the off state visually. -->
+<button class="sound-toggle" data-mute type="button"
+        aria-pressed="false" hidden>
+  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+    <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+    <path class="sound-toggle__wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"
+          fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  </svg>
+  <span data-mute-label>Sound</span>
+</button>
+
+<!-- ===================================================== ACT 00 — Threshold -->
+<section class="act act-threshold" id="act-00" aria-labelledby="act-00-title">
+  <h1 id="act-00-title" class="visually-hidden">A letter for <span data-her-name>Rin</span></h1>
+
+  <div class="act-threshold__media">
+    <img src="./assets/img/hero-1315.webp"
+         srcset="./assets/img/hero-640.webp 640w,
+                 ./assets/img/hero-960.webp 960w,
+                 ./assets/img/hero-1315.webp 1315w,
+                 ./assets/img/hero-1920.webp 1920w,
+                 ./assets/img/hero-2400.webp 2400w"
+         sizes="100vw"
+         width="1315" height="739"
+         alt="Rin with a finger to her lips, in a warm-lit room"
+         fetchpriority="high" decoding="async">
+  </div>
+</section>
+
+<!-- The gate. Rendered only when JavaScript is running, and dismissible by
+     click, Enter, Space, Escape or a scroll gesture.
+     No aria-label: the visible text IS the accessible name. An aria-label of
+     "Open the letter" over visible text reading "Tap to open" tripped
+     axe label-content-name-mismatch. -->
+<div class="veil" data-veil role="button" tabindex="0">
+  <div class="veil__inner">
+    <!-- wax seal: the turbulence/displacement filter gives a real poured edge -->
+    <svg class="seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="waxBody" cx="36%" cy="30%">
+          <stop offset="0"   stop-color="#5C4632"/>
+          <stop offset="0.6" stop-color="#3A2E25"/>
+          <stop offset="1"   stop-color="#241C16"/>
+        </radialGradient>
+        <filter id="waxEdge" x="-15%" y="-15%" width="130%" height="130%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.042" numOctaves="4" seed="7" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="10"
+                             xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+      <circle cx="100" cy="100" r="86" fill="url(#waxBody)" filter="url(#waxEdge)"/>
+      <circle cx="100" cy="100" r="63" fill="none" stroke="#1B1512" stroke-width="1.5" opacity="0.55"/>
+      <circle class="seal__ring" cx="100" cy="100" r="63" fill="none"
+              stroke="#D9BE8C" stroke-width="1.1" opacity="0.5"/>
+      <circle cx="100" cy="100" r="46" fill="none" stroke="#1B1512" stroke-width="1" opacity="0.4"/>
+      <!-- four-point mark, embossed -->
+      <path d="M100 74c2.6 15.4 8.6 21.4 24 24-15.4 2.6-21.4 8.6-24 24-2.6-15.4-8.6-21.4-24-24 15.4-2.6 21.4-8.6 24-24z"
+            fill="#D9BE8C" opacity="0.82"/>
+    </svg>
+    <p class="veil__note">She asked you to keep a secret.</p>
+    <p class="veil__prompt">Tap to open</p>
+  </div>
+</div>
+
+<main id="letter">
+
+  <!-- ======================================================= ACT 01 — The Name -->
+  <section class="act act-name" id="act-01" aria-labelledby="act-01-title">
+    <div class="act-name__media">
+      <img src="./assets/img/hero-1315.webp"
+           srcset="./assets/img/hero-640.webp 640w,
+                   ./assets/img/hero-960.webp 960w,
+                   ./assets/img/hero-1315.webp 1315w,
+                   ./assets/img/hero-1920.webp 1920w,
+                   ./assets/img/hero-2400.webp 2400w"
+           sizes="(min-width: 60rem) 100vw, 100vw"
+           width="1315" height="739"
+           alt="" aria-hidden="true" loading="lazy" decoding="async">
+    </div>
+
+    <div class="shell">
+      <div class="act-name__panel">
+        <p class="label act-name__eyebrow" data-reveal>
+          <span data-her-birthday-long>October 3rd</span>
+        </p>
+
+        <h2 id="act-01-title" class="act-name__title" data-reveal>
+          <span data-her-name>Rin</span>
+          <em>this one is yours</em>
+        </h2>
+
+        <p class="act-name__line" data-reveal>
+          You put a finger to your lips and asked me to keep it quiet.
+          I am bad at keeping quiet. So I built you something instead.
+        </p>
+
+        <p class="act-name__meta" data-reveal>
+          <span>From <span data-his-place>Nepal</span></span>
+          <span>To <span data-her-place>Thailand</span></span>
+          <span><span data-months>4+</span> months</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================ ACTS 02-08 — structure
+       Real sections with real headings so the document is honest and
+       navigable. Styled in P3-P5. -->
+  <!-- ==================================================== ACT 02 — The Distance -->
+  <section class="act act-distance shell" id="act-02" aria-labelledby="t02">
+    <div class="act-distance__inner">
+      <p class="label">Act 02 — The Distance</p>
+
+      <div class="clocks">
+        <div class="clock">
+          <p class="clock__place" data-his-place>Nepal</p>
+          <!-- server-rendered fallback so the no-JS page is never blank -->
+          <p class="clock__time"><span data-clock-his data-clock-static>--:--</span></p>
+          <p class="clock__who"><span data-his-name>Ramesh</span></p>
+        </div>
+
+        <p class="clock-gap">
+          <span class="clock-gap__rule" aria-hidden="true"></span>
+          <span class="clock-gap__label" data-clock-gap>—</span>
+        </p>
+
+        <div class="clock">
+          <p class="clock__place" data-her-place>Thailand</p>
+          <p class="clock__time"><span data-clock-her>--:--</span></p>
+          <p class="clock__who"><span data-her-name>Rin</span></p>
+        </div>
+      </div>
+
+      <p class="act-distance__body" data-reveal>
+        We have never been in the same room. Four months, two time zones, one
+        phone held up between us. There are a hundred and fifteen minutes
+        between your morning and my night, and I have learned to live inside
+        that gap.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================================================= ACT 03 — Both Sides
+       Built from the real video-call frames. His side is the caller's tile
+       lifted out of the screenshot; her side is her, same moment, same call. -->
+  <section class="act act-both-sides" id="act-03" data-both-sides
+           aria-labelledby="t03">
+    <h2 id="t03" class="visually-hidden">Both sides</h2>
+
+    <div class="bs-stage">
+      <div class="bs-side bs-side--his">
+        <figure class="bs-tile">
+          <img src="./assets/img/his-laugh.webp" width="167" height="305"
+               alt="Ramesh on a video call, laughing" loading="lazy" decoding="async">
+        </figure>
+        <p class="bs-tag bs-tag--his">
+          <span>Kathmandu</span>
+          <span data-his-name>Ramesh</span>
+        </p>
+      </div>
+
+      <div class="bs-side bs-side--her">
+        <img src="./assets/img/her-laugh.webp" width="462" height="693"
+             alt="Rin on the same video call, laughing" loading="lazy" decoding="async">
+        <p class="bs-tag bs-tag--her">
+          <span>Bangkok</span>
+          <span data-her-name>Rin</span>
+        </p>
+      </div>
+
+      <p class="bs-seam">
+        <span class="bs-seam__line" aria-hidden="true"></span>
+        <span class="bs-seam__text">
+          Two rooms. One call. Same second.
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================================================== ACT 04 — The Moments -->
+  <section class="act shell" id="act-04" aria-labelledby="t04">
+    <h2 id="t04">The Moments</h2>
+    <p class="lede" data-reveal>Not the best ones. The ones that actually happened.</p>
+
+    <div class="moments" style="margin-top: var(--space-6)">
+
+      <figure class="moment moment--hero" data-reveal>
+        <img src="./assets/img/brass-spoon-640.webp"
+             srcset="./assets/img/brass-spoon-640.webp 640w, ./assets/img/brass-spoon-1200.webp 1200w"
+             sizes="(min-width: 78rem) 1200px, 92vw"
+             width="1200" height="1600" loading="lazy" decoding="async"
+             alt="Rin holding an oversized brass spoon in a gallery of wall-mounted spoons">
+        <figcaption class="moment__cap">The biggest spoon in the entire museum.</figcaption>
+      </figure>
+
+      <div class="moment-pair">
+        <figure class="moment moment--tall" data-reveal>
+          <img src="./assets/img/star-cheek-640.webp"
+               srcset="./assets/img/star-cheek-640.webp 640w, ./assets/img/star-cheek-1200.webp 1200w"
+               sizes="(min-width: 44rem) 52vw, 92vw"
+               width="1600" height="1200" loading="lazy" decoding="async"
+               alt="Close selfie of Rin with two pink star stickers on her cheek">
+          <figcaption class="moment__cap">Two stars, drawn on by an app. Kept anyway.</figcaption>
+        </figure>
+
+        <figure class="moment moment--square" data-reveal>
+          <img src="./assets/img/friends-booth-640.webp"
+               srcset="./assets/img/friends-booth-640.webp 640w, ./assets/img/friends-booth-1200.webp 1200w"
+               sizes="(min-width: 44rem) 40vw, 92vw"
+               width="1600" height="1200" loading="lazy" decoding="async"
+               alt="Rin and a friend in plush panda hats at a photo booth">
+          <figcaption class="moment__cap">She committed to the panda hat. I did not.</figcaption>
+        </figure>
+      </div>
+
+      <figure class="moment moment--bleed" data-reveal>
+        <img src="./assets/img/moments-eye.webp"
+             width="1600" height="900" loading="lazy" decoding="async"
+             alt="Close-up of Rin's eye with glitter makeup along the brow">
+      </figure>
+
+      <div class="moment-pair">
+        <figure class="moment moment--wide" data-reveal>
+          <img src="./assets/img/duo-game-640.webp"
+               srcset="./assets/img/duo-game-640.webp 640w, ./assets/img/duo-game-1200.webp 1200w"
+               sizes="(min-width: 44rem) 52vw, 92vw"
+               width="1600" height="739" loading="lazy" decoding="async"
+               alt="Two game avatars standing side by side in a Free Fire lobby">
+          <figcaption class="moment__cap">Same lobby. Two different countries.</figcaption>
+        </figure>
+
+        <figure class="moment moment--tall" data-reveal>
+          <img src="./assets/img/office-candid-640.webp"
+               srcset="./assets/img/office-candid-640.webp 640w, ./assets/img/office-candid-1200.webp 1200w"
+               sizes="(min-width: 44rem) 40vw, 92vw"
+               width="1200" height="1600" loading="lazy" decoding="async"
+               alt="Rin at a desk in an office, glasses on, caught mid-moment">
+          <figcaption class="moment__cap">Caught mid-nothing. My favourite kind.</figcaption>
+        </figure>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================= ACT 05 — Her Voice -->
+  <section class="act act-voice act--dark shell" id="act-05" aria-labelledby="t05">
+    <p class="label">Act 05</p>
+    <h2 id="t05">Her Voice</h2>
+    <p class="lede" data-reveal style="color: rgba(247,243,236,.8)">
+      Twenty-nine seconds of her, and then she says something I was not ready for.
+    </p>
+
+    <div class="voice__frame" data-reveal>
+      <video controls playsinline preload="none"
+             poster="./assets/video/message-main.webp"
+             width="720" height="452">
+        <source src="./assets/video/message-main.mp4" type="video/mp4">
+        <!-- A transcript is required for accessibility and is NOT shipped yet.
+             Placeholder only — replace with the real words she says. -->
+        <track kind="captions" src="./assets/video/captions.vtt"
+               srclang="en" label="English" default>
+        Your browser cannot play this video.
+      </video>
+    </div>
+
+    <p class="voice__note" data-reveal>
+      I have watched this more times than I will ever admit.
+    </p>
+
+    <!-- The other seven clips: 2.7 MB that must not sit in the initial payload.
+         Each is fetched only when tapped. -->
+    <div class="clips" data-reveal>
+      <div class="clips__head">
+        <p class="label" style="color: var(--brass-light)">And the rest of them</p>
+      </div>
+      <div class="clips__grid" data-clips>
+        <!-- populated from config.js so the clip list lives in one place -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= ACT 06 — The Letter
+
+       DRAFT COPY. Ramesh must replace this with his own words — it is the
+       emotional core of the site and a letter written by someone else is worse
+       than no letter. The structure, measure and reveal are final; only the
+       sentences need to become his. -->
+  <section class="act act-letter shell" id="act-06" aria-labelledby="t06">
+    <p class="label">Act 06</p>
+    <h2 id="t06" class="visually-hidden">The Letter</h2>
+
+    <div class="letter">
+      <div class="letter__body" data-letter>
+        <p data-reveal>I keep starting this and stopping, which is a thing I do
+          instead of saying something properly, so I am going to say it properly
+          this once.</p>
+
+        <p data-reveal>Four months. I know it is not very long. I know you have
+          heard me say it is not very long. But I have learned your whole
+          vocabulary in four months — the way you hum when you are cooking, the
+          particular silence you get when you are tired and do not want to
+          explain why.</p>
+
+        <p data-reveal>We have never been in the same room. That is still the
+          part I cannot get used to. I know what your voice sounds like at 2am
+          and I know you take your tea too sweet, and I know neither of those
+          things by having been there.</p>
+
+        <p data-reveal>So this is me trying to be there in the only way I can
+          manage from here. Carefully. With attention. I would rather send you
+          something small and true than something large and rehearsed.</p>
+
+        <p data-reveal>We argue. I think about that more than I should. I have
+          decided it is not a warning sign — it is just what it sounds like when
+          two people who matter too much to be polite are in the same story. Every
+          one of those fights made us harder to break and every one of the
+          makeups made me certain of you.</p>
+
+        <p data-reveal>Happy birthday, Rin. Not the version of you everyone else
+          gets on their birthday. The version that puts a finger to her lips and
+          asks me to keep a secret, and then does not let me.</p>
+
+        <p data-reveal>I am not going to promise you a date. I will just keep
+          turning up on this screen until the turning up stops being enough and
+          becomes a Tuesday, in person, with the tea exactly as sweet as you
+          like it.</p>
+      </div>
+
+      <div class="letter__sign" data-reveal>
+        <p class="letter__sign-name" data-his-name>Ramesh</p>
+        <p class="letter__sign-from">From <span data-his-place>Nepal</span> · <span data-her-birthday>3rd October</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== ACT 07 — The Keepsake -->
+  <section class="act act-keepsake shell" id="act-07" aria-labelledby="t07">
+    <p class="label">Act 07</p>
+    <h2 id="t07">Something to keep</h2>
+
+    <div class="keepsake">
+      <p class="lede" data-reveal style="text-align:center">
+        Long-press it, or save it. It is yours, not mine.
+      </p>
+
+      <!-- Drawn by keepsake.js at 2x for retina. Sized by CSS, so the element
+           exists and reserves its box before any script runs. -->
+      <canvas class="keepsake__card" data-keepsake
+              width="1200" height="1600" role="img"
+              aria-label="A keepsake card with Rin's name and the date, 3rd October">
+      </canvas>
+
+      <div class="keepsake__actions" data-reveal>
+        <button class="btn btn--solid" type="button" data-keep-save>Save it</button>
+        <button class="btn" type="button" data-keep-redraw>Draw it again</button>
+      </div>
+
+      <p class="keepsake__note" data-reveal>
+        Made for you, on a computer in another country.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========================================================= ACT 08 — The Close -->
+  <section class="act act-close act--dark" id="act-08" aria-labelledby="t08">
+    <h2 id="t08" class="visually-hidden">The Close</h2>
+    <span class="act-close__rule" aria-hidden="true"></span>
+
+    <p class="label" style="color: var(--brass-light)">3rd October</p>
+
+    <p class="act-close__name" data-her-name>Rin</p>
+
+    <p class="act-close__line" data-reveal>
+      Two time zones, one call, and a whole year of this.
+    </p>
+
+    <div class="keepsake__actions" data-reveal>
+      <button class="btn btn--ghost" type="button" data-again>Read it again</button>
+    </div>
+  </section>
+</main>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Self-hosted. Loaded as classic scripts so window.gsap / window.ScrollTrigger
+     exist before the module that uses them runs. `defer` keeps them off the
+     critical path without blocking render. -->
+<script defer src="./assets/vendor/gsap.min.js"></script>
+<script defer src="./assets/vendor/ScrollTrigger.min.js"></script>
+<script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>

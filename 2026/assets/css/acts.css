@@ -1,0 +1,798 @@
+/* ============================================================================
+   acts.css — per-act styling.
+   Act 00 (Threshold) and Act 01 (The Name) are built. Acts 02-08 are stubbed
+   in index.html so the page has honest structure; they are styled in P3-P5.
+   ========================================================================= */
+
+/* ============================================================ ACT 00 — Threshold
+   The hero photograph, blurred, behind a wax seal.
+
+   The blur is applied ONLY when JavaScript is running. With JS off the photo
+   is sharp and the seal never renders, so the page is a plain readable
+   document. That inversion is deliberate. */
+.act-threshold {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: clip;
+  background: var(--sand);
+}
+
+.act-threshold__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.act-threshold__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Her face sits at ~64% across and ~30% down the 1315x739 frame. Without this
+     the 16:9 crop on a tall phone viewport slices her out of the picture. */
+  object-position: 62% 30%;
+}
+
+/* the cinematic layer: only present with JS */
+.js .act-threshold__media img {
+  filter: blur(20px) saturate(0.88);
+  transform: scale(1.1);
+  transition: filter var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+}
+.js.is-open .act-threshold__media img {
+  filter: blur(0) saturate(1);
+  transform: scale(1);
+}
+
+/* The scrim runs left-to-right, not as a uniform vignette: the left column
+   carries light type and needs to be dark, the right carries her face and
+   needs to stay open. A radial vignette was darkening exactly the wrong side. */
+.act-threshold::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(100deg,
+      rgba(28, 23, 20, 0.62) 0%,
+      rgba(28, 23, 20, 0.34) 46%,
+      rgba(28, 23, 20, 0.06) 78%),
+    radial-gradient(ellipse at 50% 50%,
+      rgba(28, 23, 20, 0) 40%, rgba(28, 23, 20, 0.28) 100%);
+}
+
+/* ------------------------------------------------------------------ the seal
+   Left-weighted, not centred. Her face sits right of centre in the frame, so a
+   centred seal lands squarely across it. Everything in this gate lives in the
+   empty left third of the photograph. */
+.veil {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-veil);
+  place-items: center start;
+  padding-inline: var(--gutter);
+  /* deliberately does NOT block scrolling — a scroll gesture dismisses it, so
+     nobody can ever be trapped behind the gate */
+  cursor: pointer;
+}
+.js .veil { display: grid; }
+.js.is-open .veil { display: none; }
+
+.veil__inner {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  max-width: 26rem;
+  text-align: left;
+  transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+}
+.veil.is-dismissing .veil__inner {
+  opacity: 0;
+  transform: translateY(-14px) scale(0.97);
+}
+
+/* On a narrow phone the left third is too small to hold this. Centre it. */
+@media (max-width: 34rem) {
+  .veil { place-items: center; padding-inline: var(--space-4); }
+  .veil__inner { justify-items: center; text-align: center; max-width: 22rem; }
+}
+
+.seal {
+  width: clamp(124px, 15vw, 176px);
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgba(28, 23, 20, 0.5));
+  transition: transform var(--dur-base) var(--ease);
+}
+.veil__inner:hover .seal { transform: rotate(-2.5deg) scale(1.03); }
+
+/* the seal's ring pulses once, slowly, until she touches it */
+.js .seal__ring { animation: seal-breathe 3.4s var(--ease) infinite; transform-origin: 50% 50%; }
+@keyframes seal-breathe {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50%      { opacity: 0.8;  transform: scale(1.045); }
+}
+
+.veil__prompt {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--brass-light);
+}
+.veil__note {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem);
+  line-height: 1.35;
+  color: var(--paper);
+  opacity: 0.94;
+  text-wrap: balance;
+}
+
+/* ============================================================== ACT 01 — The Name
+   The photograph resolves to sharp. Type occupies the left 55% only, because
+   her face sits right of centre. Centring a headline over this image would
+   put it straight across her. */
+.act-name {
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  padding-block: var(--section-pad);
+  overflow: clip;
+  background: var(--paper);
+}
+
+.act-name__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.act-name__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 30%;
+}
+
+/* The copy column. On narrow screens the photo becomes a band above the text
+   rather than a backdrop, so the type never fights the image. */
+.act-name__panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  max-width: 46rem;
+  padding: var(--space-4) 0;
+}
+
+.act-name__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.act-name__eyebrow::before {
+  content: "";
+  width: clamp(28px, 6vw, 56px);
+  height: 1px;
+  background: var(--brass);
+}
+
+.act-name__title {
+  font-size: var(--fs-display);
+  font-weight: 300;
+  line-height: 0.94;
+  color: var(--ink);
+  margin: 0;
+}
+/* The em sat at the full display size and ran off the measure. It is a
+   second line, not a second headline, so it gets its own scale. */
+.act-name__title em {
+  display: block;
+  font-style: italic;
+  color: var(--accent);
+  font-size: clamp(1.35rem, 1rem + 1.6vw, 2.4rem);
+  line-height: 1.2;
+  margin-top: 0.14em;
+  text-wrap: balance;
+}
+
+.act-name__line {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1rem + 1.1vw, 1.9rem);
+  line-height: 1.45;
+  color: var(--espresso);
+  max-width: 30ch;
+}
+
+.act-name__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding-top: var(--space-2);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+/* Direct-child selector only. `.act-name__meta span` also matched the inner
+   value spans, so every item rendered two bullets. */
+.act-name__meta > span { display: inline-flex; align-items: center; gap: var(--space-2); }
+.act-name__meta > span::before {
+  content: "";
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--brass);
+  flex: none;
+}
+
+/* On desktop the photo is a backdrop; on mobile it becomes a band above the
+   copy so her face is never behind the type. */
+@media (min-width: 60rem) {
+  .act-name { min-height: 100svh; }
+  .act-name__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* a warm scrim from the left so type stays legible over the photograph */
+    background: linear-gradient(100deg,
+      rgba(247, 243, 236, 0.97) 0%,
+      rgba(247, 243, 236, 0.9) 34%,
+      rgba(247, 243, 236, 0.28) 58%,
+      rgba(247, 243, 236, 0) 76%);
+  }
+  .act-name__panel { padding-left: 0; }
+}
+
+@media (max-width: 59.99rem) {
+  .act-name {
+    min-height: 0;
+    grid-template-areas: "media" "panel";
+    grid-template-rows: auto 1fr;
+    padding-top: 0;
+  }
+  .act-name__media { grid-area: media; position: relative; height: 46svh; }
+  .act-name__panel {
+    grid-area: panel;
+    padding-block: var(--space-6) var(--section-pad);
+  }
+}
+
+/* ========================================================= ACT 02 — The Distance
+   Two live clocks and the honest part. Kept quiet: no drama, just the fact of
+   the gap, stated plainly. */
+.act-distance {
+  background: var(--sand);
+  text-align: center;
+}
+.act-distance__inner {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.clocks {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* min-width:0 lets the grid items shrink below their content width. Without it
+   the nowrap gap label forced the whole grid 21px past a 390px viewport. */
+.clock { display: grid; gap: var(--space-1); justify-items: center; min-width: 0; }
+.clock__place {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+.clock__time {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.clock__who { font-size: var(--fs-small); color: var(--espresso); }
+
+/* the gap between the two, drawn rather than stated */
+.clock-gap {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding-inline: var(--space-2);
+  min-width: 0;
+}
+.clock-gap__rule {
+  width: 1px;
+  height: clamp(40px, 7vw, 88px);
+  background: linear-gradient(var(--brass), transparent);
+}
+.clock-gap__label {
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* Too narrow for three columns: the two clocks sit side by side and the gap
+   moves underneath them. */
+@media (max-width: 30rem) {
+  .clocks {
+    grid-template-columns: 1fr 1fr;
+    row-gap: var(--space-4);
+  }
+  .clock-gap { grid-column: 1 / -1; grid-row: 2; padding-inline: 0; }
+  .clock-gap__rule { height: 28px; }
+}
+
+.act-distance__body {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.7rem);
+  line-height: 1.55;
+  color: var(--espresso);
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+
+/* ======================================================= ACT 03 — Both Sides
+   "Two rooms." Built from the real video-call frames: his side is the caller's
+   tile lifted out of the screenshot, her side is her, both from the same
+   moment. The stage is a sticky runway; the two halves slide together as she
+   scrolls and meet on the seam.
+
+   The tile is held near its native 167x305 rather than blown up to fill a
+   half-screen — a 4x upscale of a video-call inset looks like mush, and
+   treating it as a tile is also the honest reading of what it is. */
+.act-both-sides {
+  position: relative;
+  /* A full-bleed image act: it supplies its own framing, so it opts out of the
+     standard .act block padding. Without JS there is no scrub, so the 340vh
+     runway is scoped to .js — a no-JS visitor would otherwise scroll through
+     2.4 screens of a static image. */
+  padding-block: 0;
+  height: auto;
+  background: var(--paper);
+}
+.js .act-both-sides { height: 340vh; }
+
+.bs-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: clip;
+}
+
+.bs-side {
+  position: relative;
+  overflow: clip;
+  min-width: 0;
+  will-change: transform;
+}
+
+.bs-side--his {
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+}
+.bs-side--her { background: var(--espresso); }
+.bs-side--her img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+
+.bs-tile {
+  width: min(54%, 230px);
+  aspect-ratio: 167 / 305;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
+  outline: 1px solid rgba(217, 190, 140, 0.32);
+  background: var(--espresso);
+}
+.bs-tile img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Place tags, pinned to the outer corners so they never collide with the seam.
+   The bottom offset respects the home-indicator inset, or the labels sit under
+   it on an iPhone. */
+.bs-tag {
+  position: absolute;
+  bottom: max(var(--space-4), calc(env(safe-area-inset-bottom) + var(--space-2)));
+  display: grid;
+  gap: 2px;
+  font-size: var(--fs-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass-light);
+  padding-inline: var(--gutter);
+  text-shadow: 0 1px 12px rgba(28, 23, 20, 0.7);
+}
+.bs-tag--his { left: 0; }
+.bs-tag--her { right: 0; text-align: right; }
+.bs-tag span { color: rgba(247, 243, 236, 0.74); letter-spacing: 0.1em; }
+
+/* the seam: a caption that only exists once the two halves have met.
+   Visibility is the CHILD's concern. An `opacity: 0` on the parent would clamp
+   the child to invisible no matter what GSAP did to it. */
+.bs-seam {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: min(30ch, 74vw);
+  text-align: center;
+  pointer-events: none;
+}
+.bs-seam__line {
+  display: block;
+  width: 1px;
+  height: 48px;
+  margin: 0 auto var(--space-3);
+  background: var(--brass);
+}
+.bs-seam__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 0.9rem + 0.7vw, 1.45rem);
+  line-height: 1.4;
+  color: var(--paper);
+  text-shadow: 0 2px 18px rgba(28, 23, 20, 0.8);
+  text-wrap: balance;
+}
+
+/* Without JS the caption is simply present. With JS, GSAP takes it over and
+   reveals it at 72% through the scrub. */
+.js .bs-seam__line { height: 0; }
+.js .bs-seam__text { opacity: 0; }
+[data-both-sides].is-static .bs-seam__line,
+[data-both-sides].is-static .bs-seam__text { height: 48px; opacity: 1; }
+
+@media (min-width: 60rem) {
+  .bs-tile { width: min(46%, 250px); }
+}
+
+/* Reduced motion: no runway, no scrub. The two rooms sit side by side and the
+   caption is there from the start. */
+@media (prefers-reduced-motion: reduce) {
+  .act-both-sides { height: auto; }
+  .bs-stage { position: static; height: 100svh; }
+  .js .bs-seam__line { height: 48px; }
+  .js .bs-seam__text { opacity: 1; }
+}
+
+/* ======================================================== ACT 04 — The Moments
+   An asymmetric editorial spread, not a grid of equal cards. A grid is what
+   Instagram does; rhythm and asymmetry is what a printed page does. One hero,
+   then offset pairs, then a full-bleed beat. */
+.moments {
+  display: grid;
+  /* minmax(0, 1fr) is load-bearing. With a bare `auto` column, the bleed item's
+     negative margins hit the grid item's `min-width: auto` floor and inflated
+     the column to 965px inside an 885px container, overflowing the page. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+.moment { position: relative; margin: 0; }
+
+.moment img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--sand);
+}
+
+.moment__cap {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.2rem);
+  line-height: 1.4;
+  color: var(--espresso);
+  max-width: 40ch;
+}
+.moment__cap::before {
+  content: "";
+  flex: none;
+  width: 20px;
+  height: 1px;
+  background: var(--brass);
+  transform: translateY(-0.35em);
+}
+
+.moment--hero { aspect-ratio: 16 / 10; }
+.moment--wide { aspect-ratio: 3 / 2; }
+.moment--tall { aspect-ratio: 4 / 5; }
+.moment--square { aspect-ratio: 1; }
+
+/* offset pair: the second image sits lower and narrower, so the eye moves */
+.moment-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: end;
+}
+.moment-pair > .moment:last-child { padding-bottom: var(--space-5); }
+
+/* Breaks out of the text column to the full width of the shell.
+   Deliberately NOT `width: 100vw; margin-inline: calc(50% - 50vw)`: 100vw
+   includes the scrollbar, which pushed the document 33px wider than the
+   viewport and produced a horizontal scrollbar on desktop. Escaping by exactly
+   the gutter lands on the shell's own edge — inside the viewport, no vw, and it
+   still works with JavaScript disabled. On wide screens the shell is capped at
+   1240px, so this is a column-bleed rather than a viewport-bleed, which is the
+   better editorial shape anyway. */
+.moment--bleed {
+  width: auto;
+  min-width: 0;
+  margin-inline: calc(var(--gutter) * -1);
+  aspect-ratio: 21 / 9;
+}
+
+@media (max-width: 44rem) {
+  .moment-pair { grid-template-columns: 1fr; gap: var(--space-5); }
+  .moment-pair > .moment:last-child { padding-bottom: 0; }
+  .moment--bleed { aspect-ratio: 16 / 10; }
+}
+
+/* ========================================================= ACT 05 — Her Voice
+   The emotional peak, so the ground goes dark and the video is the only lit
+   thing on screen.
+
+   The player is the NATIVE one. A custom control bar would mean hand-rolling
+   keyboard support, fullscreen handling, PiP and caption tracks — and getting
+   any of it wrong on a phone is worse than a native bar that simply works. The
+   frame around it does the design work instead. */
+.act-voice {
+  background: var(--ink);
+  color: var(--paper);
+}
+.act-voice h2 { color: var(--paper); }
+.act-voice .label { color: var(--brass-light); }
+
+.voice__frame {
+  position: relative;
+  margin-top: var(--space-5);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  outline: 1px solid rgba(217, 190, 140, 0.22);
+}
+.voice__frame video {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 720 / 452;
+  background: #000;
+}
+
+.voice__note {
+  margin-top: var(--space-4);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1rem + 0.7vw, 1.5rem);
+  line-height: 1.45;
+  color: rgba(247, 243, 236, 0.86);
+  max-width: 38ch;
+}
+
+/* the rest of her clips, fetched only when asked for. Seven videos totalling
+   2.7 MB must not be in the initial payload. */
+.clips { margin-top: var(--space-6); }
+.clips__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.clips__head::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(217, 190, 140, 0.28);
+}
+
+.clips__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+}
+
+.clip {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid rgba(217, 190, 140, 0.2);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.clip:hover { border-color: var(--brass); transform: translateY(-2px); }
+.clip img { width: 100%; height: 100%; object-fit: cover; }
+.clip__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--paper);
+  background: rgba(28, 23, 20, 0.32);
+  transition: background var(--dur-fast) var(--ease);
+}
+.clip:hover .clip__play { background: rgba(28, 23, 20, 0.12); }
+.clip__play svg { width: 26px; height: 26px; }
+.clip video { width: 100%; height: 100%; object-fit: cover; }
+
+/* ========================================================= ACT 06 — The Letter
+   The thing the whole site has been leading to. Set as a letter: one measure,
+   generous leading, left-aligned, revealed a paragraph at a time.
+
+   Paragraph-at-a-time, deliberately. Word-by-word reveal is a 2025-era
+   birthday-site tic; it makes the reader wait for the next syllable instead of
+   reading. */
+.act-letter { background: var(--paper); }
+
+.letter {
+  max-width: 62ch;
+  margin-inline: auto;
+}
+.letter__body {
+  display: grid;
+  gap: var(--space-5);
+}
+.letter__body p {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.02rem + 0.55vw, 1.42rem);
+  line-height: 1.72;
+  color: var(--espresso);
+  max-width: none;
+  text-wrap: pretty;
+}
+.letter__body p:first-child::first-letter {
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.82;
+  padding: 0.06em 0.1em 0 0;
+  color: var(--accent);
+  font-weight: 300;
+}
+
+.letter__sign {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: var(--hairline);
+  display: grid;
+  gap: var(--space-1);
+  justify-items: start;
+}
+.letter__sign-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+  color: var(--ink);
+}
+.letter__sign-from {
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ====================================================== ACT 07 — The Keepsake
+   The card is rendered live into the page rather than hidden behind a download
+   button. She sees the object first and can long-press to save it the way she
+   would save any photo — which is how people actually keep things. The download
+   is the extra, not the only route. */
+.act-keepsake { background: var(--sand); }
+
+.keepsake {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+  text-align: center;
+}
+
+.keepsake__card {
+  width: min(100%, 30rem);
+  aspect-ratio: 3 / 4;
+  border-radius: 4px;
+  box-shadow:
+    0 1px 2px rgba(28, 23, 20, 0.1),
+    0 18px 44px rgba(28, 23, 20, 0.18);
+  background: var(--paper);
+}
+
+.keepsake__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  font-size: var(--fs-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.btn:hover { background: var(--accent); color: var(--paper); }
+
+.btn--solid { background: var(--accent); color: var(--paper); }
+.btn--solid:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+.keepsake__note {
+  font-size: var(--fs-small);
+  color: var(--muted);
+  max-width: 34ch;
+}
+
+/* =========================================================== ACT 08 — The Close */
+.act-close {
+  background: var(--ink);
+  color: var(--paper);
+  text-align: center;
+  min-height: 78svh;
+  display: grid;
+  align-content: center;
+  gap: var(--space-5);
+  justify-items: center;
+}
+.act-close__name {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 1.6rem + 7vw, 6.5rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--paper);
+  margin: 0;
+}
+.act-close__line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1rem + 0.7vw, 1.5rem);
+  color: rgba(247, 243, 236, 0.72);
+  max-width: 30ch;
+  text-wrap: balance;
+}
+.act-close__rule {
+  width: 1px;
+  height: 64px;
+  background: linear-gradient(var(--brass), transparent);
+}
+
+.btn--ghost {
+  border-color: rgba(217, 190, 140, 0.4);
+  color: var(--brass-light);
+}
+.btn--ghost:hover { background: var(--brass-light); color: var(--ink); border-color: var(--brass-light); }
+
+/* ====================================================== future acts (stubs)
+   Present and readable, styled properly in P3-P5. Deliberately plain so it is
+   obvious they are not finished rather than pretending to be. */
+.act--stub {
+  background: var(--sand);
+  border-top: var(--hairline);
+}
+.act--stub h2 { margin-bottom: var(--space-3); }
+.act--stub p { color: var(--espresso); }

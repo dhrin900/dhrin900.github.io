@@ -1,0 +1,13 @@
+WEBVTT
+
+NOTE FOR Ramesh — this file is a PLACEHOLDER and must be replaced with the
+actual words Rin says in message-main.mp4 before this is sent to her.
+
+It exists so the <track> element is wired up and the player shows a caption
+control. Shipping it as-is would display an empty caption bar, which is worse
+than no captions at all. Watch the 29 seconds, type what she says, put it
+below, and delete this note.
+
+1
+00:00:00.000 --> 00:00:29.000
+[ transcript goes here ]
