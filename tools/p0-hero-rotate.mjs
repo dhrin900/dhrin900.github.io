@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve('..');
 const SRC = path.join(ROOT, 'pictures and video');
-const OUT = path.join(ROOT, '2026', 'assets', 'img');
+const OUT = path.join(ROOT,'assets', 'img');
 const HERO_SRC = path.join(ROOT, 'WhatsApp Image 2026-10-02 at 11.54.24 (1).jpeg');
 
 await mkdir(OUT, { recursive: true });
@@ -42,7 +42,7 @@ log(`  hero-lqip (inline)     ${lqip.length} bytes`);
    Direction verified visually in step 2.                                */
 log('\n--- ROTATIONS ---');
 // Direction confirmed empirically against a side-by-side contact sheet
-// (2026/build/rot-test.png): 270 is upright, 90 is upside down.
+// (tools/build/rot-test.png): 270 is upright, 90 is upside down.
 const ROTATE = [
   { file: 'WhatsApp Image 2026-10-02 at 12.19.54.jpeg',     out: 'moments-eye.webp',    deg: 270 },
   { file: 'WhatsApp Image 2026-10-02 at 12.19.55.jpeg',     out: 'moments-heart.webp',  deg: 270 },

@@ -12,7 +12,10 @@ import { promisify } from 'node:util';
 import postcss from 'postcss';
 
 const run = promisify(execFile);
-const SITE = path.join('..', '2026');
+// The deployable site IS the repo root. GitHub Pages publishes the root of
+// main for a <user>.github.io repo, so index.html, assets/ and .nojekyll all
+// sit at the top level — there is no /2026/ subfolder to point at any more.
+const SITE = path.resolve('..');
 let fails = 0;
 const fail = (m) => { console.log('  FAIL  ' + m); fails++; };
 const pass = (m) => console.log('  ok    ' + m);
@@ -71,7 +74,7 @@ for (const r of refs) {
   try { await stat(p); pass(r); } catch { fail(`${r} — referenced but missing on disk`); }
 }
 if (og) {
-  const rel = og.replace('https://dhrin900.github.io/2026/', '');
+  const rel = og.replace('https://dhrin900.github.io/', '');
   try { await stat(path.join(SITE, rel)); pass(`og:image -> ${rel} (absolute URL, maps to a real file)`); }
   catch { fail(`og:image -> ${rel} missing`); }
   if (!/^https:\/\//.test(og)) fail('og:image is not absolute — scrapers will not resolve it');
@@ -152,7 +155,19 @@ const underscore = (await readdir(SITE, { withFileTypes: true }))
 if (underscore.length) fail(`files starting with _ in the site root: ${underscore.join(', ')}`);
 else pass('no underscore-prefixed files in the site root');
 const ogRel = refs.size && [...refs].every(r => r.startsWith('./'));
-pass(ogRel ? 'all internal references are relative — a /2026/ subpath deploy works' : 'some references are NOT relative — a subpath deploy would break');
+pass(ogRel ? 'all internal references are relative — the site survives being served from any path' : 'some references are NOT relative — a subpath deploy would break');
+
+/* The site root and the repo root are now the same directory, so the raw camera
+   originals sit INSIDE the published tree rather than beside it. Nothing but
+   .gitignore keeps them off the internet, and one edited line there would
+   upload 27 MB of full-resolution photographs and video of a real person to a
+   public URL. The failure is silent, permanent, and cannot be taken back once
+   it has been crawled, so it is asserted here rather than assumed. */
+const ignore = await readFile(path.join(SITE, '.gitignore'), 'utf8');
+for (const pat of ['pictures and video/', 'WhatsApp Video', 'WhatsApp Image']) {
+  if (ignore.includes(pat)) pass(`.gitignore still excludes "${pat}"`);
+  else fail(`.gitignore no longer excludes "${pat}" — raw media would be published`);
+}
 
 console.log(`\n${fails === 0 ? 'ALL CHECKS PASSED' : fails + ' FAILURE(S)'}`);
 process.exitCode = fails ? 1 : 0;

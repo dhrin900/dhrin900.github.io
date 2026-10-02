@@ -2,7 +2,7 @@
 // Act 03 is built from real frames, not an invented metaphor: his side is the
 // caller's video tile, her side is her, both from the same moment.
 //
-// Inset bounds read off 2026/build/inset-grid.png (640w derivative), then
+// Inset bounds read off tools/build/inset-grid.png (640w derivative), then
 // scaled to the 739x1600 originals by 739/640 = 1.1547.
 import sharp from 'sharp';
 import { writeFile } from 'node:fs/promises';
@@ -10,7 +10,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve('..');
 const SRC = path.join(ROOT, 'pictures and video');
-const OUT = path.join(ROOT, '2026', 'assets', 'img');
+const OUT = path.join(ROOT,'assets', 'img');
 
 const S = 739 / 640;               // 640-derivative -> 739-original
 const px = (n) => Math.round(n * S);
@@ -63,5 +63,5 @@ for (let i = 0; i < tiles.length; i++) {
   });
 }
 await sharp({ create: { width: 4 * 210, height: 310, channels: 3, background: '#F7F3EC' } })
-  .composite(comp).png().toFile(path.join(ROOT, '2026', 'build', 'act03-crops.png'));
-console.log('\n-> 2026/build/act03-crops.png  (his, her, his, her)');
+  .composite(comp).png().toFile(path.join(ROOT, 'tools', 'build','act03-crops.png'));
+console.log('\n-> tools/build/act03-crops.png  (his, her, his, her)');

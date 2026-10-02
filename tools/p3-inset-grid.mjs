@@ -5,8 +5,8 @@ import sharp from 'sharp';
 import path from 'node:path';
 
 const ROOT = path.resolve('..');
-const SRC = path.join(ROOT, '2026', 'assets', 'img', 'call-3-laugh-640.webp');
-const OUT = path.join(ROOT, '2026', 'build', 'inset-grid.png');
+const SRC = path.join(ROOT,'assets', 'img', 'call-3-laugh-640.webp');
+const OUT = path.join(ROOT, 'tools', 'build','inset-grid.png');
 
 const STEP = 50;
 const m = await sharp(SRC).metadata();

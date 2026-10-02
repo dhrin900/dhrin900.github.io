@@ -11,7 +11,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve('..');
 const SRC = path.join(ROOT, 'WhatsApp Image 2026-10-02 at 11.54.24 (1).jpeg');
-const OUT = path.join(ROOT, '2026', 'assets', 'img');
+const OUT = path.join(ROOT,'assets', 'img');
 
 const kb = (b) => `${(b.length / 1024).toFixed(1)} KB`;
 

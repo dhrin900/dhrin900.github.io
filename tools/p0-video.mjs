@@ -13,7 +13,7 @@ const FFPROBE = FFMPEG.replace('ffmpeg.exe', 'ffprobe.exe');
 
 const ROOT = path.resolve('..');
 const SRC_DIRS = [ROOT, path.join(ROOT, 'pictures and video')];
-const OUT = path.join(ROOT, '2026', 'assets', 'video');
+const OUT = path.join(ROOT,'assets', 'video');
 await mkdir(OUT, { recursive: true });
 
 // semantic names — 2025's video.mp4 is deliberately excluded (belongs to the old site)
@@ -98,5 +98,5 @@ await sharp({ create: { width: sheetW, height: rowsN * TH, channels: 3, backgrou
     input: await sharp(r.poster).resize(TW - 8, TH - 8, { fit: 'cover' }).toBuffer(),
     left: (i % COLS) * TW + 4, top: Math.floor(i / COLS) * TH + 4,
   }))))
-  .png().toFile(path.join(ROOT, '2026', 'build', 'poster-sheet.png'));
-console.log('poster contact sheet -> 2026/build/poster-sheet.png');
+  .png().toFile(path.join(ROOT, 'tools', 'build','poster-sheet.png'));
+console.log('poster contact sheet -> tools/build/poster-sheet.png');

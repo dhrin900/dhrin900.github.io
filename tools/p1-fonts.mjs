@@ -6,8 +6,8 @@ import { writeFile, readFile, readdir, unlink, mkdir, stat } from 'node:fs/promi
 import path from 'node:path';
 
 const ROOT = path.resolve('..');
-const FDIR = path.join(ROOT, '2026', 'assets', 'fonts');
-const CSS = path.join(ROOT, '2026', 'assets', 'css', 'fonts.css');
+const FDIR = path.join(ROOT,'assets', 'fonts');
+const CSS = path.join(ROOT,'assets', 'css', 'fonts.css');
 await mkdir(FDIR, { recursive: true });
 
 // NOTE: the fonts already on disk are NOT deleted up front. An earlier version
@@ -102,7 +102,7 @@ if (missing.length) {
 const latinFile = (family) =>
   meta.find((m) => m.family === family && m.subset === 'latin' && m.style === 'normal')?.file;
 
-const HTML = path.join(ROOT, '2026', 'index.html');
+const HTML = path.join(ROOT,'index.html');
 const html = await readFile(HTML, 'utf8');
 const preload = FAMILIES
   .map(latinFile)

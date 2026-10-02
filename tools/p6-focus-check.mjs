@@ -7,7 +7,8 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const D = (f) => path.join('..', '2026', 'assets', 'css', f);
+// The site is the repo root, so every path here is one level up from tools/.
+const D = (f) => path.join('..', 'assets', 'css', f);
 
 const tokens = await readFile(D('tokens.css'), 'utf8');
 const token = (n) => (tokens.match(new RegExp(`${n}:\\s*(#[0-9a-fA-F]{6})`)) || [])[1];
@@ -69,7 +70,7 @@ for (const [label, fg, bg] of rows) {
   console.log(`  ${label.padEnd(34)} ${hexToRgb(fg).padEnd(18)} on ${hexToRgb(bg).padEnd(18)} ${r.toFixed(2)}:1  ${r>=3?'PASS':'FAIL'}`);
 }
 console.log('\n  .act--dark is present in index.html on act-voice and act-close:',
-  /class="[^"]*\bact--dark\b/.test(await readFile(path.join('..','2026','index.html'),'utf8')) ? 'YES' : 'NO');
+  /class="[^"]*\bact--dark\b/.test(await readFile(path.join('..','index.html'),'utf8')) ? 'YES' : 'NO');
 
 /* ---------------------------------------------------------------------------
    Every ratio written in the tokens.css comments, checked rather than trusted.

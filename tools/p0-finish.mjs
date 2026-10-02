@@ -9,7 +9,7 @@ const run = promisify(execFile);
 const FFMPEG = 'C:/Users/Admin/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.2-full_build/bin/ffmpeg.exe';
 const FFPROBE = FFMPEG.replace('ffmpeg.exe', 'ffprobe.exe');
 const ROOT = path.resolve('..');
-const A = path.join(ROOT, '2026', 'assets');
+const A = path.join(ROOT,'assets');
 
 /* ---- 1. message-main: crop the beauty-app filter-picker strip off the right */
 const SRC = path.join(ROOT, 'pictures and video', 'WhatsApp Video 2026-10-02 at 11.53.11.mp4');
@@ -37,11 +37,18 @@ await unlink(jpg);
 const mmPoster = await sharp(path.join(A, 'video', 'message-main.webp')).metadata();
 console.log(`message-main  re-encoded + UI strip cropped  ${mmKB.toFixed(0)} KB  poster ${mmPoster.width}x${mmPoster.height}`);
 
-/* ---- 2. audio: hbd.mpeg -> hbd.m4a (AAC), keeps autoplay working everywhere */
+/* ---- 2. audio: hbd.mpeg -> hbd.m4a (AAC), keeps autoplay working everywhere
+   The source used to be music/hbd.mpeg from the 2025 site. That folder is gone
+   now that the 2026 site is the whole repo, so the original was moved in beside
+   the other raw media, which .gitignore keeps out of the public repo. It is a
+   different reason from the photographs — a commercial recording rather than
+   anyone's face — but the same answer: not in a public git repo. */
+const AUDIO_SRC = path.join(ROOT, 'pictures and video', 'hbd.mpeg');
+const audioSrc = await fs_exists(AUDIO_SRC) ? AUDIO_SRC : path.join(ROOT, 'hbd.mpeg');
 const m4a = path.join(A, 'audio', 'hbd.m4a');
-await run(FFMPEG, ['-y', '-v', 'error', '-i', path.join(ROOT, 'music', 'hbd.mpeg'),
+await run(FFMPEG, ['-y', '-v', 'error', '-i', audioSrc,
   '-c:a', 'aac', '-b:a', '96k', '-ac', '2', '-movflags', '+faststart', m4a], { maxBuffer: 1 << 28 });
-const srcMB = (await stat(path.join(ROOT, 'music', 'hbd.mpeg'))).size / 1024;
+const srcMB = (await stat(audioSrc)).size / 1024;
 const outKB = (await stat(m4a)).size / 1024;
 const { stdout: ad } = await run(FFPROBE, ['-v', 'quiet', '-print_format', 'json', '-show_format', m4a]);
 console.log(`audio  hbd.mpeg ${srcMB.toFixed(0)} KB -> hbd.m4a ${outKB.toFixed(0)} KB  (${parseFloat(JSON.parse(ad).format.duration).toFixed(0)}s, ${(100 * (1 - outKB / srcMB)).toFixed(0)}% smaller)`);

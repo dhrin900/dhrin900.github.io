@@ -6,7 +6,7 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const ROOT = path.resolve('..');
-const OUT = path.join(ROOT, '2026', 'assets', 'img', 'og.jpg');
+const OUT = path.join(ROOT,'assets', 'img', 'og.jpg');
 const OW = 1200, OH = 630;
 
 const frame = Buffer.from(
@@ -16,7 +16,7 @@ const frame = Buffer.from(
 );
 
 // 'right' anchor keeps her face in frame — the hero subject sits right-of-centre
-const photo = await sharp(path.join(ROOT, '2026', 'assets', 'img', 'hero-1315.webp'))
+const photo = await sharp(path.join(ROOT,'assets', 'img', 'hero-1315.webp'))
   .resize(OW, OH, { fit: 'cover', position: 'right' }).toBuffer();
 
 const og = await sharp({ create: { width: OW, height: OH, channels: 3, background: '#F7F3EC' } })

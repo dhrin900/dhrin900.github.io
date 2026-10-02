@@ -11,7 +11,7 @@ const run = promisify(execFile);
 const FFMPEG = 'C:/Users/Admin/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.2-full_build/bin/ffmpeg.exe';
 const FFPROBE = FFMPEG.replace('ffmpeg.exe', 'ffprobe.exe');
 const ROOT = path.resolve('..');
-const TMP = path.join(ROOT, '2026', 'build', 'frames');
+const TMP = path.join(ROOT, 'tools', 'build','frames');
 await mkdir(TMP, { recursive: true });
 
 const NAMES = ['message-main', 'clip-1', 'clip-2', 'clip-3', 'clip-4',
@@ -21,7 +21,7 @@ const TILE_W = 300, TILE_H = 420, COLS = 5;
 const tiles = [];
 
 for (const n of NAMES) {
-  const src = path.join(ROOT, '2026', 'assets', 'video', `${n}.mp4`);
+  const src = path.join(ROOT,'assets', 'video', `${n}.mp4`);
   const { stdout } = await run(FFPROBE, ['-v', 'quiet', '-print_format', 'json', '-show_format', src]);
   const dur = parseFloat(JSON.parse(stdout).format.duration);
 
@@ -60,7 +60,7 @@ for (let r = 0; r < tiles.length; r++) {
     comp.push({ input: buf, left: c * cell + 8, top: r * (TILE_H + 12) + 6 });
   }
 }
-await sheet.composite(comp).png().toFile(path.join(ROOT, '2026', 'build', 'video-orientation.png'));
-console.log('\nwrote 2026/build/video-orientation.png');
+await sheet.composite(comp).png().toFile(path.join(ROOT, 'tools', 'build','video-orientation.png'));
+console.log('\nwrote tools/build/video-orientation.png');
 console.log('rows top->bottom: ' + tiles.map((t) => t.n).join(', '));
 console.log('cols left->right : frame @30%, @55%, @75%');

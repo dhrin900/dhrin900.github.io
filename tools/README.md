@@ -1,8 +1,25 @@
 # tools/
 
-Build pipeline for the 2026 site. **Nothing here ships** — the deployable
-output is `2026/` alone. These scripts are what produced it, so the whole
+Build pipeline for the site. **Nothing here ships** — the deployable output is
+the repo root itself (`index.html`, `assets/`, `.nojekyll`), which is what
+GitHub Pages publishes. These scripts are what produced it, so the whole
 pipeline is reproducible from the original media.
+
+## Layout
+
+The site and the repo are the same tree. GitHub Pages publishes the root of
+`main` for a `<user>.github.io` repo, so `index.html`, `assets/` and
+`.nojekyll` sit at the top level and the root URL *is* the site — there is no
+subfolder to deploy and no subpath URL to keep alive.
+
+Two folders are deliberately not part of the deploy:
+
+- `tools/` — everything in this document. Build diagnostics are written to
+  `tools/build/`, never to the site root: those PNGs are contact sheets and
+  crops of real photographs, and the site root is a public URL.
+- `pictures and video/` — the raw camera originals, plus `hbd.mpeg`, the audio
+  source moved here when the 2025 site was deleted. Gitignored, so all of it
+  stays on disk and off the internet.
 
 ## Requirements
 
@@ -67,5 +84,5 @@ going, not as proof.
 - `receiver.mjs` is a throwaway dev server used to pull a canvas render out of
   the browser for inspection. Not part of the site, not part of the build.
 - The `_*.html` harnesses are responsive / degradation test pages. They live in
-  this folder and reference `../2026/`; serve the repo root and open them from
-  there.
+  this folder and reference `../index.html`; serve the repo root and open them
+  from there.

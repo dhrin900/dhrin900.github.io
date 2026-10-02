@@ -10,10 +10,10 @@ const FFMPEG = 'C:/Users/Admin/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmp
 const FFPROBE = FFMPEG.replace('ffmpeg.exe', 'ffprobe.exe');
 
 const ROOT = path.resolve('..');
-const OUT = path.join(ROOT, '2026', 'assets', 'video');
+const OUT = path.join(ROOT,'assets', 'video');
 await mkdir(OUT, { recursive: true });
 
-// direction verified in 2026/build/rotvid/compare.png -> transpose=2 is upright
+// direction verified in tools/build/rotvid/compare.png -> transpose=2 is upright
 const ROT = 'transpose=2';
 
 // poster timestamp as a fraction of duration, chosen per clip to avoid
@@ -34,7 +34,7 @@ console.log('name'.padEnd(13), 'dur'.padEnd(7), 'new dims'.padEnd(11), 'size'.pa
 console.log('-'.repeat(70));
 
 for (const n of NAMES) {
-  const src = path.join(ROOT, '2026', 'assets', 'video', `${n}.mp4`);
+  const src = path.join(ROOT,'assets', 'video', `${n}.mp4`);
   const { stdout } = await run(FFPROBE, ['-v', 'quiet', '-print_format', 'json', '-show_format', src]);
   const dur = parseFloat(JSON.parse(stdout).format.duration);
 
@@ -97,6 +97,6 @@ await sharp({ create: { width: COLS * TW, height: Math.ceil(rows.length / COLS) 
     input: await sharp(path.join(OUT, `${r.n}.webp`)).resize(TW - 8, TH - 8, { fit: 'cover' }).toBuffer(),
     left: (i % COLS) * TW + 4, top: Math.floor(i / COLS) * TH + 4,
   }))))
-  .png().toFile(path.join(ROOT, '2026', 'build', 'posters-final.png'));
-console.log('\nverification sheet -> 2026/build/posters-final.png');
+  .png().toFile(path.join(ROOT, 'tools', 'build','posters-final.png'));
+console.log('\nverification sheet -> tools/build/posters-final.png');
 console.log('order: ' + rows.map((r) => r.n).join(', '));

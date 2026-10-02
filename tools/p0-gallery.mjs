@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve('..');
 const SRC = path.join(ROOT, 'pictures and video');
-const OUT = path.join(ROOT, '2026', 'assets', 'img');
+const OUT = path.join(ROOT,'assets', 'img');
 await mkdir(OUT, { recursive: true });
 
 const kb = (b) => `${(b.length / 1024).toFixed(1)} KB`;

@@ -12,7 +12,7 @@ const run = promisify(execFile);
 const FFMPEG = 'C:/Users/Admin/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.2-full_build/bin/ffmpeg.exe';
 const FFPROBE = FFMPEG.replace('ffmpeg.exe', 'ffprobe.exe');
 const ROOT = path.resolve('..');
-const TMP = path.join(ROOT, '2026', 'build', 'classify');
+const TMP = path.join(ROOT, 'tools', 'build','classify');
 await mkdir(TMP, { recursive: true });
 
 const MAP = {
@@ -38,7 +38,7 @@ async function findOriginal(file) {
 const CW = 300, CH = 340, comp = [];
 for (const [name, file] of Object.entries(MAP)) {
   const orig = await findOriginal(file);
-  const cur = path.join(ROOT, '2026', 'assets', 'video', `${name}.mp4`);
+  const cur = path.join(ROOT,'assets', 'video', `${name}.mp4`);
   const { stdout } = await run(FFPROBE, ['-v', 'quiet', '-print_format', 'json', '-show_format', cur]);
   const dur = parseFloat(JSON.parse(stdout).format.duration);
   const at = (dur * AT[name]).toFixed(2);
@@ -58,7 +58,7 @@ for (const [name, file] of Object.entries(MAP)) {
 const ROWS = Object.keys(MAP).length;
 await sharp({ create: { width: CW * 2 + 20, height: ROWS * CH, channels: 3, background: '#00aa00' } })
   .composite(comp.map((c, i) => ({ ...c, top: Math.floor(i / 2) * CH + 5 })))
-  .png().toFile(path.join(ROOT, '2026', 'build', 'video-classify.png'));
-console.log('\n-> 2026/build/video-classify.png');
+  .png().toFile(path.join(ROOT, 'tools', 'build','video-classify.png'));
+console.log('\n-> tools/build/video-classify.png');
 console.log('each row: LEFT = original (unrotated) | RIGHT = current (rot 90 CCW)');
 console.log('rows: ' + Object.keys(MAP).join(', '));

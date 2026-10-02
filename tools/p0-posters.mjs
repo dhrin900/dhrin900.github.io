@@ -12,7 +12,7 @@ const run = promisify(execFile);
 const FFMPEG = 'C:/Users/Admin/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.2-full_build/bin/ffmpeg.exe';
 const FFPROBE = FFMPEG.replace('ffmpeg.exe', 'ffprobe.exe');
 const ROOT = path.resolve('..');
-const OUT = path.join(ROOT, '2026', 'assets', 'video');
+const OUT = path.join(ROOT,'assets', 'video');
 
 // timestamps chosen to skip intro black frames and the beauty-app UI bar
 const POSTER = {
@@ -50,6 +50,6 @@ await sharp({ create: { width: COLS * TW, height: Math.ceil(rows.length / COLS) 
     input: await sharp(r.poster).resize(TW - 8, TH - 8, { fit: 'contain', background: '#141414' }).toBuffer(),
     left: (i % COLS) * TW + 4, top: Math.floor(i / COLS) * TH + 4,
   }))))
-  .png().toFile(path.join(ROOT, '2026', 'build', 'posters-verify.png'));
-console.log('\nverification -> 2026/build/posters-verify.png');
+  .png().toFile(path.join(ROOT, 'tools', 'build','posters-verify.png'));
+console.log('\nverification -> tools/build/posters-verify.png');
 console.log('order: ' + rows.map((r) => r.n).join(', '));
