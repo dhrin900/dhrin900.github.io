@@ -1,9 +1,10 @@
 /* ============================================================================
-   base.css — reset, typography, page furniture, grain.
+   base.css — reset, typography, page furniture, shared cute components.
 
    Progressive enhancement contract: with JavaScript disabled or blocked, this
-   file alone renders the entire site as a plain, readable, scrollable document.
-   Nothing in the cinematic layer is allowed to be load-bearing for content.
+   file plus acts.css render the entire site as a plain, readable, scrollable
+   document. Nothing in the cinematic layer is allowed to be load-bearing for
+   content.
    ========================================================================= */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -15,8 +16,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
-  color: var(--espresso);
+  background: var(--milk);
+  color: var(--plum);
   font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
@@ -46,40 +47,90 @@ button {
   cursor: pointer;
 }
 
-/* ------------------------------------------------------------- typography */
-
+/* ------------------------------------------------------------- typography
+   Display type is Fredoka — a rounded geometric, which is the whole cute
+   register of the page. It is set at 500 rather than 700: heavy weights of a
+   rounded face tip from "premium toy" into "nursery", and the light-on-its-
+   feet version is the one that reads expensive. */
 .display, h1, h2 {
   font-family: var(--font-display);
-  font-weight: 300;
+  font-weight: 500;
   line-height: var(--lh-display);
-  color: var(--ink);
-  letter-spacing: -0.01em;
+  color: var(--plum);
+  letter-spacing: -0.015em;
 }
 
 h1 { font-size: var(--fs-h1); }
 h2 { font-size: var(--fs-h2); }
-h3 { font-size: var(--fs-h3); font-weight: 400; line-height: 1.4; }
+h3 { font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 500; line-height: 1.3; }
 
 p { max-width: var(--measure); }
 
-/* Small-caps metadata: dates, act numbers, labels. */
+/* The act chip. It replaces the tracked-out ALL-CAPS eyebrow of the previous
+   revision — that device appears on every generated page regardless of
+   subject, and it also had no job here. This one does: the acts ARE a
+   sequence, so a numbered chip is information, not decoration. */
 .label {
-  font-family: var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em 0.95em;
+  border-radius: var(--radius-pill);
+  background: var(--petal);
+  color: var(--berry);
+  font-family: var(--font-display);
   font-size: var(--fs-label);
   font-weight: 500;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--accent);
+  letter-spacing: 0.02em;
+  box-shadow: var(--gloss);
 }
+/* a tiny heart punched into the chip. Same mask as .heart rather than a
+   clip-path: path() — a path() is in absolute user units and does NOT scale
+   with the element, so on a 10px chip it clipped the shape to nothing. */
+.label::before {
+  content: "";
+  width: 0.7em;
+  height: 0.7em;
+  flex: none;
+  background: currentColor;
+  opacity: 0.75;
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
+}
+
+/* On the dark ground the chip inverts rather than disappearing. */
+.act--dark .label { background: rgba(247, 168, 196, 0.16); color: var(--champagne); }
 
 .lede {
-  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.4rem);
-  line-height: 1.65;
-  color: var(--espresso);
-  max-width: 46ch;
+  font-size: var(--fs-lede);
+  line-height: 1.6;
+  color: var(--berry);
+  max-width: 44ch;
 }
 
-.muted { color: var(--muted); }
+.muted { color: var(--berry); }
+
+/* The romantic voice. Anything that is a quotation, a vow or a line from the
+   letter is set here and nowhere else. */
+.quote {
+  font-family: var(--font-romance);
+  font-style: italic;
+  font-size: var(--fs-quote);
+  font-weight: 400;
+  line-height: 1.42;
+  color: var(--plum);
+  max-width: 32ch;
+  text-wrap: balance;
+}
+
+/* The handwritten voice. Love notes and margin asides only — a page where
+   everything is handwritten has no voice left for the things that matter. */
+.hand {
+  font-family: var(--font-hand);
+  font-size: var(--fs-hand);
+  line-height: 1.28;
+  color: var(--berry);
+}
 
 /* ------------------------------------------------------------- structure */
 
@@ -95,8 +146,21 @@ p { max-width: var(--measure); }
   padding-block: var(--section-pad);
 }
 
-/* A full-bleed act opts out of .shell and manages its own full width. */
-.act--bleed { padding-inline: 0; }
+/* The head of an act: chip, title, standfirst. One pattern shared by every act,
+   so the page keeps a consistent rhythm from one movement to the next. */
+.act-head {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+.act-head--center { justify-items: center; text-align: center; }
+
+.act--blush { background: var(--blush); }
+.act--dark  { background: var(--night); color: var(--milk); }
+.act--dark h1, .act--dark h2, .act--dark h3 { color: var(--milk); }
+.act--dark .lede { color: rgba(255, 247, 249, 0.78); }
+.act--dark .quote { color: var(--milk); }
+.act--dark .hand { color: var(--champagne); }
 
 /* ---------------------------------------------------------------- a11y */
 
@@ -114,34 +178,37 @@ p { max-width: var(--measure); }
   top: 0; left: 50%;
   transform: translate(-50%, -120%);
   z-index: 100;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--plum);
+  color: var(--milk);
   padding: var(--space-2) var(--space-4);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   font-size: var(--fs-small);
   text-decoration: none;
   transition: transform var(--dur-fast) var(--ease);
 }
 .skip-link:focus-visible { transform: translate(-50%, 0); }
 
-/* One visible focus treatment for the whole site. 2025 had zero :focus rules. */
+/* One visible focus treatment for the whole site. 2025 had zero :focus rules.
+   It is a rose ring with a milk inner ring so it stays visible on a petal
+   card and on the dark acts alike. */
 :focus-visible {
-  outline: 2px solid var(--brass-deep);
+  outline: 3px solid var(--berry);
   outline-offset: 3px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
 }
-.on-dark :focus-visible,
-.act--dark :focus-visible { outline-color: var(--brass-light); }
+.act--dark :focus-visible { outline-color: var(--rose); }
 
 /* ---------------------------------------------------------------- grain
    An inline SVG turbulence tile, fixed over everything, blending at low
-   opacity. Kills the flat-digital look and makes the page read photographic. */
+   opacity. Kills the flat-digital look on the large soft pink fields, which
+   are exactly where banding and flatness show worst. */
 .grain {
   position: fixed;
   inset: 0;
   z-index: var(--z-grain);
   pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
 }
@@ -151,14 +218,14 @@ p { max-width: var(--measure); }
    ever hidden — a no-JS visitor gets the finished layout, not a blank page. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+  transform: translateY(28px) scale(0.985);
+  transition:
+    opacity var(--dur-base) var(--ease),
+    transform var(--dur-base) var(--ease-soft);
 }
 .js [data-reveal].is-revealed { opacity: 1; transform: none; }
 
-/* ------------------------------------------------------------ sound toggle
-   The WCAG 1.4.2 affordance for autoplaying background music. Hidden until
-   JS confirms the real play state, so it never lies about what is playing. */
+/* ------------------------------------------------------------ sound toggle */
 .sound-toggle {
   position: fixed;
   right: var(--gutter);
@@ -167,25 +234,28 @@ p { max-width: var(--measure); }
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--stone);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  color: var(--espresso);
+  padding: 0.7rem 1.15rem;
+  border: 2px solid var(--petal);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--milk) 90%, transparent);
+  color: var(--berry);
+  font-family: var(--font-display);
   font-size: var(--fs-label);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  backdrop-filter: blur(6px);
+  font-weight: 500;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
 }
-.sound-toggle:hover { border-color: var(--brass); }
+.sound-toggle:hover { border-color: var(--rose); }
 .sound-toggle__wave { transition: opacity var(--dur-fast) var(--ease); }
 .sound-toggle[aria-pressed="false"] .sound-toggle__wave { opacity: 0.2; }
 
 /* autoplay was refused (every iOS browser) — invite, do not demand */
-.sound-toggle.is-waiting { border-color: var(--brass); }
+.sound-toggle.is-waiting { border-color: var(--rose-deep); }
 /* the off state is shown by dimming the waves; the label never changes, so the
-   accessible name stays stable and aria-pressed carries the state */
-.sound-toggle[aria-pressed="false"] { color: var(--clay, #6B5D4E); }
+   accessible name stays stable and aria-pressed carries the state. The colour
+   shift is a second, non-essential cue — the dimmed glyph is the real one, so
+   the state is never carried by colour alone. */
+.sound-toggle[aria-pressed="false"] { color: var(--rosegold-ink); }
 .sound-toggle.is-nudging { animation: nudge 620ms var(--ease) 2; }
 @keyframes nudge {
   0%, 100% { transform: translateX(0); }
@@ -193,21 +263,129 @@ p { max-width: var(--measure); }
   75%      { transform: translateX(5px); }
 }
 
-/* --------------------------------------------------------------- scroll cue */
-.scroll-cue {
+/* ================================================== shared cute components */
+
+/* A filled, pill-shaped, slightly glossy button. The gloss is one inset white
+   line — it is what makes the fill read as a physical object rather than a
+   rectangle of colour. */
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
+  justify-content: center;
+  gap: 0.55em;
+  padding: 0.9rem 1.7rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
   font-size: var(--fs-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  border: 2px solid var(--petal);
+  background: var(--milk);
+  color: var(--berry);
+  box-shadow: var(--shadow-press);
+  transition:
+    transform var(--dur-fast) var(--ease-soft),
+    box-shadow var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
 }
-.scroll-cue::after {
+.btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--rose);
+  box-shadow: var(--shadow-lift);
+}
+.btn:active { transform: translateY(1px) scale(0.985); }
+
+.btn--solid {
+  background: var(--berry);
+  border-color: var(--berry);
+  color: var(--milk);
+  box-shadow: var(--gloss), var(--shadow-press);
+}
+.btn--solid:hover { background: var(--plum); border-color: var(--plum); box-shadow: var(--gloss), var(--shadow-lift); }
+
+.act--dark .btn { background: transparent; border-color: rgba(247, 168, 196, 0.6); color: var(--champagne); }
+.act--dark .btn:hover { background: rgba(247, 168, 196, 0.14); border-color: var(--rose); }
+
+/* The heart. One shape, drawn once, reused everywhere — the page's signature
+   mark. Rendered as a mask so it can take any fill and stay crisp. */
+.heart {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
+  flex: none;
+}
+:root {
+  --heart-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30'%3E%3Cpath d='M16 29S1 19.6 1 10.4A8.9 8.9 0 0 1 16 4.2 8.9 8.9 0 0 1 31 10.4C31 19.6 16 29 16 29Z'/%3E%3C/svg%3E");
+}
+
+/* A four-point sparkle, the second half of the page's visual vocabulary. */
+.sparkle {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  -webkit-mask: var(--sparkle-mask) center / contain no-repeat;
+  mask: var(--sparkle-mask) center / contain no-repeat;
+  flex: none;
+}
+:root {
+  --sparkle-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 0c1.3 8.6 5.4 12.7 14 14-8.6 1.3-12.7 5.4-14 14-1.3-8.6-5.4-12.7-14-14C10.6 12.7 14.7 8.6 16 0Z'/%3E%3C/svg%3E");
+}
+
+/* A centred rule broken by a heart — the divider between movements. */
+.rule-heart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  color: var(--rose-deep);
+}
+.rule-heart::before,
+.rule-heart::after {
   content: "";
-  width: 1px; height: 2.5rem;
-  background: linear-gradient(var(--muted), transparent);
+  height: 1px;
+  width: min(22vw, 140px);
+  background: linear-gradient(90deg, transparent, currentColor);
 }
+.rule-heart::after { background: linear-gradient(90deg, currentColor, transparent); }
+.rule-heart .heart { width: 0.85rem; height: 0.85rem; }
+
+/* A soft wash that sits behind a section and keeps large pink fields from
+   reading as flat fill. Purely decorative. */
+.wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: clip;
+}
+.wash::before,
+.wash::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+}
+.wash::before {
+  width: min(60vw, 640px);
+  aspect-ratio: 1;
+  top: -12%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(247, 168, 196, 0.55), transparent 68%);
+}
+.wash::after {
+  width: min(52vw, 520px);
+  aspect-ratio: 1;
+  bottom: -14%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(243, 217, 177, 0.5), transparent 68%);
+}
+.act > .shell, .act > .wrap { position: relative; z-index: 1; }
 
 /* ------------------------------------------------------------ reduced motion
    Everything still, everything visible. Not "shorter animation" — none. */

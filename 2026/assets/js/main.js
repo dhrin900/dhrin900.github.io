@@ -1,11 +1,14 @@
 /**
- * main.js — behaviour layer for Act 00 and Act 01.
+ * main.js — the behaviour layer for the whole page.
  *
  * Everything here is additive. If this file never runs, the page is still a
- * complete, readable, scrollable document. Nothing in it is load-bearing.
+ * complete, readable, scrollable document: the acts are all in the HTML, the
+ * gate never renders, and the love-note wall stays unfolded. That is why the
+ * `.js` class is added on the LAST line rather than the first — nothing can be
+ * hidden by CSS until every module has already done its work.
  *
- * No GSAP yet: it is used from P3 onward, for the scrubbed Act 03. Loading a
- * 72 KB library to fade a hero would be a waste on a phone.
+ * GSAP is loaded separately as a deferred classic script and is only needed by
+ * Act 03, which degrades to a static two-up when it is missing.
  */
 
 import { CONFIG } from './config.js';
@@ -26,14 +29,18 @@ function hydrate() {
   set('[data-her-birthday-long]', CONFIG.herBirthdayLong);
   set('[data-his-place]', CONFIG.hisPlace);
   set('[data-her-place]', CONFIG.herPlace);
+  set('[data-his-city]', CONFIG.hisCity);
+  set('[data-her-city]', CONFIG.herCity);
   set('[data-months]', CONFIG.monthsTogether);
-  document.title = `Happy Birthday, ${CONFIG.herName}`;
+  // keep the heart: the static <title> has one, and an overwrite that drops it
+  // makes the tab and the link preview disagree
+  document.title = `Happy Birthday, ${CONFIG.herName} 💗`;
 }
 
 /* --------------------------------------------------------------- 2. the seal
    Opens on click, Enter, Space or Escape — and also on the first scroll
    gesture, so a visitor who never taps is never trapped behind the gate. */
-function initSeal() {
+function initSeal(hearts) {
   const veil = document.querySelector('[data-veil]');
   if (!veil) return;
 
@@ -41,6 +48,8 @@ function initSeal() {
     if (root.classList.contains('is-open')) return;
     veil.classList.add('is-dismissing');
     root.classList.add('is-open');
+    // the page's single celebratory moment, and it is hers to trigger
+    hearts?.burst();
 
     // Focus was on the gate, which is about to be display:none. Left alone it
     // falls back to <body> and a keyboard user loses their place entirely, so
@@ -86,8 +95,11 @@ function initAudio() {
     if (p && typeof p.then === 'function') {
       p.then(() => setState(true)).catch(() => {
         setState(false);
-        // blocked: bring it to her attention without stealing focus
-        toggle?.focus?.({ preventScroll: true });
+        // Blocked. Nudge it so she can see the control, but do NOT move focus:
+        // this runs on page load, and focus belongs on the gate. Pulling it to
+        // a button in the corner would drop a keyboard user into the middle of
+        // the chrome and a screen reader would announce "Sound, toggle button"
+        // over the opening of the page. The nudge is the whole cue.
         if (toggle && !reduced) {
           toggle.classList.add('is-nudging');
           toggle.addEventListener('animationend', () => toggle.classList.remove('is-nudging'), { once: true });
@@ -156,14 +168,22 @@ import { initClocks } from './clocks.js';
 import { initBothSides } from './both-sides.js';
 import { initClips } from './clips.js';
 import { initKeepsake } from './keepsake.js';
+import { initNotes } from './notes.js';
+import { initHearts } from './hearts.js';
 
 hydrate();
-initSeal();
+
+// The heart layer is created first so the gate can fire its burst through it.
+const hearts = initHearts();
+
+initSeal(hearts);
+hearts?.start();
 initAudio();
 initReveals();
 initClocks();
 initClips();
 initKeepsake();
+initNotes();
 initAgain();
 
 // GSAP is a deferred classic script, so it may not have executed yet when this

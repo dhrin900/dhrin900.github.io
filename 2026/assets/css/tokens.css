@@ -1,71 +1,102 @@
 /* ============================================================================
-   tokens.css — the single source of truth for the 2026 design system.
+   tokens.css — the single source of truth for the design system.
 
-   Every colour below was sampled from Rin's own photographs, not chosen from a
-   swatch library. Sources are noted against each token. Contrast ratios were
-   verified numerically before these values were committed; see the comment on
-   each one. Do not add a raw hex value anywhere else in the codebase.
+   THE IDEA, IN ONE LINE: the pink lives in the LIGHT, not in the ink.
+
+   Baby pink goes cheap the moment it is used as a text colour or a saturated
+   flood. So every ground here is a MILK (a pink-tinged white), and every word
+   is set in a deep rose-plum that sits at 12.8:1 on the lightest ground. The
+   saturation is spent on fills, stickers and shine — the things that catch
+   light — never on the letters. That single rule is what separates a premium
+   pink page from a candy one.
+
+   Contrast ratios below were computed, not guessed. Every token that carries
+   text has its ratio written next to it. Do not add a raw hex value anywhere
+   else in the codebase.
    ========================================================================= */
 
 :root {
   /* ---------------------------------------------------------------- colour */
 
-  /* warm paper — the cream wall behind her in the hero photograph (#E4DBCA) */
-  --paper:        #F7F3EC;
-  /* sand — a half-step down, for alternating section grounds (#EAE0D1) */
-  --sand:         #EAE0D1;
-  /* greige — the photo-booth wall, sampled #C49F8C. Non-text only. */
-  --greige:       #C49F8C;
-  /* stone — the bed frame in the hero, sampled #A1927F. 2.32:1 on sand, so this
-     is BORDERS AND RULES ONLY. It was being used for small text, which failed. */
-  --stone:        #A1927F;
-  /* muted — a readable secondary text tone, 4.87:1 on sand. This is what
-     --stone should have been used for. */
-  --muted:        #6B5D4E;
+  /* --- the milks: grounds, lightest first ------------------------------- */
+  /* pink-tinged white. The page ground. */
+  --milk:        #FFF7F9;
+  /* baby pink. The alternating section ground. */
+  --blush:       #FFE9F0;
+  /* deeper baby pink. Cards, chips, notes, filled surfaces. */
+  --petal:       #FFD6E3;
 
-  /* espresso — deepened from her hair and top. 11.89:1 on paper. */
-  --espresso:     #3A2E25;
-  /* ink — the darkest ground. 16.06:1 on paper. */
-  --ink:          #1C1714;
+  /* --- the pinks: fills and shine. Never text on a LIGHT ground. -------- */
+  /* the signature pink. Decorative fills, hearts, stickers. Only 1.76:1 on
+     milk — which is the point: over the light acts a heart is a texture you
+     notice second, and it is not pretending to be readable there. Over night
+     the same token is 9.25:1, and that is where it is allowed to carry
+     something: .act--dark :focus-visible draws its ring in this, and Act 13's
+     closing line is set in it. Never set a word in this on milk or blush. */
+  --rose:        #F7A8C4;
+  /* a pink that can carry a hairline or a 2px rule. 2.83:1 on milk. */
+  --rose-deep:   #E0729B;
+  /* the one pink allowed ON a letterform. --rose-deep is 2.83:1 and a display
+     name needs 3:1, so the gradient in Act 01 lands here instead. 3.23:1 on
+     milk — large text only, and only in that single gradient. */
+  --rose-ink:    #D9648F;
 
-  /* brass — the spoon she is holding in the gallery photograph (#C27E03) and
-     the gold light on that floor (#AF883D), desaturated to sit with the paper.
-     2.92:1 on paper: DECORATIVE ONLY. Never use for text, never for a border
-     that carries meaning. Rules, hairlines, seal, focus ring on dark. */
-  --brass:        #B8863B;
-  /* brass-deep — the same hue darkened, stepped until it clears 4.5:1 on the
-     DARKEST ground it lands on. The first value (#8A6428) passed on paper at
-     4.83:1 but only reached 4.09:1 on sand, and Act 02 sits on sand.
-     Now 4.95:1 on sand, 5.84:1 on paper. */
-  --brass-deep:   #7A5824;
-  /* brass-light — for accents on dark grounds. 7.32:1 on espresso. */
-  --brass-light:  #D9BE8C;
+  /* --- the inks: everything that is read --------------------------------- */
+  /* rose-plum. THE text colour. 12.8:1 on milk, 11.7:1 on blush. */
+  --plum:        #4A2038;
+  /* a lighter ink for secondary text. 6.88:1 on milk, 6.28:1 on blush,
+     5.52:1 on petal — it passes on every ground it is allowed on. */
+  --berry:       #8C3A61;
 
-  /* rose — the maroon wall behind her in the library video calls (#AA6D68).
-     3.73:1 on paper: large text and decorative fills only. */
-  --rose:         #AA6D68;
+  /* --- the metals: accents that must stay quiet -------------------------- */
+  /* Rose-gold in two tones, because a metal that cannot set a word is only
+     half a token. LEAF is the shiny one: rules, hairlines, borders, the
+     hairline on the share card. 3.61:1 on milk — strokes only, never text.
+     INK is the same metal taken down until it can carry a small label.
+     5.5:1 on milk, 5.0:1 on blush. */
+  --rosegold:     #B76E79;
+  --rosegold-ink: #8E5560;
+  /* champagne. The accent for dark grounds. 12.5:1 on night. */
+  --champagne:   #F3D9B1;
 
-  /* blush — the panda hat, the star stickers, the donut pillow (#E987B8).
-     2.2:1 on paper, so it is NEVER text colour. Used as a filled chip with ink
-     on top (7.29:1), or as a 3%-of-the-page punctuation accent. */
-  --blush:        #E987B8;
+  /* --- the dark ground -------------------------------------------------- */
+  /* plum-black, not a neutral black. A neutral #000 next to baby pink reads
+     as a switched-off screen; this reads as the same room with the lights
+     down. 16.2:1 against milk. */
+  --night:       #2E1223;
 
-  /* ------------------------------------------------------------ typography */
-  --font-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  /* The letterbox behind a video. Not a design colour — it is the absence of
+     light, and it has to be true black or the frame looks tinted. Named only
+     so the "no raw hex outside this file" rule stays absolute. */
+  --screen:      #000000;
+
+  /* ------------------------------------------------------------ typography
+     Four families, four jobs. Using a face outside its job is what makes a
+     page read as assembled rather than designed. */
+  /* the cute voice — headings, labels, buttons, numbers, chips */
+  --font-display: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+  /* the romantic voice — quotes, the letter, dedications, signatures */
+  --font-romance: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  /* the handwritten voice — love notes and margin asides only */
+  --font-hand:    'Caveat', 'Segoe Script', cursive;
+  /* the plain voice — body copy, captions, meta, anything functional */
   --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* 1.25 modular scale, mobile-first, fluid via clamp() */
-  --fs-display: clamp(3.25rem, 13vw, 8.5rem);
-  --fs-h1:      clamp(2.5rem, 8vw, 5rem);
-  --fs-h2:      clamp(1.75rem, 4.5vw, 3rem);
-  --fs-h3:      clamp(1.25rem, 2.6vw, 1.6rem);
-  --fs-body:    clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-  --fs-small:   0.875rem;
-  --fs-label:   0.75rem;
+  /* A 1.25 modular scale, mobile-first, fluid via clamp(). Sized UP from the
+     previous revision throughout: this page is meant to feel generous. */
+  --fs-mega:    clamp(4rem, 1.5rem + 15vw, 12rem);
+  --fs-h1:      clamp(2.75rem, 1.5rem + 7vw, 5.25rem);
+  --fs-h2:      clamp(2rem, 1.2rem + 4vw, 3.5rem);
+  --fs-h3:      clamp(1.35rem, 1.1rem + 1.2vw, 1.8rem);
+  --fs-quote:   clamp(1.5rem, 1.05rem + 2.1vw, 2.5rem);
+  --fs-hand:    clamp(1.45rem, 1.15rem + 1.3vw, 2.1rem);
+  --fs-lede:    clamp(1.2rem, 1rem + 0.8vw, 1.55rem);
+  --fs-body:    clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --fs-small:   0.9375rem;
+  --fs-label:   0.8125rem;
 
-  --lh-display: 1.02;
-  --lh-body:    1.75;
-  --tracking-label: 0.28em;
+  --lh-display: 1.04;
+  --lh-body:    1.72;
 
   /* ----------------------------------------------------------------- space
      8px baseline. --gutter is the page margin; --measure is the text column. */
@@ -76,33 +107,52 @@
   --space-5: 3rem;
   --space-6: 4rem;
   --space-7: 6rem;
-  --section-pad: clamp(6rem, 14vh, 12rem);
+  --space-8: 8rem;
+  --section-pad: clamp(6.5rem, 15vh, 13rem);
   --gutter:  clamp(1.25rem, 5vw, 4rem);
-  --measure:  min(68ch, 100%);
+  --measure: min(66ch, 100%);
 
-  /* ----------------------------------------------------------------- shape */
-  --radius-sm: 2px;
-  --radius-md: 6px;
-  --radius-lg: 14px;
-  --hairline: 1px solid var(--stone);
+  /* ----------------------------------------------------------------- shape
+     Soft by default. Nothing on this page has a 2px corner. */
+  --radius-xs:   10px;
+  --radius-sm:   16px;
+  --radius-md:   22px;
+  --radius-lg:   32px;
+  --radius-xl:   48px;
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------- shadow
+     Shadows are tinted with the ink, never neutral grey. A grey shadow under
+     a pink card is the single clearest tell of a theme that was recoloured
+     rather than designed. */
+  --shadow-soft: 0 2px 6px rgba(140, 58, 97, 0.06), 0 12px 28px rgba(140, 58, 97, 0.08);
+  --shadow-lift: 0 4px 10px rgba(140, 58, 97, 0.08), 0 24px 54px rgba(140, 58, 97, 0.14);
+  --shadow-press: 0 1px 3px rgba(140, 58, 97, 0.10), 0 6px 16px rgba(140, 58, 97, 0.10);
+  --shadow-deep: 0 30px 80px rgba(46, 18, 35, 0.34);
+  /* the shine that runs along the top edge of a filled surface */
+  --gloss: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 
   /* ---------------------------------------------------------------- motion
-     One easing family. No bounce, no elastic, no spin. */
+     Two easing families. `--ease` is the calm one, used for anything that
+     moves a lot. `--ease-soft` has a small overshoot — it is the one that
+     makes a thing feel delighted rather than merely animated, so it is spent
+     only on small, touchable things: hearts, chips, sticker taps. */
   --ease:      cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-fast:   240ms;
-  --dur-base:   600ms;
-  --dur-slow:   1200ms;
-  --stagger:    80ms;
+  --ease-soft: cubic-bezier(0.34, 1.42, 0.64, 1);
+  --dur-fast:   200ms;
+  --dur-base:   520ms;
+  --dur-slow:   1100ms;
+  --stagger:    70ms;
 
   /* ------------------------------------------------------------------ z    */
   --z-grain:   90;
   --z-veil:    80;
-  --z-chrome:  70;   /* mute control, always reachable */
+  --z-chrome:  70;   /* sound control, always reachable */
 }
 
 /* The one place a single change re-tints the whole page. Kept as a token so a
    future rebrand is a two-line edit, not a find-and-replace. */
 :root {
-  --accent: var(--brass-deep);
-  --accent-contrast: var(--paper);
+  --accent:          var(--berry);
+  --accent-contrast: var(--milk);
 }

@@ -1,5 +1,5 @@
 /**
- * clips.js — Act 05. The other seven clips, fetched only when tapped.
+ * clips.js — Act 07, the rest of her clips. Fetched only when tapped.
  *
  * All seven total ~2.7 MB. Putting them in the initial payload would triple the
  * page weight for content most visitors never open, so each button carries only

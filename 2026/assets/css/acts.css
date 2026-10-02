@@ -1,7 +1,9 @@
 /* ============================================================================
    acts.css — per-act styling.
-   Act 00 (Threshold) and Act 01 (The Name) are built. Acts 02-08 are stubbed
-   in index.html so the page has honest structure; they are styled in P3-P5.
+
+   Reading order follows the page. Each act block opens with the one decision
+   that shaped it, because most of these were revised after seeing the render
+   and the reason is not recoverable from the declarations alone.
    ========================================================================= */
 
 /* ============================================================ ACT 00 — Threshold
@@ -16,7 +18,7 @@
   place-items: center;
   padding: 0;
   overflow: clip;
-  background: var(--sand);
+  background: var(--blush);
 }
 
 .act-threshold__media {
@@ -35,18 +37,19 @@
 
 /* the cinematic layer: only present with JS */
 .js .act-threshold__media img {
-  filter: blur(20px) saturate(0.88);
-  transform: scale(1.1);
+  filter: blur(22px) saturate(1.05) brightness(1.04);
+  transform: scale(1.12);
   transition: filter var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 }
 .js.is-open .act-threshold__media img {
-  filter: blur(0) saturate(1);
+  filter: blur(0) saturate(1) brightness(1);
   transform: scale(1);
 }
 
-/* The scrim runs left-to-right, not as a uniform vignette: the left column
-   carries light type and needs to be dark, the right carries her face and
-   needs to stay open. A radial vignette was darkening exactly the wrong side. */
+/* The scrim. It has to do two jobs now: keep the left column dark enough for
+   light type, and push the whole frame toward rose so the sharp hero that
+   resolves out of the blur belongs to the same room as the pink page. A
+   straight dark gradient did the first and failed the second. */
 .act-threshold::after {
   content: "";
   position: absolute;
@@ -55,11 +58,12 @@
   pointer-events: none;
   background:
     linear-gradient(100deg,
-      rgba(28, 23, 20, 0.62) 0%,
-      rgba(28, 23, 20, 0.34) 46%,
-      rgba(28, 23, 20, 0.06) 78%),
+      rgba(46, 18, 35, 0.7) 0%,
+      rgba(46, 18, 35, 0.42) 44%,
+      rgba(46, 18, 35, 0.08) 76%),
     radial-gradient(ellipse at 50% 50%,
-      rgba(28, 23, 20, 0) 40%, rgba(28, 23, 20, 0.28) 100%);
+      rgba(46, 18, 35, 0) 38%, rgba(46, 18, 35, 0.34) 100%),
+    linear-gradient(0deg, rgba(224, 114, 155, 0.18), rgba(224, 114, 155, 0.18));
 }
 
 /* ------------------------------------------------------------------ the seal
@@ -85,13 +89,13 @@
   display: grid;
   justify-items: start;
   gap: var(--space-4);
-  max-width: 26rem;
+  max-width: 28rem;
   text-align: left;
-  transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+  transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease-soft);
 }
 .veil.is-dismissing .veil__inner {
   opacity: 0;
-  transform: translateY(-14px) scale(0.97);
+  transform: translateY(-16px) scale(0.95);
 }
 
 /* On a narrow phone the left third is too small to hold this. Centre it. */
@@ -101,33 +105,55 @@
 }
 
 .seal {
-  width: clamp(124px, 15vw, 176px);
+  width: clamp(132px, 16vw, 188px);
   height: auto;
-  filter: drop-shadow(0 18px 34px rgba(28, 23, 20, 0.5));
-  transition: transform var(--dur-base) var(--ease);
+  filter: drop-shadow(0 20px 40px rgba(46, 18, 35, 0.55));
+  transition: transform var(--dur-base) var(--ease-soft);
 }
-.veil__inner:hover .seal { transform: rotate(-2.5deg) scale(1.03); }
+.veil__inner:hover .seal { transform: rotate(-3deg) scale(1.04); }
 
 /* the seal's ring pulses once, slowly, until she touches it */
 .js .seal__ring { animation: seal-breathe 3.4s var(--ease) infinite; transform-origin: 50% 50%; }
 @keyframes seal-breathe {
   0%, 100% { opacity: 0.35; transform: scale(1); }
-  50%      { opacity: 0.8;  transform: scale(1.045); }
+  50%      { opacity: 0.85; transform: scale(1.05); }
 }
 
 .veil__prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.65em 1.4em;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 247, 249, 0.14);
+  border: 2px solid rgba(247, 168, 196, 0.5);
+  color: var(--milk);
+  font-family: var(--font-display);
   font-size: var(--fs-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--brass-light);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(6px);
+}
+.veil__prompt::after {
+  content: "";
+  width: 0.8em; height: 0.8em;
+  background: var(--rose);
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
+  animation: prompt-beat 1.6s var(--ease) infinite;
+  transform-origin: 50% 60%;
+}
+@keyframes prompt-beat {
+  0%, 100% { transform: scale(1); }
+  18%      { transform: scale(1.28); }
+  36%      { transform: scale(1); }
 }
 .veil__note {
-  font-family: var(--font-display);
+  font-family: var(--font-romance);
   font-style: italic;
-  font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem);
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.9rem);
   line-height: 1.35;
-  color: var(--paper);
-  opacity: 0.94;
+  color: var(--milk);
   text-wrap: balance;
 }
 
@@ -141,7 +167,7 @@
   align-content: center;
   padding-block: var(--section-pad);
   overflow: clip;
-  background: var(--paper);
+  background: var(--milk);
 }
 
 .act-name__media {
@@ -168,62 +194,73 @@
   padding: var(--space-4) 0;
 }
 
-.act-name__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-.act-name__eyebrow::before {
-  content: "";
-  width: clamp(28px, 6vw, 56px);
-  height: 1px;
-  background: var(--brass);
-}
-
 .act-name__title {
-  font-size: var(--fs-display);
-  font-weight: 300;
-  line-height: 0.94;
-  color: var(--ink);
+  font-size: var(--fs-mega);
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
   margin: 0;
+  /* The name is the one place the page spends full saturation. A pink that
+     sits ON the letterforms, not behind them, is the loudest this palette is
+     allowed to get — and it is used exactly once. The final stop is --rose-ink
+     rather than --rose-deep: at display size the last letters are still text,
+     and text needs 3:1. */
+  background: linear-gradient(168deg, var(--plum) 26%, var(--berry) 62%, var(--rose-ink) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
-/* The em sat at the full display size and ran off the measure. It is a
-   second line, not a second headline, so it gets its own scale. */
+/* The em is a second line, not a second headline, so it gets its own scale —
+   and the handwritten voice, because this is a note left on the page. */
 .act-name__title em {
   display: block;
-  font-style: italic;
-  color: var(--accent);
-  font-size: clamp(1.35rem, 1rem + 1.6vw, 2.4rem);
-  line-height: 1.2;
-  margin-top: 0.14em;
-  text-wrap: balance;
+  font-family: var(--font-hand);
+  font-style: normal;
+  font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem);
+  line-height: 1.1;
+  margin-top: 0.18em;
+  letter-spacing: 0;
+  color: var(--berry);
+  -webkit-text-fill-color: var(--berry);
 }
 
 .act-name__line {
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1rem + 1.1vw, 1.9rem);
+  font-family: var(--font-romance);
+  font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.95rem);
   line-height: 1.45;
-  color: var(--espresso);
-  max-width: 30ch;
+  color: var(--plum);
+  max-width: 32ch;
 }
 
+/* Meta as a row of soft chips rather than a dot-separated list. The dot list
+   was the previous revision's tell; chips also survive wrapping on a phone. */
 .act-name__meta {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-4);
+  gap: var(--space-2);
   padding-top: var(--space-2);
-  font-size: var(--fs-small);
-  color: var(--muted);
 }
-/* Direct-child selector only. `.act-name__meta span` also matched the inner
-   value spans, so every item rendered two bullets. */
-.act-name__meta > span { display: inline-flex; align-items: center; gap: var(--space-2); }
+.act-name__meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.45em 1em;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--milk) 82%, transparent);
+  border: 1.5px solid var(--petal);
+  box-shadow: var(--gloss);
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  color: var(--berry);
+  backdrop-filter: blur(8px);
+}
 .act-name__meta > span::before {
   content: "";
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--brass);
+  width: 0.6em; height: 0.6em;
+  background: var(--rose-deep);
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
   flex: none;
 }
 
@@ -235,12 +272,12 @@
     content: "";
     position: absolute;
     inset: 0;
-    /* a warm scrim from the left so type stays legible over the photograph */
+    /* a milk scrim from the left so type stays legible over the photograph */
     background: linear-gradient(100deg,
-      rgba(247, 243, 236, 0.97) 0%,
-      rgba(247, 243, 236, 0.9) 34%,
-      rgba(247, 243, 236, 0.28) 58%,
-      rgba(247, 243, 236, 0) 76%);
+      rgba(255, 247, 249, 0.98) 0%,
+      rgba(255, 247, 249, 0.93) 32%,
+      rgba(255, 233, 240, 0.42) 56%,
+      rgba(255, 233, 240, 0) 76%);
   }
   .act-name__panel { padding-left: 0; }
 }
@@ -260,86 +297,103 @@
 }
 
 /* ========================================================= ACT 02 — The Distance
-   Two live clocks and the honest part. Kept quiet: no drama, just the fact of
-   the gap, stated plainly. */
-.act-distance {
-  background: var(--sand);
-  text-align: center;
-}
+   Two live clocks and the honest part. The gap is DRAWN — a dashed pink thread
+   with a heart at its centre — because a line between two cities says the
+   thing faster than another sentence would. */
+.act-distance { background: var(--blush); text-align: center; }
+
 .act-distance__inner {
+  position: relative;
+  z-index: 1;
   display: grid;
   justify-items: center;
   gap: var(--space-5);
-  max-width: 52rem;
+  max-width: 54rem;
   margin-inline: auto;
 }
 
 .clocks {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  align-items: stretch;
   gap: var(--space-4);
   width: 100%;
 }
 
-/* min-width:0 lets the grid items shrink below their content width. Without it
-   the nowrap gap label forced the whole grid 21px past a 390px viewport. */
-.clock { display: grid; gap: var(--space-1); justify-items: center; min-width: 0; }
+/* The clock is a card, not floating type. Two cards make the two cities into
+   two places, which is the point of the act. */
+.clock {
+  display: grid;
+  gap: var(--space-1);
+  justify-items: center;
+  min-width: 0;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--milk);
+  box-shadow: var(--shadow-soft), var(--gloss);
+}
 .clock__place {
+  font-family: var(--font-display);
   font-size: var(--fs-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--berry);
   text-align: center;
 }
 .clock__time {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
-  font-weight: 300;
+  font-size: clamp(2.4rem, 1.4rem + 3.8vw, 4.75rem);
+  font-weight: 500;
   line-height: 1;
-  color: var(--ink);
+  color: var(--plum);
   font-variant-numeric: tabular-nums;
 }
-.clock__who { font-size: var(--fs-small); color: var(--espresso); }
+.clock__who { font-size: var(--fs-small); color: var(--berry); }
 
 /* the gap between the two, drawn rather than stated */
 .clock-gap {
   display: grid;
   justify-items: center;
+  align-content: center;
   gap: var(--space-2);
   padding-inline: var(--space-2);
   min-width: 0;
 }
 .clock-gap__rule {
-  width: 1px;
-  height: clamp(40px, 7vw, 88px);
-  background: linear-gradient(var(--brass), transparent);
+  width: 2px;
+  height: clamp(40px, 7vw, 80px);
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    var(--rose-deep) 0 6px, transparent 6px 13px);
+  opacity: 0.75;
 }
 .clock-gap__label {
+  font-family: var(--font-display);
   font-size: var(--fs-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
+  font-weight: 500;
+  color: var(--berry);
   text-align: center;
+  white-space: nowrap;
 }
 
-/* Too narrow for three columns: the two clocks sit side by side and the gap
-   moves underneath them. */
-@media (max-width: 30rem) {
-  .clocks {
-    grid-template-columns: 1fr 1fr;
-    row-gap: var(--space-4);
-  }
-  .clock-gap { grid-column: 1 / -1; grid-row: 2; padding-inline: 0; }
-  .clock-gap__rule { height: 28px; }
+/* Not enough width for three columns. The old breakpoint here was 30rem and it
+   was too late: at 480px each clock card had ~83px of content box and "14:32" at
+   its 2.4rem floor needs ~112px, so the time spilled out of the card on every
+   phone. Stacking the two clocks removes the width pressure entirely — and a
+   vertical thread running from his morning down to her night is the better
+   drawing of the distance anyway. */
+@media (max-width: 36rem) {
+  .clocks { grid-template-columns: minmax(0, 1fr); }
+  .clock-gap { padding-inline: 0; }
+  .clock-gap__rule { height: 44px; }
 }
 
 .act-distance__body {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.7rem);
+  font-family: var(--font-romance);
+  font-size: clamp(1.3rem, 1.05rem + 1vw, 1.85rem);
   line-height: 1.55;
-  color: var(--espresso);
-  max-width: 34ch;
+  color: var(--plum);
+  max-width: 36ch;
   text-wrap: pretty;
 }
 
@@ -360,7 +414,7 @@
      2.4 screens of a static image. */
   padding-block: 0;
   height: auto;
-  background: var(--paper);
+  background: var(--milk);
 }
 .js .act-both-sides { height: 340vh; }
 
@@ -381,11 +435,15 @@
 }
 
 .bs-side--his {
-  background: var(--ink);
+  background: var(--night);
   display: grid;
   place-items: center;
 }
-.bs-side--her { background: var(--espresso); }
+/* Her half is lit rather than dark, so the two rooms are two temperatures and
+   not two brightnesses. Built from existing inks rather than two new hexes —
+   berry to plum is within a hair of the original pair and keeps the palette
+   closed. */
+.bs-side--her { background: linear-gradient(160deg, var(--berry), var(--plum)); }
 .bs-side--her img {
   width: 100%;
   height: 100%;
@@ -396,11 +454,11 @@
 .bs-tile {
   width: min(54%, 230px);
   aspect-ratio: 167 / 305;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
-  outline: 1px solid rgba(217, 190, 140, 0.32);
-  background: var(--espresso);
+  box-shadow: 0 26px 60px rgba(46, 18, 35, 0.6);
+  outline: 2px solid rgba(247, 168, 196, 0.4);
+  background: var(--plum);
 }
 .bs-tile img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -412,16 +470,17 @@
   bottom: max(var(--space-4), calc(env(safe-area-inset-bottom) + var(--space-2)));
   display: grid;
   gap: 2px;
+  font-family: var(--font-display);
   font-size: var(--fs-label);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--brass-light);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--rose);
   padding-inline: var(--gutter);
-  text-shadow: 0 1px 12px rgba(28, 23, 20, 0.7);
+  text-shadow: 0 1px 12px rgba(46, 18, 35, 0.75);
 }
 .bs-tag--his { left: 0; }
 .bs-tag--her { right: 0; text-align: right; }
-.bs-tag span { color: rgba(247, 243, 236, 0.74); letter-spacing: 0.1em; }
+.bs-tag span { color: rgba(255, 247, 249, 0.76); }
 
 /* the seam: a caption that only exists once the two halves have met.
    Visibility is the CHILD's concern. An `opacity: 0` on the parent would clamp
@@ -438,18 +497,19 @@
 }
 .bs-seam__line {
   display: block;
-  width: 1px;
+  width: 2px;
   height: 48px;
   margin: 0 auto var(--space-3);
-  background: var(--brass);
+  border-radius: 2px;
+  background: var(--rose);
 }
 .bs-seam__text {
-  font-family: var(--font-display);
+  font-family: var(--font-romance);
   font-style: italic;
-  font-size: clamp(1rem, 0.9rem + 0.7vw, 1.45rem);
+  font-size: clamp(1.15rem, 0.95rem + 0.9vw, 1.7rem);
   line-height: 1.4;
-  color: var(--paper);
-  text-shadow: 0 2px 18px rgba(28, 23, 20, 0.8);
+  color: var(--milk);
+  text-shadow: 0 2px 18px rgba(46, 18, 35, 0.85);
   text-wrap: balance;
 }
 
@@ -473,10 +533,62 @@
   .js .bs-seam__text { opacity: 1; }
 }
 
-/* ======================================================== ACT 04 — The Moments
-   An asymmetric editorial spread, not a grid of equal cards. A grid is what
-   Instagram does; rhythm and asymmetry is what a printed page does. One hero,
-   then offset pairs, then a full-bleed beat. */
+/* =================================================== ACT 04 — The Little Things
+   A grid of small, soft cards. This is the act that carries the "cute" half of
+   the brief, so it is the one place the page is allowed many small objects at
+   once — everything else is generous.
+
+   The icons are the same two shapes used site-wide (heart, sparkle) in a petal
+   badge, alternating. Emoji were the obvious choice and the wrong one: they
+   render as a different family on every device and drag the whole page back
+   toward a greeting card. */
+.act-little { background: var(--milk); }
+
+.little-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.little {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(170deg, var(--milk), var(--blush));
+  border: 1.5px solid var(--petal);
+  box-shadow: var(--gloss), var(--shadow-soft);
+  transition: transform var(--dur-base) var(--ease-soft), box-shadow var(--dur-base) var(--ease);
+}
+.little:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: var(--gloss), var(--shadow-lift); }
+
+.little__badge {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--petal);
+  color: var(--berry);
+  box-shadow: var(--gloss);
+}
+.little__badge .heart,
+.little__badge .sparkle { width: 1.05rem; height: 1.05rem; }
+
+.little h3 { font-size: 1.15rem; color: var(--plum); }
+.little p { font-size: var(--fs-small); line-height: 1.6; color: var(--berry); max-width: none; }
+
+/* ======================================================== ACT 05 — The Moments
+   Photographs as physical objects: a white border, a soft shadow, a slight
+   tilt. The tilt alternates by nth-child rather than by a per-item class, so
+   adding a photo to the HTML gets the treatment for free.
+
+   Kept to under 1.2deg. Past about 2deg it stops reading as a print someone
+   laid down and starts reading as a scrapbook sticker. */
+.act-moments { background: var(--blush); }
+
 .moments {
   display: grid;
   /* minmax(0, 1fr) is load-bearing. With a bare `auto` column, the bleed item's
@@ -484,6 +596,7 @@
      the column to 965px inside an 885px container, overflowing the page. */
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
+  margin-top: var(--space-6);
 }
 
 .moment { position: relative; margin: 0; }
@@ -492,28 +605,45 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: var(--sand);
+  border-radius: var(--radius-md);
+  background: var(--petal);
 }
+
+/* the print: a frame, a shadow, a tilt */
+.moment--print {
+  padding: 0.7rem 0.7rem 2.6rem;
+  border-radius: var(--radius-md);
+  background: var(--milk);
+  box-shadow: var(--shadow-lift);
+  transform: rotate(-0.9deg);
+}
+.moment-pair > .moment--print:nth-child(2),
+.moments > .moment--print:nth-child(even) { transform: rotate(1.1deg); }
 
 .moment__cap {
   display: flex;
   align-items: baseline;
-  gap: var(--space-3);
+  gap: 0.5em;
   margin-top: var(--space-3);
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.2rem);
-  line-height: 1.4;
-  color: var(--espresso);
+  font-family: var(--font-hand);
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.6rem);
+  line-height: 1.3;
+  color: var(--berry);
   max-width: 40ch;
+}
+.moment--print .moment__cap {
+  position: absolute;
+  left: 0.9rem; right: 0.9rem; bottom: 0.55rem;
+  margin: 0;
 }
 .moment__cap::before {
   content: "";
   flex: none;
-  width: 20px;
-  height: 1px;
-  background: var(--brass);
-  transform: translateY(-0.35em);
+  width: 0.8em; height: 0.8em;
+  background: var(--rose-deep);
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
+  transform: translateY(-0.05em);
 }
 
 .moment--hero { aspect-ratio: 16 / 10; }
@@ -544,6 +674,13 @@
   margin-inline: calc(var(--gutter) * -1);
   aspect-ratio: 21 / 9;
 }
+.moment--bleed img { border-radius: 0; }
+.moment--bleed .moment__cap {
+  position: static;
+  margin: var(--space-3) auto 0;
+  justify-content: center;
+  width: fit-content;
+}
 
 @media (max-width: 44rem) {
   .moment-pair { grid-template-columns: 1fr; gap: var(--space-5); }
@@ -551,7 +688,58 @@
   .moment--bleed { aspect-ratio: 16 / 10; }
 }
 
-/* ========================================================= ACT 05 — Her Voice
+/* ===================================================== ACT 06 — Us in Numbers
+   A row of counters. Numbers are the one thing on this page that are true
+   whether or not she is feeling sentimental, which is exactly why they are
+   allowed to be enormous.
+
+   The ground is milk rather than blush because Act 05 is blush and Act 07 is
+   night: blush here would give two blush acts in a row and spend the dark act's
+   entrance. The cards carry their own milk-to-blush fall instead, so they are
+   still objects rather than holes cut in the page. */
+.act-numbers { background: var(--milk); }
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.stat {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(170deg, var(--milk), var(--blush));
+  border: 1.5px solid var(--petal);
+  box-shadow: var(--shadow-soft), var(--gloss);
+  text-align: center;
+  justify-items: center;
+}
+.stat__value {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 1.4rem + 3.4vw, 3.75rem);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--berry);
+  font-variant-numeric: tabular-nums;
+}
+.stat__unit {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--rosegold-ink);
+}
+.stat__label {
+  font-size: var(--fs-small);
+  line-height: 1.55;
+  color: var(--berry);
+  max-width: 22ch;
+}
+
+/* ========================================================= ACT 07 — Her Voice
    The emotional peak, so the ground goes dark and the video is the only lit
    thing on screen.
 
@@ -559,37 +747,33 @@
    keyboard support, fullscreen handling, PiP and caption tracks — and getting
    any of it wrong on a phone is worse than a native bar that simply works. The
    frame around it does the design work instead. */
-.act-voice {
-  background: var(--ink);
-  color: var(--paper);
-}
-.act-voice h2 { color: var(--paper); }
-.act-voice .label { color: var(--brass-light); }
+.act-voice { background: var(--night); color: var(--milk); }
 
 .voice__frame {
   position: relative;
   margin-top: var(--space-5);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: #000;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-  outline: 1px solid rgba(217, 190, 140, 0.22);
+  background: var(--screen);
+  /* --shadow-deep rather than a neutral black: a grey shadow on this page is
+     the tell that a palette was recoloured instead of designed. */
+  box-shadow: var(--shadow-deep), 0 0 0 2px rgba(247, 168, 196, 0.28);
 }
 .voice__frame video {
   width: 100%;
   height: auto;
   display: block;
   aspect-ratio: 720 / 452;
-  background: #000;
+  background: var(--screen);
 }
 
 .voice__note {
   margin-top: var(--space-4);
-  font-family: var(--font-display);
+  font-family: var(--font-romance);
   font-style: italic;
-  font-size: clamp(1.1rem, 1rem + 0.7vw, 1.5rem);
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.7rem);
   line-height: 1.45;
-  color: rgba(247, 243, 236, 0.86);
+  color: rgba(255, 247, 249, 0.88);
   max-width: 38ch;
 }
 
@@ -606,7 +790,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(217, 190, 140, 0.28);
+  background: linear-gradient(90deg, rgba(247, 168, 196, 0.4), transparent);
 }
 
 .clips__grid {
@@ -620,93 +804,331 @@
   display: block;
   width: 100%;
   padding: 0;
-  border: 1px solid rgba(217, 190, 140, 0.2);
+  border: 2px solid rgba(247, 168, 196, 0.22);
   border-radius: var(--radius-md);
   overflow: hidden;
-  background: #000;
+  background: var(--screen);
   aspect-ratio: 16 / 9;
-  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease-soft);
 }
-.clip:hover { border-color: var(--brass); transform: translateY(-2px); }
+.clip:hover { border-color: var(--rose); transform: translateY(-3px); }
 .clip img { width: 100%; height: 100%; object-fit: cover; }
 .clip__play {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  color: var(--paper);
-  background: rgba(28, 23, 20, 0.32);
+  color: var(--milk);
+  background: rgba(46, 18, 35, 0.34);
   transition: background var(--dur-fast) var(--ease);
 }
-.clip:hover .clip__play { background: rgba(28, 23, 20, 0.12); }
+.clip:hover .clip__play { background: rgba(46, 18, 35, 0.12); }
 .clip__play svg { width: 26px; height: 26px; }
 .clip video { width: 100%; height: 100%; object-fit: cover; }
 
-/* ========================================================= ACT 06 — The Letter
+/* ======================================================= ACT 08 — The Love Notes
+   THE CENTREPIECE, and the one place this page is allowed to be clever.
+
+   A deck of notes: tap the heart, a note arrives. Every note is in the DOM in
+   .notes__all, so with JavaScript off this is simply a long, readable wall of
+   notes rather than a dead button — and with JavaScript on, that wall folds
+   away into the deck. Same inversion as the seal in Act 00. */
+.act-notes {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(247, 168, 196, 0.35), transparent 60%),
+    var(--blush);
+}
+
+.notes { display: grid; justify-items: center; gap: var(--space-5); text-align: center; }
+
+/* The deck is hidden until notes.js has actually built it, and the wall is
+   only folded away at the same moment. Keying this off the `.js` class instead
+   would mean any failure in any module leaves her with a dead button and no
+   notes at all — the wall is the real content, so it is the last thing to go. */
+.notes__deck {
+  display: none;
+  justify-items: center;
+  gap: var(--space-4);
+  width: min(100%, 34rem);
+}
+.notes.is-deck .notes__deck { display: grid; }
+.notes.is-deck .notes__all { display: none; }
+
+/* The card. Squared-off at the top and rounded at the bottom would be a
+   postage stamp; a uniform large radius with a lifted top edge reads as a
+   folded note. The ::before is the fold. */
+.note-card {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 15rem;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(168deg, var(--milk) 0%, var(--blush) 100%);
+  box-shadow: var(--shadow-lift), var(--gloss);
+  border: 1.5px solid var(--petal);
+  overflow: clip;
+}
+/* the fold: a soft pink band down the top edge */
+.note-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--rose), var(--rose-deep), var(--rose));
+}
+.note-card__text {
+  font-family: var(--font-hand);
+  font-size: clamp(1.6rem, 1.15rem + 1.9vw, 2.5rem);
+  line-height: 1.3;
+  color: var(--plum);
+  max-width: 24ch;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.note-card__from {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--rosegold-ink);
+}
+
+/* the deal-in animation. Small, quick, and only on the thing she touched. */
+.note-card.is-dealing { animation: note-deal var(--dur-base) var(--ease-soft); }
+@keyframes note-deal {
+  from { opacity: 0; transform: translateY(14px) scale(0.94) rotate(-1.5deg); }
+  to   { opacity: 1; transform: none; }
+}
+
+.notes__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+.notes__count {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--berry);
+  font-variant-numeric: tabular-nums;
+}
+
+/* the button is the heart. It gets the pulse, nothing else on the page does. */
+.btn-heart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.9rem 1.6rem;
+  border-radius: var(--radius-pill);
+  background: var(--berry);
+  color: var(--milk);
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  box-shadow: var(--gloss), var(--shadow-press);
+  transition: transform var(--dur-fast) var(--ease-soft), background var(--dur-fast) var(--ease);
+}
+.btn-heart .heart { width: 1em; height: 1em; color: var(--rose); }
+.btn-heart:hover { transform: translateY(-2px) scale(1.03); background: var(--plum); }
+.btn-heart:active { transform: scale(0.97); }
+
+/* ---- the no-JS wall: a masonry-ish column flow of every note ---- */
+.notes__all {
+  width: 100%;
+  columns: 3 17rem;
+  column-gap: var(--space-3);
+  margin-top: var(--space-6);
+  text-align: left;
+}
+.notes__all li {
+  break-inside: avoid;
+  margin-bottom: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--milk);
+  border: 1.5px solid var(--petal);
+  box-shadow: var(--gloss), var(--shadow-soft);
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  line-height: 1.3;
+  color: var(--plum);
+}
+
+@media (max-width: 48rem) {
+  .notes__all { columns: 2 12rem; }
+}
+@media (max-width: 30rem) {
+  .notes__all { columns: 1; }
+}
+
+/* ========================================================= ACT 09 — Reasons
+   A long list of short lines. Deliberately NOT numbered: the previous
+   revision's instinct would have been 01/02/03, but reasons are not a
+   sequence, and numbering them would be structure pretending to be
+   information. Hearts instead, in the rose that carries no meaning. */
+.act-reasons { background: var(--milk); }
+
+.reasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-2) var(--space-5);
+  margin-top: var(--space-6);
+}
+.reasons li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--petal);
+  font-family: var(--font-romance);
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.45rem);
+  line-height: 1.4;
+  color: var(--plum);
+}
+.reasons li::before {
+  content: "";
+  width: 0.62em; height: 0.62em;
+  margin-top: 0.45em;
+  background: var(--rose-deep);
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
+  flex: none;
+}
+
+/* ========================================================= ACT 10 — The Letter
    The thing the whole site has been leading to. Set as a letter: one measure,
    generous leading, left-aligned, revealed a paragraph at a time.
 
    Paragraph-at-a-time, deliberately. Word-by-word reveal is a 2025-era
    birthday-site tic; it makes the reader wait for the next syllable instead of
-   reading. */
-.act-letter { background: var(--paper); }
+   reading.
+
+   The ground is blush so the letter is a sheet of milk paper lying on a rose
+   desk. On a milk ground the card was a white rectangle on white, held apart
+   only by its shadow. */
+.act-letter { background: var(--blush); }
 
 .letter {
-  max-width: 62ch;
-  margin-inline: auto;
+  position: relative;
+  max-width: 64ch;
+  margin: var(--space-5) auto 0;
+  padding: clamp(1.75rem, 5vw, 3.5rem);
+  border-radius: var(--radius-xl);
+  /* Flat milk, not a gradient. Milk is already the lightest colour in the
+     palette, so any gradient can only fall toward blush — and a large card
+     whose lower edge drifts into the ground stops reading as a sheet. The
+     shadow and the blush ground do the lifting instead. */
+  background: var(--milk);
+  box-shadow: var(--shadow-lift), var(--gloss);
+  border: 1.5px solid var(--petal);
 }
 .letter__body {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 .letter__body p {
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.02rem + 0.55vw, 1.42rem);
+  font-family: var(--font-romance);
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
   line-height: 1.72;
-  color: var(--espresso);
+  color: var(--plum);
   max-width: none;
   text-wrap: pretty;
 }
+/* The drop cap is a letter, so it is set in an ink rather than a pink. It was
+   --rose-deep first, which is 2.83:1 on milk — a pretty failure, and a failure
+   all the same: the first glyph of the letter is still the letter. */
 .letter__body p:first-child::first-letter {
   float: left;
-  font-size: 3.4em;
-  line-height: 0.82;
-  padding: 0.06em 0.1em 0 0;
-  color: var(--accent);
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: 3.1em;
+  line-height: 0.8;
+  padding: 0.04em 0.12em 0 0;
+  color: var(--berry);
+  font-weight: 500;
 }
 
 .letter__sign {
   margin-top: var(--space-6);
   padding-top: var(--space-4);
-  border-top: var(--hairline);
+  border-top: 1.5px dashed var(--petal);
   display: grid;
   gap: var(--space-1);
   justify-items: start;
 }
 .letter__sign-name {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
-  color: var(--ink);
+  font-family: var(--font-hand);
+  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.8rem);
+  line-height: 1.1;
+  color: var(--berry);
 }
 .letter__sign-from {
+  font-family: var(--font-display);
   font-size: var(--fs-label);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--muted);
+  font-weight: 500;
+  color: var(--rosegold-ink);
 }
 
-/* ====================================================== ACT 07 — The Keepsake
+/* the wax seal, restruck in pink, closing the letter */
+.letter__seal {
+  position: absolute;
+  right: clamp(1rem, 4vw, 2.5rem);
+  bottom: clamp(-1.5rem, -2vw, -1rem);
+  width: clamp(64px, 9vw, 92px);
+  height: auto;
+  filter: drop-shadow(0 10px 22px rgba(140, 58, 97, 0.35));
+}
+
+/* ====================================================== ACT 11 — The Promises
+   Six cards, one promise each, sealed. The seal is the same four-point mark
+   from the gate — the page's one recurring object. */
+.act-promises { background: var(--milk); }
+
+.promises {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+.promise {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(170deg, var(--milk), var(--blush));
+  border: 1.5px solid var(--petal);
+  box-shadow: var(--gloss), var(--shadow-soft);
+  transition: transform var(--dur-base) var(--ease-soft), box-shadow var(--dur-base) var(--ease);
+}
+.promise:hover { transform: translateY(-4px) rotate(0.5deg); box-shadow: var(--gloss), var(--shadow-lift); }
+.promise p {
+  font-family: var(--font-romance);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  line-height: 1.5;
+  color: var(--plum);
+  max-width: none;
+}
+.promise__seal { width: 2rem; height: 2rem; color: var(--rose-deep); }
+
+/* ====================================================== ACT 12 — The Keepsake
    The card is rendered live into the page rather than hidden behind a download
    button. She sees the object first and can long-press to save it the way she
    would save any photo — which is how people actually keep things. The download
-   is the extra, not the only route. */
-.act-keepsake { background: var(--sand); }
+   is the extra, not the only route.
+
+   Blush ground so the milk card reads as a printed object rather than a panel
+   of the page. */
+.act-keepsake { background: var(--blush); }
 
 .keepsake {
   display: grid;
   gap: var(--space-5);
+  margin-top: var(--space-5);
   justify-items: center;
   text-align: center;
 }
@@ -714,85 +1136,104 @@
 .keepsake__card {
   width: min(100%, 30rem);
   aspect-ratio: 3 / 4;
-  border-radius: 4px;
+  border-radius: var(--radius-lg);
   box-shadow:
-    0 1px 2px rgba(28, 23, 20, 0.1),
-    0 18px 44px rgba(28, 23, 20, 0.18);
-  background: var(--paper);
+    0 2px 6px rgba(140, 58, 97, 0.10),
+    0 22px 50px rgba(140, 58, 97, 0.22);
+  background: var(--milk);
 }
 
 .keepsake__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 0.85rem 1.6rem;
-  border-radius: 999px;
-  font-size: var(--fs-label);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  background: transparent;
-  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
-}
-.btn:hover { background: var(--accent); color: var(--paper); }
-
-.btn--solid { background: var(--accent); color: var(--paper); }
-.btn--solid:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-
 .keepsake__note {
-  font-size: var(--fs-small);
-  color: var(--muted);
-  max-width: 34ch;
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  color: var(--berry);
+  max-width: 30ch;
 }
 
-/* =========================================================== ACT 08 — The Close */
+/* =========================================================== ACT 13 — The Close
+   The only act with no .shell wrapper — it is a title card, and the giant name
+   is meant to sit in the open — so it carries the gutter itself. Without this
+   the greeting and the last line ran edge to edge on a phone and the closing
+   act, of all of them, was the one that looked cramped. */
 .act-close {
-  background: var(--ink);
-  color: var(--paper);
+  background:
+    radial-gradient(ellipse at 50% 120%, rgba(224, 114, 155, 0.35), transparent 62%),
+    var(--night);
+  color: var(--milk);
   text-align: center;
-  min-height: 78svh;
+  min-height: 82svh;
   display: grid;
   align-content: center;
   gap: var(--space-5);
   justify-items: center;
+  padding-inline: var(--gutter);
+  overflow: clip;
 }
+.act-close h2 { color: var(--milk); }
+/* the greeting, in the one pink that clears 3:1 on the dark ground (9.3:1) */
+.act-close .quote { color: var(--rose); max-width: 24ch; }
+.act-close .hand { max-width: 28ch; }
 .act-close__name {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 1.6rem + 7vw, 6.5rem);
-  font-weight: 300;
-  line-height: 1;
-  color: var(--paper);
+  font-size: clamp(3.5rem, 1.5rem + 10vw, 9rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
   margin: 0;
+  /* the same pink-on-the-letterforms treatment as Act 01, inverted for dark */
+  background: linear-gradient(170deg, var(--milk) 20%, var(--rose) 70%, var(--rose-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 .act-close__line {
-  font-family: var(--font-display);
+  font-family: var(--font-romance);
   font-style: italic;
-  font-size: clamp(1.1rem, 1rem + 0.7vw, 1.5rem);
-  color: rgba(247, 243, 236, 0.72);
-  max-width: 30ch;
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.7rem);
+  color: rgba(255, 247, 249, 0.8);
+  max-width: 32ch;
   text-wrap: balance;
 }
 .act-close__rule {
-  width: 1px;
-  height: 64px;
-  background: linear-gradient(var(--brass), transparent);
+  width: 2px;
+  height: 56px;
+  border-radius: 2px;
+  background: linear-gradient(var(--rose), transparent);
 }
 
-.btn--ghost {
-  border-color: rgba(217, 190, 140, 0.4);
-  color: var(--brass-light);
+/* ------------------------------------------------- floating hearts (JS only)
+   A fixed, non-interactive layer. Scoped to .js so a no-JS visitor never gets
+   frozen hearts sitting on the page with no way to move them. */
+.hearts {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: clip;
+  display: none;
 }
-.btn--ghost:hover { background: var(--brass-light); color: var(--ink); border-color: var(--brass-light); }
+.js .hearts { display: block; }
+.hearts i {
+  position: absolute;
+  bottom: -8vh;
+  width: 1rem;
+  height: 1rem;
+  background: var(--rose);
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
+  opacity: 0;
+  animation: heart-rise linear forwards;
+}
+@keyframes heart-rise {
+  0%   { opacity: 0; transform: translateY(0) scale(0.7) rotate(0deg); }
+  12%  { opacity: 0.75; }
+  80%  { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(-108svh) scale(1.05) rotate(28deg); }
+}
 
-/* ====================================================== future acts (stubs)
-   Present and readable, styled properly in P3-P5. Deliberately plain so it is
-   obvious they are not finished rather than pretending to be. */
-.act--stub {
-  background: var(--sand);
-  border-top: var(--hairline);
+@media (prefers-reduced-motion: reduce) {
+  .hearts { display: none; }
 }
-.act--stub h2 { margin-bottom: var(--space-3); }
-.act--stub p { color: var(--espresso); }

@@ -118,9 +118,34 @@ for (const c of [...clips, feature]) {
 }
 pass(`${clips.length} clips + feature "${feature}" all have an .mp4 and a -640.webp poster`);
 
-/* ------------------------------------------------ 5. deploy-time guards */
-console.log('\n5. Deploy guards');
-try { await stat(path.join(SITE, '.nojekyll')); pass('.nojekyll present (Jekyll will not strip the folder'); }
+/* ------------------------------------------- 5. every named face is hosted */
+// This is the check that catches the quietest failure on the page. tokens.css
+// names four families, and if fonts.css has no @font-face for one of them
+// nothing errors: the browser just substitutes, and Fredoka quietly becomes
+// Trebuchet. The page still "works" and no longer looks like the design.
+console.log('\n5. Every family the CSS asks for is actually self-hosted');
+const tokensCss = await readFile(path.join(cssDir, 'tokens.css'), 'utf8');
+const fontsCss  = await readFile(path.join(cssDir, 'fonts.css'), 'utf8');
+const declared = new Set([...fontsCss.matchAll(/font-family:\s*'([^']+)'/g)].map((m) => m[1]));
+const wanted = [...new Set([...tokensCss.matchAll(/--font-[a-z]+:\s*'([^']+)'/g)].map((m) => m[1]))];
+for (const w of wanted) {
+  if (declared.has(w)) pass(`${w} — @font-face present`);
+  else fail(`${w} — named by a --font-* token but there is no @font-face for it; the page will silently fall back`);
+}
+for (const d of declared) {
+  if (!wanted.includes(d)) fail(`${d} — shipped in fonts.css but no --font-* token names it`);
+}
+
+// and the preload hints must point at files that exist, or they are a wasted
+// round trip plus a console error instead of a warm font
+for (const m of html.matchAll(/<link rel="preload" href="(\.\/assets\/fonts\/[^"]+)"[^>]*as="font"/g)) {
+  try { await stat(path.join(SITE, m[1].replace(/^\.\//, ''))); pass(`preload ${m[1].split('/').pop()}`); }
+  catch { fail(`preload ${m[1]} — the hint points at a file that is not there`); }
+}
+
+/* ------------------------------------------------ 6. deploy-time guards */
+console.log('\n6. Deploy guards');
+try { await stat(path.join(SITE, '.nojekyll')); pass('.nojekyll present — Jekyll will not strip the folder'); }
 catch { fail('.nojekyll missing — GitHub Pages may run Jekyll over this'); }
 const underscore = (await readdir(SITE, { withFileTypes: true }))
   .filter(d => d.name.startsWith('_')).map(d => d.name);

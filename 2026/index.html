@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>For Rin — 3rd October</title>
+<title>Happy Birthday, Rin 💗</title>
 <meta name="description" content="A letter for Rin, from Nepal. October 3rd.">
-<meta name="theme-color" content="#F7F3EC" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1C1714" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFF7F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#2E1223" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light">
 
 <!-- Link preview. og:image MUST be an absolute URL. Scrapers fetch it with a
@@ -20,23 +20,33 @@
 <meta property="og:site_name" content="For Rin">
 <meta property="og:locale" content="en_GB">
 <meta property="og:url" content="https://dhrin900.github.io/2026/">
-<meta property="og:title" content="For Rin — 3rd October">
-<meta property="og:description" content="A letter for Rin, from Nepal. Two time zones, one call, and a whole year of this.">
+<meta property="og:title" content="Happy Birthday, Rin 💗">
+<meta property="og:description" content="Two time zones, one call, and sixteen months of this. A letter for Rin, from Nepal.">
 <meta property="og:image" content="https://dhrin900.github.io/2026/assets/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A letter for Rin, 3rd October">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="For Rin — 3rd October">
+<meta name="twitter:title" content="Happy Birthday, Rin 💗">
 <meta name="twitter:description" content="A letter for Rin, from Nepal.">
 <meta name="twitter:image" content="https://dhrin900.github.io/2026/assets/img/og.jpg">
 
 <link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./assets/img/favicon-180.png">
 
-<!-- Self-hosted: no third-party request, no CDN failure taking the page down -->
-<link rel="preload" href="./assets/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYp3tKgS4.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Self-hosted: no third-party request, no CDN failure taking the page down.
+     Only the two faces that paint the first screen are preloaded — the gate's
+     line is Cormorant and its button is Fredoka. Preloading all four competes
+     with the hero image for the same early bandwidth, and Inter only sets copy
+     that is already below the fold.
+
+     The hashes below are Google's own content hashes, so they change whenever
+     Google ships a new cut of a face. They are written by tools/p1-fonts.mjs
+     from the files it actually downloaded — edit the scripts, not these lines. -->
+<!-- fonts:start -->
+<link rel="preload" href="./assets/fonts/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./assets/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+<!-- fonts:end -->
 <link rel="preload" href="./assets/img/hero-1315.webp" as="image" fetchpriority="high">
 
 <link rel="stylesheet" href="./assets/css/fonts.css">
@@ -74,9 +84,13 @@
   <span data-mute-label>Sound</span>
 </button>
 
+<!-- Hearts that drift up the page. Purely decorative, filled in by JS, and
+     hidden entirely without it or under reduced motion. -->
+<div class="hearts" aria-hidden="true" data-hearts></div>
+
 <!-- ===================================================== ACT 00 — Threshold -->
 <section class="act act-threshold" id="act-00" aria-labelledby="act-00-title">
-  <h1 id="act-00-title" class="visually-hidden">A letter for <span data-her-name>Rin</span></h1>
+  <h1 id="act-00-title" class="visually-hidden">Happy birthday, <span data-her-name>Rin</span></h1>
 
   <div class="act-threshold__media">
     <img src="./assets/img/hero-1315.webp"
@@ -99,13 +113,22 @@
      axe label-content-name-mismatch. -->
 <div class="veil" data-veil role="button" tabindex="0">
   <div class="veil__inner">
-    <!-- wax seal: the turbulence/displacement filter gives a real poured edge -->
+    <!-- wax seal: the turbulence/displacement filter gives a real poured edge.
+
+         The hexes here are the one deliberate exception to "no raw hex outside
+         tokens.css". A poured seal needs a highlight/mid/shadow ramp — a lit
+         top, a body, a dark rim — and the UI palette has no three-step ramp of
+         one hue. They are derived from the berry family, not invented:
+         #EF8FB4 is the lit top, #C9557F the body, #8C3A61 the rim (this one
+         IS --berry), #7A2E50 the dark ring, #F3D9B1 the champagne stamp (IS
+         --champagne). Act 10 restrikes the same seal at half the detail —
+         change both, or the two seals stop matching. -->
     <svg class="seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
       <defs>
         <radialGradient id="waxBody" cx="36%" cy="30%">
-          <stop offset="0"   stop-color="#5C4632"/>
-          <stop offset="0.6" stop-color="#3A2E25"/>
-          <stop offset="1"   stop-color="#241C16"/>
+          <stop offset="0"   stop-color="#EF8FB4"/>
+          <stop offset="0.58" stop-color="#C9557F"/>
+          <stop offset="1"   stop-color="#8C3A61"/>
         </radialGradient>
         <filter id="waxEdge" x="-15%" y="-15%" width="130%" height="130%">
           <feTurbulence type="fractalNoise" baseFrequency="0.042" numOctaves="4" seed="7" result="n"/>
@@ -114,13 +137,14 @@
         </filter>
       </defs>
       <circle cx="100" cy="100" r="86" fill="url(#waxBody)" filter="url(#waxEdge)"/>
-      <circle cx="100" cy="100" r="63" fill="none" stroke="#1B1512" stroke-width="1.5" opacity="0.55"/>
+      <circle cx="100" cy="100" r="63" fill="none" stroke="#7A2E50" stroke-width="1.5" opacity="0.6"/>
       <circle class="seal__ring" cx="100" cy="100" r="63" fill="none"
-              stroke="#D9BE8C" stroke-width="1.1" opacity="0.5"/>
-      <circle cx="100" cy="100" r="46" fill="none" stroke="#1B1512" stroke-width="1" opacity="0.4"/>
-      <!-- four-point mark, embossed -->
-      <path d="M100 74c2.6 15.4 8.6 21.4 24 24-15.4 2.6-21.4 8.6-24 24-2.6-15.4-8.6-21.4-24-24 15.4-2.6 21.4-8.6 24-24z"
-            fill="#D9BE8C" opacity="0.82"/>
+              stroke="#F3D9B1" stroke-width="1.1" opacity="0.55"/>
+      <circle cx="100" cy="100" r="46" fill="none" stroke="#7A2E50" stroke-width="1" opacity="0.42"/>
+      <path d="M100 76c4.4 8.2 10 12.4 19.6 13.6-8.6 4.2-12.8 9.4-13.6 18.4-3.2-8.4-8.2-13.2-17.6-15.4 8.4-3.4 10.8-8.4 11.6-16.6Z"
+            fill="#F3D9B1" opacity="0.9"/>
+      <path d="M78 122c0-6.4 5-11.4 11.4-11.4 2.6 0 5 .9 6.9 2.4a11.3 11.3 0 0 1 6.9-2.4c6.4 0 11.4 5 11.4 11.4 0 8.4-12.6 15.6-18.3 19.6-5.7-4-18.3-11.2-18.3-19.6Z"
+            fill="#F3D9B1" opacity="0.92"/>
     </svg>
     <p class="veil__note">She asked you to keep a secret.</p>
     <p class="veil__prompt">Tap to open</p>
@@ -138,14 +162,14 @@
                    ./assets/img/hero-1315.webp 1315w,
                    ./assets/img/hero-1920.webp 1920w,
                    ./assets/img/hero-2400.webp 2400w"
-           sizes="(min-width: 60rem) 100vw, 100vw"
+           sizes="100vw"
            width="1315" height="739"
            alt="" aria-hidden="true" loading="lazy" decoding="async">
     </div>
 
     <div class="shell">
       <div class="act-name__panel">
-        <p class="label act-name__eyebrow" data-reveal>
+        <p class="label" data-reveal>
           <span data-her-birthday-long>October 3rd</span>
         </p>
 
@@ -162,46 +186,50 @@
         <p class="act-name__meta" data-reveal>
           <span>From <span data-his-place>Nepal</span></span>
           <span>To <span data-her-place>Thailand</span></span>
-          <span><span data-months>4+</span> months</span>
+          <span><span data-months>16</span> months</span>
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ================================================ ACTS 02-08 — structure
-       Real sections with real headings so the document is honest and
-       navigable. Styled in P3-P5. -->
-  <!-- ==================================================== ACT 02 — The Distance -->
-  <section class="act act-distance shell" id="act-02" aria-labelledby="t02">
-    <div class="act-distance__inner">
-      <p class="label">Act 02 — The Distance</p>
+  <!-- =================================================== ACT 02 — The Distance -->
+  <section class="act act-distance" id="act-02" aria-labelledby="t02">
+    <div class="shell">
+      <div class="act-distance__inner">
+        <p class="label">Act 02</p>
+        <h2 id="t02" data-reveal>The distance</h2>
 
-      <div class="clocks">
-        <div class="clock">
-          <p class="clock__place" data-his-place>Nepal</p>
-          <!-- server-rendered fallback so the no-JS page is never blank -->
-          <p class="clock__time"><span data-clock-his data-clock-static>--:--</span></p>
-          <p class="clock__who"><span data-his-name>Ramesh</span></p>
+        <div class="clocks">
+          <div class="clock">
+            <p class="clock__place" data-his-place>Nepal</p>
+            <!-- server-rendered fallback so the no-JS page is never blank -->
+            <p class="clock__time"><span data-clock-his data-clock-static>--:--</span></p>
+            <p class="clock__who"><span data-his-name>Ramesh</span></p>
+          </div>
+
+          <p class="clock-gap">
+            <span class="clock-gap__rule" aria-hidden="true"></span>
+            <span class="clock-gap__label" data-clock-gap>—</span>
+          </p>
+
+          <div class="clock">
+            <p class="clock__place" data-her-place>Thailand</p>
+            <p class="clock__time"><span data-clock-her>--:--</span></p>
+            <p class="clock__who"><span data-her-name>Rin</span></p>
+          </div>
         </div>
 
-        <p class="clock-gap">
-          <span class="clock-gap__rule" aria-hidden="true"></span>
-          <span class="clock-gap__label" data-clock-gap>—</span>
+        <p class="act-distance__body" data-reveal>
+          We have never been in the same room. Sixteen months, two time zones, one
+          phone held up between us. There are seventy-five minutes
+          between your morning and my night, and I have learned to live inside
+          that gap.
         </p>
 
-        <div class="clock">
-          <p class="clock__place" data-her-place>Thailand</p>
-          <p class="clock__time"><span data-clock-her>--:--</span></p>
-          <p class="clock__who"><span data-her-name>Rin</span></p>
-        </div>
+        <p class="hand" data-reveal>
+          I still check your weather before I check my own.
+        </p>
       </div>
-
-      <p class="act-distance__body" data-reveal>
-        We have never been in the same room. Four months, two time zones, one
-        phone held up between us. There are a hundred and fifteen minutes
-        between your morning and my night, and I have learned to live inside
-        that gap.
-      </p>
     </div>
   </section>
 
@@ -219,7 +247,7 @@
                alt="Ramesh on a video call, laughing" loading="lazy" decoding="async">
         </figure>
         <p class="bs-tag bs-tag--his">
-          <span>Kathmandu</span>
+          <span data-his-city>Kathmandu</span>
           <span data-his-name>Ramesh</span>
         </p>
       </div>
@@ -228,7 +256,7 @@
         <img src="./assets/img/her-laugh.webp" width="462" height="693"
              alt="Rin on the same video call, laughing" loading="lazy" decoding="async">
         <p class="bs-tag bs-tag--her">
-          <span>Bangkok</span>
+          <span data-her-city>Bangkok</span>
           <span data-her-name>Rin</span>
         </p>
       </div>
@@ -242,205 +270,542 @@
     </div>
   </section>
 
-  <!-- ====================================================== ACT 04 — The Moments -->
-  <section class="act shell" id="act-04" aria-labelledby="t04">
-    <h2 id="t04">The Moments</h2>
-    <p class="lede" data-reveal>Not the best ones. The ones that actually happened.</p>
+  <!-- ================================================= ACT 04 — The Little Things -->
+  <section class="act act-little" id="act-04" aria-labelledby="t04">
+    <div class="wash" aria-hidden="true"></div>
+    <div class="shell">
+      <header class="act-head">
+        <p class="label" data-reveal>Act 04</p>
+        <h2 id="t04" data-reveal>The little things</h2>
+        <p class="lede" data-reveal>
+          Not the big romantic ones. The small, stupid, specific ones that I
+          would notice if they stopped.
+        </p>
+      </header>
 
-    <div class="moments" style="margin-top: var(--space-6)">
+      <div class="little-grid">
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="heart" aria-hidden="true"></span></p>
+          <h3>You hum when you cook</h3>
+          <p>You have no idea you are doing it. I have decided this is the best thing I know about anyone.</p>
+        </article>
 
-      <figure class="moment moment--hero" data-reveal>
-        <img src="./assets/img/brass-spoon-640.webp"
-             srcset="./assets/img/brass-spoon-640.webp 640w, ./assets/img/brass-spoon-1200.webp 1200w"
-             sizes="(min-width: 78rem) 1200px, 92vw"
-             width="1200" height="1600" loading="lazy" decoding="async"
-             alt="Rin holding an oversized brass spoon in a gallery of wall-mounted spoons">
-        <figcaption class="moment__cap">The biggest spoon in the entire museum.</figcaption>
-      </figure>
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="sparkle" aria-hidden="true"></span></p>
+          <h3>Your 2am voice</h3>
+          <p>Slower. Softer. A version of you that nobody else gets to hear, and it is mine.</p>
+        </article>
 
-      <div class="moment-pair">
-        <figure class="moment moment--tall" data-reveal>
-          <img src="./assets/img/star-cheek-640.webp"
-               srcset="./assets/img/star-cheek-640.webp 640w, ./assets/img/star-cheek-1200.webp 1200w"
-               sizes="(min-width: 44rem) 52vw, 92vw"
-               width="1600" height="1200" loading="lazy" decoding="async"
-               alt="Close selfie of Rin with two pink star stickers on her cheek">
-          <figcaption class="moment__cap">Two stars, drawn on by an app. Kept anyway.</figcaption>
-        </figure>
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="heart" aria-hidden="true"></span></p>
+          <h3>The ugly selfies</h3>
+          <p>You send them without checking first. That is not a small thing. That is trust.</p>
+        </article>
 
-        <figure class="moment moment--square" data-reveal>
-          <img src="./assets/img/friends-booth-640.webp"
-               srcset="./assets/img/friends-booth-640.webp 640w, ./assets/img/friends-booth-1200.webp 1200w"
-               sizes="(min-width: 44rem) 40vw, 92vw"
-               width="1600" height="1200" loading="lazy" decoding="async"
-               alt="Rin and a friend in plush panda hats at a photo booth">
-          <figcaption class="moment__cap">She committed to the panda hat. I did not.</figcaption>
-        </figure>
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="sparkle" aria-hidden="true"></span></p>
+          <h3>The way you say my name</h3>
+          <p>The first time you did it I had to put the phone down for a second and pretend it was the signal.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="heart" aria-hidden="true"></span></p>
+          <h3>The panda hat</h3>
+          <p>You committed to it completely. I did not. I have regretted that every day since.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="sparkle" aria-hidden="true"></span></p>
+          <h3>Your tea, too sweet</h3>
+          <p>I make mine wrong now, on purpose, because it tastes like you being nearby.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="heart" aria-hidden="true"></span></p>
+          <h3>The glasses you forget</h3>
+          <p>You push them up a nose that is already wearing them. Every single time. I love it every single time.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="sparkle" aria-hidden="true"></span></p>
+          <h3>The Tuesdays</h3>
+          <p>We argue, we go quiet, we come back, we are better. Tuesdays belong to us now.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="heart" aria-hidden="true"></span></p>
+          <h3>The folder of voice notes</h3>
+          <p>I am not going to tell you how many. I am only going to tell you that it exists.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="sparkle" aria-hidden="true"></span></p>
+          <h3>The four minutes</h3>
+          <p>A thousand spoons in that museum. You found the biggest one in four minutes. Of course you did.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="heart" aria-hidden="true"></span></p>
+          <h3>Two stars on your cheek</h3>
+          <p>Drawn on by an app, and you still asked me if you looked okay. You looked ridiculous. You looked perfect.</p>
+        </article>
+
+        <article class="little" data-reveal>
+          <p class="little__badge"><span class="sparkle" aria-hidden="true"></span></p>
+          <h3>You never hang up first</h3>
+          <p>You always wait for me to say it. So I have learned to say it slowly.</p>
+        </article>
       </div>
+    </div>
+  </section>
 
-      <figure class="moment moment--bleed" data-reveal>
-        <img src="./assets/img/moments-eye.webp"
-             width="1600" height="900" loading="lazy" decoding="async"
-             alt="Close-up of Rin's eye with glitter makeup along the brow">
-      </figure>
+  <!-- ======================================================== ACT 05 — The Moments -->
+  <section class="act act-moments" id="act-05" aria-labelledby="t05">
+    <div class="shell">
+      <header class="act-head">
+        <p class="label" data-reveal>Act 05</p>
+        <h2 id="t05" data-reveal>The moments</h2>
+        <p class="lede" data-reveal>Not the best ones. The ones that actually happened.</p>
+      </header>
 
-      <div class="moment-pair">
-        <figure class="moment moment--wide" data-reveal>
-          <img src="./assets/img/duo-game-640.webp"
-               srcset="./assets/img/duo-game-640.webp 640w, ./assets/img/duo-game-1200.webp 1200w"
-               sizes="(min-width: 44rem) 52vw, 92vw"
-               width="1600" height="739" loading="lazy" decoding="async"
-               alt="Two game avatars standing side by side in a Free Fire lobby">
-          <figcaption class="moment__cap">Same lobby. Two different countries.</figcaption>
-        </figure>
+      <div class="moments">
 
-        <figure class="moment moment--tall" data-reveal>
-          <img src="./assets/img/office-candid-640.webp"
-               srcset="./assets/img/office-candid-640.webp 640w, ./assets/img/office-candid-1200.webp 1200w"
-               sizes="(min-width: 44rem) 40vw, 92vw"
+        <figure class="moment moment--print moment--hero" data-reveal>
+          <img src="./assets/img/brass-spoon-640.webp"
+               srcset="./assets/img/brass-spoon-640.webp 640w, ./assets/img/brass-spoon-1200.webp 1200w"
+               sizes="(min-width: 78rem) 1200px, 92vw"
                width="1200" height="1600" loading="lazy" decoding="async"
-               alt="Rin at a desk in an office, glasses on, caught mid-moment">
-          <figcaption class="moment__cap">Caught mid-nothing. My favourite kind.</figcaption>
+               alt="Rin holding an oversized brass spoon in a gallery of wall-mounted spoons">
+          <figcaption class="moment__cap">The biggest spoon in the entire museum.</figcaption>
         </figure>
-      </div>
 
+        <div class="moment-pair">
+          <figure class="moment moment--print moment--tall" data-reveal>
+            <img src="./assets/img/star-cheek-640.webp"
+                 srcset="./assets/img/star-cheek-640.webp 640w, ./assets/img/star-cheek-1200.webp 1200w"
+                 sizes="(min-width: 44rem) 52vw, 92vw"
+                 width="1600" height="1200" loading="lazy" decoding="async"
+                 alt="Close selfie of Rin with two pink star stickers on her cheek">
+            <figcaption class="moment__cap">Two stars, drawn on by an app. Kept anyway.</figcaption>
+          </figure>
+
+          <figure class="moment moment--print moment--square" data-reveal>
+            <img src="./assets/img/friends-booth-640.webp"
+                 srcset="./assets/img/friends-booth-640.webp 640w, ./assets/img/friends-booth-1200.webp 1200w"
+                 sizes="(min-width: 44rem) 40vw, 92vw"
+                 width="1600" height="1200" loading="lazy" decoding="async"
+                 alt="Rin and a friend in plush panda hats at a photo booth">
+            <figcaption class="moment__cap">She committed to the panda hat. I did not.</figcaption>
+          </figure>
+        </div>
+
+        <figure class="moment moment--bleed" data-reveal>
+          <img src="./assets/img/moments-eye.webp"
+               width="1600" height="900" loading="lazy" decoding="async"
+               alt="Close-up of Rin's eye with glitter makeup along the brow">
+          <figcaption class="moment__cap">The glitter took longer than the whole rest of the day. Worth it.</figcaption>
+        </figure>
+
+        <div class="moment-pair">
+          <figure class="moment moment--print moment--wide" data-reveal>
+            <img src="./assets/img/duo-game-640.webp"
+                 srcset="./assets/img/duo-game-640.webp 640w, ./assets/img/duo-game-1200.webp 1200w"
+                 sizes="(min-width: 44rem) 52vw, 92vw"
+                 width="1600" height="739" loading="lazy" decoding="async"
+                 alt="Two game avatars standing side by side in a Free Fire lobby">
+            <figcaption class="moment__cap">Same lobby. Two different countries.</figcaption>
+          </figure>
+
+          <figure class="moment moment--print moment--tall" data-reveal>
+            <img src="./assets/img/office-candid-640.webp"
+                 srcset="./assets/img/office-candid-640.webp 640w, ./assets/img/office-candid-1200.webp 1200w"
+                 sizes="(min-width: 44rem) 40vw, 92vw"
+                 width="1200" height="1600" loading="lazy" decoding="async"
+                 alt="Rin at a desk in an office, glasses on, caught mid-moment">
+            <figcaption class="moment__cap">Caught mid-nothing. My favourite kind.</figcaption>
+          </figure>
+        </div>
+
+      </div>
     </div>
   </section>
 
-  <!-- ========================================================= ACT 05 — Her Voice -->
-  <section class="act act-voice act--dark shell" id="act-05" aria-labelledby="t05">
-    <p class="label">Act 05</p>
-    <h2 id="t05">Her Voice</h2>
-    <p class="lede" data-reveal style="color: rgba(247,243,236,.8)">
-      Twenty-nine seconds of her, and then she says something I was not ready for.
-    </p>
+  <!-- =================================================== ACT 06 — Us in Numbers -->
+  <section class="act act-numbers" id="act-06" aria-labelledby="t06">
+    <div class="shell">
+      <header class="act-head">
+        <p class="label" data-reveal>Act 06</p>
+        <h2 id="t06" data-reveal>Us in numbers</h2>
+        <p class="lede" data-reveal>Some of these are romantic. Some of them are just true, which is better.</p>
+      </header>
 
-    <div class="voice__frame" data-reveal>
-      <video controls playsinline preload="none"
-             poster="./assets/video/message-main.webp"
-             width="720" height="452">
-        <source src="./assets/video/message-main.mp4" type="video/mp4">
-        <!-- A transcript is required for accessibility and is NOT shipped yet.
-             Placeholder only — replace with the real words she says. -->
-        <track kind="captions" src="./assets/video/captions.vtt"
-               srclang="en" label="English" default>
-        Your browser cannot play this video.
-      </video>
-    </div>
-
-    <p class="voice__note" data-reveal>
-      I have watched this more times than I will ever admit.
-    </p>
-
-    <!-- The other seven clips: 2.7 MB that must not sit in the initial payload.
-         Each is fetched only when tapped. -->
-    <div class="clips" data-reveal>
-      <div class="clips__head">
-        <p class="label" style="color: var(--brass-light)">And the rest of them</p>
-      </div>
-      <div class="clips__grid" data-clips>
-        <!-- populated from config.js so the clip list lives in one place -->
+      <div class="stat-row">
+        <div class="stat" data-reveal>
+          <!-- 75, not 115: Nepal is UTC+5:45 and Thailand is UTC+7, so the gap
+               is 1h15m. clocks.js derives the same figure from the IANA zones
+               and prints it live in Act 02 — the two must agree, so if either
+               country ever changes its offset, this number (and the two in Act
+               02 and Act 08) has to move with it. -->
+          <p class="stat__value">75</p>
+          <p class="stat__unit">minutes</p>
+          <p class="stat__label">between your morning and my night</p>
+        </div>
+        <div class="stat" data-reveal>
+          <p class="stat__value"><span data-months>16</span></p>
+          <p class="stat__unit">months</p>
+          <p class="stat__label">of you, and I have stopped counting like a beginner</p>
+        </div>
+        <div class="stat" data-reveal>
+          <p class="stat__value">2</p>
+          <p class="stat__unit">countries</p>
+          <p class="stat__label">one call, held up between us</p>
+        </div>
+        <div class="stat" data-reveal>
+          <p class="stat__value">~2,210</p>
+          <p class="stat__unit">kilometres</p>
+          <p class="stat__label">Kathmandu to Bangkok. I checked. Twice.</p>
+        </div>
+        <div class="stat" data-reveal>
+          <p class="stat__value">1</p>
+          <p class="stat__unit">of you</p>
+          <p class="stat__label">which is the entire problem</p>
+        </div>
+        <div class="stat" data-reveal>
+          <p class="stat__value">∞</p>
+          <p class="stat__unit">and counting</p>
+          <p class="stat__label">times I have replayed that video. I am not giving you the real number.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ========================================================= ACT 06 — The Letter
+  <!-- ========================================================= ACT 07 — Her Voice -->
+  <section class="act act-voice act--dark" id="act-07" aria-labelledby="t07">
+    <div class="shell">
+      <header class="act-head">
+        <p class="label">Act 07</p>
+        <h2 id="t07" data-reveal>Her voice</h2>
+        <p class="lede" data-reveal>Twenty-nine seconds of her, and then she says something I was not ready for.</p>
+      </header>
+
+      <div class="voice__frame" data-reveal>
+        <video controls playsinline preload="none"
+               poster="./assets/video/message-main.webp"
+               width="720" height="452">
+          <source src="./assets/video/message-main.mp4" type="video/mp4">
+          <!-- A transcript is required for accessibility and is NOT shipped yet.
+               Placeholder only — replace with the real words she says. -->
+          <track kind="captions" src="./assets/video/captions.vtt"
+                 srclang="en" label="English" default>
+          Your browser cannot play this video.
+        </video>
+      </div>
+
+      <p class="voice__note" data-reveal>
+        I have watched this more times than I will ever admit.
+      </p>
+
+      <!-- The other seven clips: 2.7 MB that must not sit in the initial payload.
+           Each is fetched only when tapped. -->
+      <div class="clips" data-reveal>
+        <div class="clips__head">
+          <p class="label">And the rest of them</p>
+        </div>
+        <div class="clips__grid" data-clips>
+          <!-- populated from config.js so the clip list lives in one place -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== ACT 08 — Love Notes
+       THE CENTREPIECE.
+
+       Every note lives in the <ul> below, in the HTML, in order. With
+       JavaScript off that list is simply a long readable wall of notes. With
+       JavaScript on, notes.js folds the wall away and turns the same <li>
+       text into a deck she can deal from. The notes are never invented by
+       script and never exist only in script — same inversion as the seal. -->
+  <section class="act act-notes" id="act-08" aria-labelledby="t08">
+    <div class="shell">
+      <header class="act-head act-head--center">
+        <p class="label" data-reveal>Act 08</p>
+        <h2 id="t08" data-reveal>Forty love notes</h2>
+        <p class="lede" data-reveal>
+          Things I have thought and not said out loud. Tap the heart for one.
+        </p>
+      </header>
+
+      <div class="notes" data-notes>
+        <div class="notes__deck">
+          <div class="note-card" data-note-card aria-live="polite">
+            <p class="note-card__text" data-note-text></p>
+            <p class="note-card__from">a note from <span data-his-name>Ramesh</span></p>
+          </div>
+
+          <div class="notes__controls">
+            <button class="btn-heart" type="button" data-note-next>
+              <span class="heart" aria-hidden="true"></span>
+              <span>Another one</span>
+            </button>
+            <p class="notes__count" data-note-count></p>
+          </div>
+        </div>
+
+        <ul class="notes__all">
+          <li>I checked the time in Bangkok before I checked my own. I do that every morning now.</li>
+          <li>You said goodnight and I said goodnight and then we both stayed on the call for another hour.</li>
+          <li>The 75 minutes between us is my least favourite number, and I know it down to the minute.</li>
+          <li>You hum when you cook. I have decided this is the best thing I know about anyone.</li>
+          <li>I lost that game on purpose. I will deny this forever.</li>
+          <li>Your tea is too sweet. I make mine wrong now, the way you like it.</li>
+          <li>Two stars on your cheek and you still asked if you looked okay.</li>
+          <li>I have a folder of your voice notes. I am not telling you how many.</li>
+          <li>You laugh with your whole face. It is genuinely unfair to the rest of us.</li>
+          <li>We fought on a Tuesday. We made up on a Tuesday. Tuesdays are ours now.</li>
+          <li>You wear glasses at your desk and forget you are wearing them. Every time. I love it every time.</li>
+          <li>The museum had a thousand spoons. You found the biggest one in four minutes.</li>
+          <li>I do not need you to be perfect. I need you to send me the ugly selfie too.</li>
+          <li>You fell asleep on call and I did not hang up. I just listened to you breathe for a while.</li>
+          <li>I know what your voice sounds like at 2am. Not everyone gets to know that about someone.</li>
+          <li>Some days the distance is a fact. Some days it is an insult. You are worth both.</li>
+          <li>You say nothing when something is wrong, and I am learning to hear the difference.</li>
+          <li>Panda hat. You committed completely. I respect it more than I can explain.</li>
+          <li>I save the boring updates for you, because you are the only person who wants them.</li>
+          <li>When you go quiet I do not panic any more. I just wait, because you always come back.</li>
+          <li>The first time you said my name I had to put the phone down for a second.</li>
+          <li>You are the only person I want to tell things to first.</li>
+          <li>I would rather have a hard conversation with you than an easy one with anyone else.</li>
+          <li>Your morning is my night, and I have rearranged my whole life around that.</li>
+          <li>You send me photos of food I will never eat and I love every single one.</li>
+          <li>I like you most at the exact moment you stop performing. That version is mine.</li>
+          <li>You are the reason my phone is never on silent.</li>
+          <li>Every plan I make now has a version with you in it. That happened without me deciding.</li>
+          <li>I do not know what you look like when you first wake up. I think about that more than I should.</li>
+          <li>You said my name wrong once and I did not correct you, because I liked how you said it.</li>
+          <li>I am not scared of the distance. I am scared of wasting a single day of it.</li>
+          <li>You are the person I want to be boring with. That is the whole thing.</li>
+          <li>There is a version of my future where you are in the next room. I have seen it.</li>
+          <li>You make me want to be someone who deserves you. That is not a small thing.</li>
+          <li>I re-read your messages. Not the big ones. The boring ones about your day.</li>
+          <li>If loving you is the only thing I do well this year, that is a good year.</li>
+          <li>You are my favourite notification and my worst distraction.</li>
+          <li>I do not want a perfect life. I want a Tuesday with you in it.</li>
+          <li>You are the first person I have wanted to keep. Not hold. Keep.</li>
+          <li>Sixteen months in and I am still nervous before you pick up. I hope that never stops.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= ACT 09 — Reasons -->
+  <section class="act act-reasons" id="act-09" aria-labelledby="t09">
+    <div class="shell">
+      <header class="act-head">
+        <p class="label" data-reveal>Act 09</p>
+        <h2 id="t09" data-reveal>Why you, specifically</h2>
+      </header>
+
+      <ul class="reasons">
+        <li data-reveal>You laugh before the joke lands.</li>
+        <li data-reveal>You never let me win, even when I ask nicely.</li>
+        <li data-reveal>You say one more game and mean four.</li>
+        <li data-reveal>You tell me the truth even when it is boring.</li>
+        <li data-reveal>You get genuinely excited about my small news.</li>
+        <li data-reveal>You apologise properly. So do I, now.</li>
+        <li data-reveal>You made me like my own name again.</li>
+        <li data-reveal>You send voice notes instead of paragraphs.</li>
+        <li data-reveal>You are the only person I text in full sentences.</li>
+        <li data-reveal>You remember things I mentioned exactly once.</li>
+        <li data-reveal>You look after people without announcing it.</li>
+        <li data-reveal>You let me be soft. I did not use to be.</li>
+        <li data-reveal>You are curious about absolutely everything.</li>
+        <li data-reveal>You are kind to people who can do nothing for you.</li>
+        <li data-reveal>You are brave about things you find boring.</li>
+        <li data-reveal>You never make me guess where I stand.</li>
+        <li data-reveal>You forgive fast and you mean it.</li>
+        <li data-reveal>You make ordinary days worth reporting.</li>
+        <li data-reveal>You are the only plan I never cancel.</li>
+        <li data-reveal>You make me want to be on time.</li>
+        <li data-reveal>You listen with your whole face.</li>
+        <li data-reveal>You are proud of me out loud.</li>
+        <li data-reveal>You never once made me feel like too much.</li>
+        <li data-reveal>You are home, and we have not even met yet.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========================================================= ACT 10 — The Letter
 
        DRAFT COPY. Ramesh must replace this with his own words — it is the
        emotional core of the site and a letter written by someone else is worse
        than no letter. The structure, measure and reveal are final; only the
        sentences need to become his. -->
-  <section class="act act-letter shell" id="act-06" aria-labelledby="t06">
-    <p class="label">Act 06</p>
-    <h2 id="t06" class="visually-hidden">The Letter</h2>
+  <section class="act act-letter" id="act-10" aria-labelledby="t10">
+    <div class="shell">
+      <header class="act-head">
+        <p class="label" data-reveal>Act 10</p>
+        <h2 id="t10" data-reveal>The letter</h2>
+      </header>
 
-    <div class="letter">
-      <div class="letter__body" data-letter>
-        <p data-reveal>I keep starting this and stopping, which is a thing I do
-          instead of saying something properly, so I am going to say it properly
-          this once.</p>
+      <div class="letter">
+        <div class="letter__body" data-letter>
+          <p data-reveal>I keep starting this and stopping, which is a thing I do
+            instead of saying something properly, so I am going to say it properly
+            this once.</p>
 
-        <p data-reveal>Four months. I know it is not very long. I know you have
-          heard me say it is not very long. But I have learned your whole
-          vocabulary in four months — the way you hum when you are cooking, the
-          particular silence you get when you are tired and do not want to
-          explain why.</p>
+          <p data-reveal>A year and four months. I know it is not a lifetime. I
+            know you have heard me say that before. But I have learned your whole
+            vocabulary in that time — the way you hum when you are cooking, the
+            particular silence you get when you are tired and do not want to
+            explain why.</p>
 
-        <p data-reveal>We have never been in the same room. That is still the
-          part I cannot get used to. I know what your voice sounds like at 2am
-          and I know you take your tea too sweet, and I know neither of those
-          things by having been there.</p>
+          <p data-reveal>We have never been in the same room. That is still the
+            part I cannot get used to. I know what your voice sounds like at 2am
+            and I know you take your tea too sweet, and I know neither of those
+            things by having been there.</p>
 
-        <p data-reveal>So this is me trying to be there in the only way I can
-          manage from here. Carefully. With attention. I would rather send you
-          something small and true than something large and rehearsed.</p>
+          <p data-reveal>So this is me trying to be there in the only way I can
+            manage from here. Carefully. With attention. I would rather send you
+            something small and true than something large and rehearsed.</p>
 
-        <p data-reveal>We argue. I think about that more than I should. I have
-          decided it is not a warning sign — it is just what it sounds like when
-          two people who matter too much to be polite are in the same story. Every
-          one of those fights made us harder to break and every one of the
-          makeups made me certain of you.</p>
+          <p data-reveal>We argue. I think about that more than I should. I have
+            decided it is not a warning sign — it is just what it sounds like when
+            two people who matter too much to be polite are in the same story. Every
+            one of those fights made us harder to break and every one of the
+            makeups made me certain of you.</p>
 
-        <p data-reveal>Happy birthday, Rin. Not the version of you everyone else
-          gets on their birthday. The version that puts a finger to her lips and
-          asks me to keep a secret, and then does not let me.</p>
+          <p data-reveal>Happy birthday, Rin. Not the version of you everyone else
+            gets on their birthday. The version that puts a finger to her lips and
+            asks me to keep a secret, and then does not let me.</p>
 
-        <p data-reveal>I am not going to promise you a date. I will just keep
-          turning up on this screen until the turning up stops being enough and
-          becomes a Tuesday, in person, with the tea exactly as sweet as you
-          like it.</p>
-      </div>
+          <p data-reveal>I am not going to promise you a date. I will just keep
+            turning up on this screen until the turning up stops being enough and
+            becomes a Tuesday, in person, with the tea exactly as sweet as you
+            like it.</p>
+        </div>
 
-      <div class="letter__sign" data-reveal>
-        <p class="letter__sign-name" data-his-name>Ramesh</p>
-        <p class="letter__sign-from">From <span data-his-place>Nepal</span> · <span data-her-birthday>3rd October</span></p>
+        <div class="letter__sign" data-reveal>
+          <p class="letter__sign-name" data-his-name>Ramesh</p>
+          <p class="letter__sign-from">From <span data-his-place>Nepal</span> · <span data-her-birthday>3rd October</span></p>
+        </div>
+
+        <!-- the gate's seal, restruck in pink, closing the letter -->
+        <svg class="letter__seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="waxBodySm" cx="36%" cy="30%">
+              <stop offset="0"   stop-color="#EF8FB4"/>
+              <stop offset="0.58" stop-color="#C9557F"/>
+              <stop offset="1"   stop-color="#8C3A61"/>
+            </radialGradient>
+            <filter id="waxEdgeSm" x="-15%" y="-15%" width="130%" height="130%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.042" numOctaves="4" seed="11" result="n"/>
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="10"
+                                 xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="86" fill="url(#waxBodySm)" filter="url(#waxEdgeSm)"/>
+          <circle cx="100" cy="100" r="63" fill="none" stroke="#F3D9B1" stroke-width="1.4" opacity="0.55"/>
+          <path d="M100 62c6.4 11.8 14.4 17.8 28 19.6-12.4 6-18.4 13.4-19.6 26.4-4.6-12-11.8-19-25.2-22.2 12-4.8 15.4-12 16.8-23.8Z"
+                fill="#F3D9B1" opacity="0.9"/>
+        </svg>
       </div>
     </div>
   </section>
 
-  <!-- ====================================================== ACT 07 — The Keepsake -->
-  <section class="act act-keepsake shell" id="act-07" aria-labelledby="t07">
-    <p class="label">Act 07</p>
-    <h2 id="t07">Something to keep</h2>
+  <!-- ======================================================== ACT 11 — Promises -->
+  <section class="act act-promises" id="act-11" aria-labelledby="t11">
+    <div class="shell">
+      <header class="act-head">
+        <p class="label" data-reveal>Act 11</p>
+        <h2 id="t11" data-reveal>Things I will actually do</h2>
+        <p class="lede" data-reveal>
+          Not the big sweeping ones. The ones I can keep on a normal Wednesday.
+        </p>
+      </header>
 
-    <div class="keepsake">
-      <p class="lede" data-reveal style="text-align:center">
-        Long-press it, or save it. It is yours, not mine.
-      </p>
-
-      <!-- Drawn by keepsake.js at 2x for retina. Sized by CSS, so the element
-           exists and reserves its box before any script runs. -->
-      <canvas class="keepsake__card" data-keepsake
-              width="1200" height="1600" role="img"
-              aria-label="A keepsake card with Rin's name and the date, 3rd October">
-      </canvas>
-
-      <div class="keepsake__actions" data-reveal>
-        <button class="btn btn--solid" type="button" data-keep-save>Save it</button>
-        <button class="btn" type="button" data-keep-redraw>Draw it again</button>
+      <div class="promises">
+        <article class="promise" data-reveal>
+          <span class="promise__seal heart" aria-hidden="true"></span>
+          <p>I will tell you when I am upset, instead of going quiet and hoping you work it out.</p>
+        </article>
+        <article class="promise" data-reveal>
+          <span class="promise__seal sparkle" aria-hidden="true"></span>
+          <p>I will learn the difference between your tired silence and your hurt one.</p>
+        </article>
+        <article class="promise" data-reveal>
+          <span class="promise__seal heart" aria-hidden="true"></span>
+          <p>I will never make you ask twice for the truth.</p>
+        </article>
+        <article class="promise" data-reveal>
+          <span class="promise__seal sparkle" aria-hidden="true"></span>
+          <p>I will be there for the small days, not only the big ones worth photographing.</p>
+        </article>
+        <article class="promise" data-reveal>
+          <span class="promise__seal heart" aria-hidden="true"></span>
+          <p>I will keep turning up on this screen for as long as it takes to stop needing it.</p>
+        </article>
+        <article class="promise" data-reveal>
+          <span class="promise__seal sparkle" aria-hidden="true"></span>
+          <p>I will be boring with you for as long as you will let me. That is the whole promise.</p>
+        </article>
       </div>
-
-      <p class="keepsake__note" data-reveal>
-        Made for you, on a computer in another country.
-      </p>
     </div>
   </section>
 
-  <!-- ========================================================= ACT 08 — The Close -->
-  <section class="act act-close act--dark" id="act-08" aria-labelledby="t08">
-    <h2 id="t08" class="visually-hidden">The Close</h2>
+  <!-- ======================================================== ACT 12 — The Keepsake -->
+  <section class="act act-keepsake" id="act-12" aria-labelledby="t12">
+    <div class="shell">
+      <header class="act-head">
+        <p class="label" data-reveal>Act 12</p>
+        <h2 id="t12" data-reveal>Take this with you</h2>
+      </header>
+
+      <div class="keepsake">
+        <p class="lede" data-reveal>
+          Long-press it, or save it. It is yours, not mine.
+        </p>
+
+        <!-- Drawn by keepsake.js at 2x for retina. Sized by CSS, so the element
+             exists and reserves its box before any script runs. -->
+        <canvas class="keepsake__card" data-keepsake
+                width="1200" height="1600" role="img"
+                aria-label="A keepsake card with Rin's name and the date, 3rd October">
+        </canvas>
+
+        <div class="keepsake__actions" data-reveal>
+          <button class="btn btn--solid" type="button" data-keep-save>Save it</button>
+          <button class="btn" type="button" data-keep-redraw>Draw it again</button>
+        </div>
+
+        <p class="keepsake__note" data-reveal>
+          Made for you, on a computer in another country.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ ACT 13 — The Close -->
+  <section class="act act-close act--dark" id="act-13" aria-labelledby="t13">
+    <h2 id="t13" class="visually-hidden">Happy birthday</h2>
     <span class="act-close__rule" aria-hidden="true"></span>
 
-    <p class="label" style="color: var(--brass-light)">3rd October</p>
+    <p class="label">3rd October</p>
+
+    <p class="quote">Happy birthday, my love</p>
 
     <p class="act-close__name" data-her-name>Rin</p>
 
     <p class="act-close__line" data-reveal>
-      Two time zones, one call, and a whole year of this.
+      Two time zones, one call, and sixteen months of this.
+    </p>
+
+    <p class="hand" data-reveal>
+      Now go and eat something sweet. That is not a suggestion.
     </p>
 
     <div class="keepsake__actions" data-reveal>
-      <button class="btn btn--ghost" type="button" data-again>Read it again</button>
+      <button class="btn" type="button" data-again>Read it again</button>
     </div>
   </section>
 </main>

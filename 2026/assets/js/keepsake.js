@@ -1,5 +1,5 @@
 /**
- * keepsake.js — Act 07. Renders a card to a canvas, in the page, and lets her
+ * keepsake.js — Act 12. Renders a card to a canvas, in the page, and lets her
  * save it.
  *
  * Design decision: the card is DRAWN INTO THE PAGE, not hidden behind a download
@@ -9,22 +9,28 @@
  *
  * The canvas is authored at 1200x1600 (3:4) and CSS-scales it down, so it is
  * retina-sharp on any display and costs one raster rather than a download.
+ *
+ * The palette is duplicated from tokens.css as literals because a canvas
+ * cannot read custom properties. If tokens.css changes, this file changes too —
+ * that duplication is the price of drawing to a bitmap, and it is paid in
+ * exactly one place.
  */
 
 import { CONFIG } from './config.js';
 
-/* Sampled from her photographs — see tokens.css for provenance. Kept literal
-   here because canvas cannot read custom properties. */
-const INK = '#1C1714';
-const PAPER = '#F7F3EC';
-const BRASS = '#B8863B';
-const MUTED = '#6B5D4E';
+const MILK  = '#FFF7F9';
+const BLUSH = '#FFE9F0';
+const PETAL = '#FFD6E3';
+const ROSE  = '#F7A8C4';
+const ROSED = '#E0729B';
+const BERRY = '#8C3A61';
+const PLUM  = '#4A2038';
 
 const W = 1200;
 const H = 1600;
 
 /** The one line pulled from the letter. Keep it short enough for the measure. */
-const KEEPSAKE_LINE = 'Two time zones, one call, and a whole year of this.';
+const KEEPSAKE_LINE = 'Two time zones, one call, and sixteen months of this.';
 
 export function initKeepsake() {
   const canvas = document.querySelector('[data-keepsake]');
@@ -34,24 +40,37 @@ export function initKeepsake() {
 
   const draw = () => {
     /* --- paper ------------------------------------------------------- */
-    ctx.fillStyle = PAPER;
+    ctx.fillStyle = MILK;
     ctx.fillRect(0, 0, W, H);
 
-    /* a whisper of warmth in the top-left, like light falling across a card */
-    const glow = ctx.createRadialGradient(W * 0.18, H * 0.12, 0, W * 0.18, H * 0.12, W * 0.9);
-    glow.addColorStop(0, 'rgba(184,134,59,0.07)');
-    glow.addColorStop(1, 'rgba(184,134,59,0)');
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, 0, W, H);
+    /* A soft blush bloom in the upper left, like light coming in across the
+       card, and a second in the lower right so the two corners agree. */
+    const bloom = (x, y, r, colour) => {
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, colour);
+      g.addColorStop(1, 'rgba(255,247,249,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    };
+    bloom(W * 0.16, H * 0.1, W * 0.95, 'rgba(247,168,196,0.32)');
+    bloom(W * 0.92, H * 0.94, W * 0.8, 'rgba(243,217,177,0.28)');
+
+    /* --- the rose band along the top edge, echoing the note cards ----- */
+    const band = ctx.createLinearGradient(0, 0, W, 0);
+    band.addColorStop(0, ROSE);
+    band.addColorStop(0.5, ROSED);
+    band.addColorStop(1, ROSE);
+    ctx.fillStyle = band;
+    ctx.fillRect(0, 0, W, 12);
 
     /* --- double rule border ------------------------------------------ */
-    ctx.strokeStyle = BRASS;
-    ctx.globalAlpha = 0.55;
+    ctx.strokeStyle = ROSED;
+    ctx.globalAlpha = 0.5;
     ctx.lineWidth = 2;
-    ctx.strokeRect(64, 64, W - 128, H - 128);
-    ctx.globalAlpha = 0.28;
+    ctx.strokeRect(66, 66, W - 132, H - 132);
+    ctx.globalAlpha = 0.26;
     ctx.lineWidth = 1;
-    ctx.strokeRect(80, 80, W - 160, H - 160);
+    ctx.strokeRect(82, 82, W - 164, H - 164);
     ctx.globalAlpha = 1;
 
     const cx = W / 2;
@@ -62,61 +81,73 @@ export function initKeepsake() {
        keep roughly even gaps: border->date 188, line->seal 306, seal->footer
        230, footer->border 160. */
     const Y_DATE = 268;
-    const Y_NAME = 600;
-    const Y_RULE = 692;
-    const Y_LINE = 824;
-    const Y_SEAL = 1130;
+    const Y_NAME = 588;
+    const Y_RULE = 676;
+    const Y_LINE = 800;
+    const Y_SEAL = 1128;
     const Y_FROM = 1360;
 
-    /* --- date, small caps -------------------------------------------- */
-    ctx.fillStyle = BRASS;
-    ctx.font = '500 26px Inter, sans-serif';
-    const date = CONFIG.herBirthday.toUpperCase();
-    // manual tracking: canvas has no letter-spacing in older engines
-    drawTracked(ctx, date, cx, Y_DATE, 9);
+    /* --- date -------------------------------------------------------- */
+    ctx.fillStyle = BERRY;
+    ctx.font = '500 26px Fredoka, "Trebuchet MS", system-ui, sans-serif';
+    // Tracked caps, which is the one place the page allows them: this is a
+    // printed object, and a stamped date is what print does. On the page
+    // itself the eyebrow is a numbered chip instead.
+    drawTracked(ctx, CONFIG.herBirthday.toUpperCase(), cx, Y_DATE, 10);
 
     /* --- her name ---------------------------------------------------- */
-    ctx.fillStyle = INK;
-    ctx.font = '300 190px "Cormorant Garamond", Georgia, serif';
+    ctx.fillStyle = PLUM;
+    // Same fallback stack as --font-display in tokens.css. Without it the card
+    // silently renders in Georgia, which is a different design.
+    ctx.font = '500 186px Fredoka, "Trebuchet MS", system-ui, sans-serif';
     ctx.textBaseline = 'alphabetic';
     ctx.fillText(CONFIG.herName, cx, Y_NAME);
 
-    /* --- rule -------------------------------------------------------- */
-    ctx.strokeStyle = BRASS;
-    ctx.globalAlpha = 0.6;
-    ctx.lineWidth = 1.5;
+    /* --- rule, with a heart sitting on it ---------------------------- */
+    ctx.strokeStyle = ROSE;
+    ctx.globalAlpha = 0.85;
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(cx - 70, Y_RULE);
-    ctx.lineTo(cx + 70, Y_RULE);
+    ctx.moveTo(cx - 150, Y_RULE);
+    ctx.lineTo(cx - 24, Y_RULE);
+    ctx.moveTo(cx + 24, Y_RULE);
+    ctx.lineTo(cx + 150, Y_RULE);
     ctx.stroke();
     ctx.globalAlpha = 1;
+    ctx.fillStyle = ROSED;
+    heartPath(ctx, cx, Y_RULE - 13, 44, 40);
+    ctx.fill();
 
     /* --- the line from the letter ------------------------------------ */
-    ctx.fillStyle = MUTED;
-    ctx.font = 'italic 300 46px "Cormorant Garamond", Georgia, serif';
-    wrapText(ctx, KEEPSAKE_LINE, cx, Y_LINE, W - 300, 66);
+    ctx.fillStyle = BERRY;
+    ctx.font = 'italic 400 46px "Cormorant Garamond", Georgia, serif';
+    wrapText(ctx, KEEPSAKE_LINE, cx, Y_LINE, W - 300, 64);
 
-    /* --- the small mark, echoing the wax seal ----------------------- */
+    /* --- the seal, the same object that closed the gate -------------- */
     ctx.save();
     ctx.translate(cx, Y_SEAL);
-    ctx.fillStyle = 'rgba(90,63,22,0.9)';
+    const wax = ctx.createRadialGradient(-16, -18, 4, 0, 0, 52);
+    wax.addColorStop(0, ROSE);
+    wax.addColorStop(0.6, ROSED);
+    wax.addColorStop(1, BERRY);
+    ctx.fillStyle = wax;
     ctx.beginPath();
-    ctx.arc(0, 0, 46, 0, Math.PI * 2);
+    ctx.arc(0, 0, 52, 0, Math.PI * 2);
     ctx.fill();
-    ctx.strokeStyle = 'rgba(217,190,140,0.7)';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(243,217,177,0.75)';
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(0, 0, 33, 0, Math.PI * 2);
+    ctx.arc(0, 0, 37, 0, Math.PI * 2);
     ctx.stroke();
-    ctx.fillStyle = '#D9BE8C';
-    fourPointStar(ctx, 0, 0, 15);
+    ctx.fillStyle = '#F3D9B1';
+    heartPath(ctx, 0, -2, 38, 34);
     ctx.fill();
     ctx.restore();
 
     /* --- from -------------------------------------------------------- */
-    ctx.fillStyle = MUTED;
-    ctx.font = '500 24px Inter, sans-serif';
-    drawTracked(ctx, `FROM ${CONFIG.hisName.toUpperCase()} · ${CONFIG.hisPlace.toUpperCase()}`, cx, Y_FROM, 7);
+    ctx.fillStyle = BERRY;
+    ctx.font = '500 24px Fredoka, "Trebuchet MS", system-ui, sans-serif';
+    drawTracked(ctx, `FROM ${CONFIG.hisName.toUpperCase()} · ${CONFIG.hisPlace.toUpperCase()}`, cx, Y_FROM, 8);
   };
 
   const paint = async () => {
@@ -125,9 +156,9 @@ export function initKeepsake() {
     if (document.fonts) {
       try {
         await Promise.all([
-          document.fonts.load('300 190px "Cormorant Garamond"'),
-          document.fonts.load('italic 300 46px "Cormorant Garamond"'),
-          document.fonts.load('500 26px Inter'),
+          document.fonts.load('500 186px "Fredoka"'),
+          document.fonts.load('italic 400 46px "Cormorant Garamond"'),
+          document.fonts.load('500 26px "Fredoka"'),
         ]);
         await document.fonts.ready;
       } catch { /* fall through to whatever is resident */ }
@@ -135,7 +166,18 @@ export function initKeepsake() {
     draw();
   };
 
-  paint();
+  // The canvas is only worth drawing once it is on screen — Act 12 sits near
+  // the end of a fourteen-act page, and the font loads above are not free.
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      paint();
+    }, { rootMargin: '200px' });
+    io.observe(canvas);
+  } else {
+    paint();
+  }
 
   document.querySelector('[data-keep-redraw]')?.addEventListener('click', paint);
 
@@ -195,12 +237,15 @@ function wrapText(ctx, text, cx, y, maxWidth, lineHeight) {
   return y + lines.length * lineHeight;
 }
 
-function fourPointStar(ctx, cx, cy, r) {
+/** A heart, centred on (cx, cy), occupying w x h. */
+function heartPath(ctx, cx, cy, w, h) {
+  const top = cy - h / 2;
+  const lobe = h * 0.3;
   ctx.beginPath();
-  ctx.moveTo(cx, cy - r);
-  ctx.quadraticCurveTo(cx + r * 0.16, cy - r * 0.16, cx + r, cy);
-  ctx.quadraticCurveTo(cx + r * 0.16, cy + r * 0.16, cx, cy + r);
-  ctx.quadraticCurveTo(cx - r * 0.16, cy + r * 0.16, cx - r, cy);
-  ctx.quadraticCurveTo(cx - r * 0.16, cy - r * 0.16, cx, cy - r);
+  ctx.moveTo(cx, top + lobe);
+  ctx.bezierCurveTo(cx, top, cx - w / 2, top, cx - w / 2, top + lobe);
+  ctx.bezierCurveTo(cx - w / 2, top + (h + lobe) / 2, cx, top + (h + lobe) / 2, cx, top + h);
+  ctx.bezierCurveTo(cx, top + (h + lobe) / 2, cx + w / 2, top + (h + lobe) / 2, cx + w / 2, top + lobe);
+  ctx.bezierCurveTo(cx + w / 2, top, cx, top, cx, top + lobe);
   ctx.closePath();
 }

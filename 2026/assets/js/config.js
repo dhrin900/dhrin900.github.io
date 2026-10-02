@@ -21,12 +21,23 @@ export const CONFIG = {
   hisPlace: 'Nepal',
   herPlace: 'Thailand',
 
+  /** The cities, for Act 03, which names the two rooms rather than the two
+      countries. Separate from the above because "Nepal" and "Kathmandu" are
+      different facts and the same page uses both. */
+  hisCity: 'Kathmandu',
+  herCity: 'Bangkok',
+
   /** IANA timezones, used by Act 02 for the dual clock. */
   tzHis: 'Asia/Kathmandu',
   tzHer: 'Asia/Bangkok',
 
-  /** Months together — Act 02 / Act 13 wording depends on this. */
-  monthsTogether: '4+',
+  /** Together, as a bare number — the word "months" is authored next to it in
+      index.html, so this must not carry a unit of its own. Sixteen at the 2026
+      birthday: the 2025 site's "4+" was right for October 2025, and a year has
+      passed since. Act 01's chip row, Act 06's stat and Act 02's copy all read
+      from here — the prose that spells it out in words ("Sixteen months",
+      "a year and four months") is in index.html and has to move with it. */
+  monthsTogether: '16',
 
   /** Feature video for Act 05. */
   featureVideo: 'message-main',
