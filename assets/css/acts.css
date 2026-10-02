@@ -66,6 +66,305 @@
     linear-gradient(0deg, rgba(224, 114, 155, 0.18), rgba(224, 114, 155, 0.18));
 }
 
+/* ------------------------------------------------------------ the greeting
+   The page's only <h1>, and the loudest type on it.
+
+   It is centred, which is the one place on this page that is allowed. Every
+   other act keeps its type in the left third so it never crosses her face —
+   but this is the greeting, and a greeting that is not in the middle is not a
+   greeting. The collision with her face is resolved by height rather than by
+   side: she sits at ~30% down the frame, so the greeting is pinned to the
+   bottom third and passes underneath her.
+
+   The gate hides it until it opens, so the first thing she sees is the seal
+   and the second thing is her own name at 7rem. With JS off there is no gate,
+   so it is simply present and the document opens on the greeting. */
+.threshold-greeting {
+  position: relative;
+  z-index: 4;
+  align-self: end;
+  justify-self: center;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  width: min(100% - 2 * var(--gutter), 44rem);
+  padding-block-end: clamp(3rem, 10vh, 7.5rem);
+  text-align: center;
+  pointer-events: none;
+}
+
+.js .threshold-greeting {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 900ms var(--ease) 260ms, transform 1100ms var(--ease) 260ms;
+}
+.js.is-open .threshold-greeting { opacity: 1; transform: none; }
+
+/* The section scrim is built for a left column of type; it goes light toward the
+   right, which is exactly where a centred headline now sits. So the greeting
+   carries its own ground as well — a soft ellipse that fades to nothing, painted
+   behind the copy but in front of the balloons. Without it the headline's
+   contrast depends on which part of the photograph happens to be under it, and
+   that is not something a stylesheet gets to guess at. */
+.threshold-greeting::before {
+  content: "";
+  position: absolute;
+  inset: -14% -9%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 56%,
+    rgba(46, 18, 35, 0.66) 0%,
+    rgba(46, 18, 35, 0.4) 48%,
+    rgba(46, 18, 35, 0) 78%);
+}
+
+/* The date chip is the same object as .label everywhere else on the page, only
+   inverted for the dark ground — which is what .act--dark .label already does,
+   so it borrows those values rather than inventing a second chip. It keeps the
+   label's 0.02em tracking and sentence case; an all-caps tracked-out eyebrow is
+   the one piece of chrome this page deliberately never grew. */
+.threshold-greeting__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0;
+  padding: 0.4em 0.95em;
+  border-radius: var(--radius-pill);
+  background: rgba(247, 168, 196, 0.16);
+  color: var(--champagne);
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: var(--gloss);
+  backdrop-filter: blur(8px);
+}
+.threshold-greeting__date::before {
+  content: "";
+  width: 0.7em;
+  height: 0.7em;
+  flex: none;
+  background: currentColor;
+  opacity: 0.75;
+  -webkit-mask: var(--heart-mask) center / contain no-repeat;
+  mask: var(--heart-mask) center / contain no-repeat;
+}
+
+.threshold-greeting__title {
+  display: grid;
+  /* Centre each line inside the title rather than letting them stretch, so the
+     gradient on her name spans the word and not the width of the line above it.
+     A stretched span would sample the middle of the ramp and lose the milk
+     highlight entirely. */
+  justify-items: center;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3rem, 1.2rem + 9vw, 8rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  color: var(--milk);
+  /* A photograph is not a flat ground. Without a shadow of its own the type
+     drifts into the bright patch of wall behind her and the word goes soft
+     exactly where it matters most. drop-shadow rather than text-shadow because
+     the name below is background-clipped, and text-shadow shows through a
+     transparent fill. */
+  filter: drop-shadow(0 4px 30px rgba(46, 18, 35, 0.8))
+          drop-shadow(0 1px 2px rgba(46, 18, 35, 0.55));
+}
+
+.threshold-greeting__name {
+  /* The one gradient on this screen, and it is the same ramp Act 01 spends on
+     her name — so the two read as the same person rather than as two different
+     treatments of the same word. */
+  background: linear-gradient(96deg, var(--milk) 4%, var(--petal) 46%, var(--rose) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.threshold-greeting__line {
+  margin: 0;
+  max-width: 34ch;
+  color: rgba(255, 247, 249, 0.88);
+  font-family: var(--font-romance);
+  font-size: clamp(1.05rem, 0.85rem + 0.7vw, 1.5rem);
+  font-style: italic;
+  line-height: 1.42;
+  text-shadow: 0 2px 18px rgba(46, 18, 35, 0.75);
+}
+
+/* ---------------------------------------------------------------- balloons
+   Seven, on a slow rise. They are the one part of the hero that needs nothing
+   from JavaScript: a balloon is a shape, not a behaviour, so it can be drawn
+   and animated entirely in CSS. The veil covers them until the gate opens,
+   which is why they carry no .is-open of their own.
+
+   They rise SLOWLY — 26 to 40 seconds a cycle. Anything faster turns the first
+   screen into a fairground, and this screen is already carrying a photograph
+   and a headline at the same time. */
+.balloons {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.balloons i {
+  position: absolute;
+  bottom: var(--balloon-b, 4vh);
+  width: var(--balloon-w, clamp(38px, 6.4vw, 92px));
+  aspect-ratio: 1 / 1.16;
+  /* the classic balloon: a circle on top, drawn to a soft point at the neck */
+  border-radius: 50% 50% 47% 47% / 58% 58% 42% 42%;
+  background:
+    radial-gradient(circle at 33% 24%, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0) 46%),
+    var(--balloon, var(--rose));
+  box-shadow:
+    inset -8px -12px 26px rgba(140, 58, 97, 0.24),
+    0 12px 30px rgba(46, 18, 35, 0.3);
+  opacity: 0.9;
+  animation: balloon-rise var(--balloon-t, 30s) linear infinite;
+  animation-delay: var(--balloon-d, 0s);
+}
+/* the knot and the string, as one tapered tail */
+.balloons i::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 98%;
+  width: 1px;
+  height: calc(var(--balloon-w, clamp(38px, 6.4vw, 92px)) * 1.7);
+  background: linear-gradient(rgba(255, 247, 249, 0.5), rgba(255, 247, 249, 0));
+  transform: translateX(-50%);
+}
+
+/* Negative delays, so on arrival they are already strung out along the rise
+   instead of all leaving the floor together. */
+.balloons i:nth-child(1) { left: 3%;  --balloon: var(--rose);      --balloon-w: clamp(48px, 7.6vw, 108px); --balloon-t: 38s; --balloon-d: -3s;  --balloon-b: 2vh; }
+.balloons i:nth-child(2) { left: 15%; --balloon: var(--champagne); --balloon-w: clamp(32px, 5.1vw, 72px);  --balloon-t: 30s; --balloon-d: -19s; --balloon-b: 13vh; }
+.balloons i:nth-child(3) { left: 28%; --balloon: var(--petal);     --balloon-w: clamp(40px, 6.2vw, 88px);  --balloon-t: 34s; --balloon-d: -9s;  --balloon-b: 6vh; }
+.balloons i:nth-child(4) { left: 44%; --balloon: var(--rose-deep); --balloon-w: clamp(30px, 4.6vw, 64px);  --balloon-t: 27s; --balloon-d: -24s; --balloon-b: 17vh; }
+.balloons i:nth-child(5) { left: 61%; --balloon: var(--rose);      --balloon-w: clamp(44px, 6.8vw, 96px);  --balloon-t: 40s; --balloon-d: -14s; --balloon-b: 4vh; }
+.balloons i:nth-child(6) { left: 76%; --balloon: var(--champagne); --balloon-w: clamp(34px, 5.4vw, 76px);  --balloon-t: 31s; --balloon-d: -27s; --balloon-b: 15vh; }
+.balloons i:nth-child(7) { left: 89%; --balloon: var(--rose-ink);  --balloon-w: clamp(42px, 6.5vw, 92px);  --balloon-t: 36s; --balloon-d: -6s;  --balloon-b: 8vh; }
+
+@keyframes balloon-rise {
+  0%   { opacity: 0;    transform: translate3d(0, 42vh, 0) rotate(-3.5deg); }
+  9%   { opacity: 0.9; }
+  88%  { opacity: 0.9; }
+  100% { opacity: 0;    transform: translate3d(2.5vw, -128vh, 0) rotate(4deg); }
+}
+
+/* ------------------------------------------------------------- butterflies
+   Released by the gate — this is the "after entering" moment the whole act was
+   built around, so they are gated on .is-open and nothing else.
+
+   Two wings each, hinged at the body: the flap is a scaleX about the hinge, so
+   it reads as a hinge rather than as a sprite being squashed. The body drifts
+   along a long wandering path across the frame.
+
+   Five, and no more. A butterfly that is always in the middle of the screen
+   stops being a butterfly and becomes a loading spinner. */
+.flutter {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  display: none;
+}
+.js.is-open .flutter { display: block; }
+
+.flutter i {
+  position: absolute;
+  top: var(--flutter-y, 0);
+  width: var(--wing-w, clamp(20px, 2.6vw, 34px));
+  height: calc(var(--wing-w, clamp(20px, 2.6vw, 34px)) * 0.86);
+  opacity: 0;
+  animation: flutter-path var(--flutter-t, 24s) linear infinite;
+  animation-delay: var(--flutter-d, 0s);
+}
+.flutter i::before,
+.flutter i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 52%;
+  height: 100%;
+  background: var(--wing, var(--rose));
+  box-shadow: inset 0 0 7px rgba(255, 247, 249, 0.5);
+  animation: wing-flap 300ms ease-in-out infinite alternate;
+}
+.flutter i::before {
+  left: 0;
+  border-radius: 92% 10% 68% 16%;
+  transform-origin: 100% 44%;
+}
+.flutter i::after {
+  right: 0;
+  border-radius: 10% 92% 16% 68%;
+  transform-origin: 0% 44%;
+}
+
+@keyframes wing-flap {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0.28); }
+}
+
+@keyframes flutter-path {
+  0%   { opacity: 0;   transform: translate3d(-16vw, 58vh, 0) rotate(-9deg); }
+  9%   { opacity: 0.95; }
+  26%  {                transform: translate3d(16vw, 38vh, 0) rotate(11deg); }
+  50%  {                transform: translate3d(50vw, 17vh, 0) rotate(-7deg); }
+  74%  {                transform: translate3d(82vw, 33vh, 0) rotate(10deg); }
+  91%  { opacity: 0.95; }
+  100% { opacity: 0;   transform: translate3d(118vw, 6vh, 0) rotate(-5deg); }
+}
+
+.flutter i:nth-child(1) { --wing: var(--rose);      --wing-w: clamp(22px, 2.9vw, 38px); --flutter-t: 26s; --flutter-d: -1s;  --flutter-y: 0; }
+.flutter i:nth-child(2) { --wing: var(--champagne); --wing-w: clamp(18px, 2.3vw, 30px); --flutter-t: 21s; --flutter-d: -8s;  --flutter-y: 9vh; }
+.flutter i:nth-child(3) { --wing: var(--rose-deep); --wing-w: clamp(24px, 3.2vw, 42px); --flutter-t: 30s; --flutter-d: -15s; --flutter-y: 3vh; }
+.flutter i:nth-child(4) { --wing: var(--petal);     --wing-w: clamp(20px, 2.6vw, 34px); --flutter-t: 23s; --flutter-d: -19s; --flutter-y: 13vh; }
+.flutter i:nth-child(5) { --wing: var(--rose-ink);  --wing-w: clamp(16px, 2.1vw, 28px); --flutter-t: 28s; --flutter-d: -11s; --flutter-y: 6vh; }
+
+/* ------------------------------------------------------------------- birds
+   Distant, high and slow — the small mark that says the sky is not empty.
+   They glide rather than flap, because a bird that is far enough away to be
+   this small does not visibly beat its wings, and the stillness is what sells
+   the distance. */
+.birds {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  display: none;
+}
+.js.is-open .birds { display: block; }
+
+.birds i {
+  position: absolute;
+  top: var(--bird-y, 8vh);
+  width: clamp(16px, 2vw, 30px);
+  aspect-ratio: 32 / 14;
+  background: var(--petal);
+  opacity: 0;
+  -webkit-mask: var(--bird-mask) center / contain no-repeat;
+  mask: var(--bird-mask) center / contain no-repeat;
+  animation: bird-cross var(--bird-t, 30s) linear infinite;
+  animation-delay: var(--bird-d, 0s);
+}
+
+@keyframes bird-cross {
+  0%   { opacity: 0;    transform: translate3d(-10vw, 0, 0) scale(0.88); }
+  7%   { opacity: 0.6; }
+  52%  {                transform: translate3d(50vw, -3vh, 0) scale(1); }
+  93%  { opacity: 0.6; }
+  100% { opacity: 0;    transform: translate3d(112vw, -1vh, 0) scale(0.88); }
+}
+
+.birds i:nth-child(1) { --bird-y: 7vh;  --bird-t: 34s; --bird-d: -4s; }
+.birds i:nth-child(2) { --bird-y: 14vh; --bird-t: 27s; --bird-d: -13s; }
+.birds i:nth-child(3) { --bird-y: 4vh;  --bird-t: 40s; --bird-d: -31s; }
+.birds i:nth-child(4) { --bird-y: 19vh; --bird-t: 31s; --bird-d: -22s; }
+
 /* ------------------------------------------------------------------ the seal
    Left-weighted, not centred. Her face sits right of centre in the frame, so a
    centred seal lands squarely across it. Everything in this gate lives in the
@@ -1236,4 +1535,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hearts { display: none; }
+
+  /* The butterflies and the birds ARE the motion — there is no still version of
+     them that means anything, so they go entirely. The balloons stay: a balloon
+     that is not moving is still a balloon, and they are what makes the screen a
+     birthday rather than a portrait. They simply hold position instead. */
+  .flutter,
+  .birds { display: none !important; }
+  .balloons i { animation: none; }
 }

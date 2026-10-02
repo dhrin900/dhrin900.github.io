@@ -88,9 +88,18 @@
      hidden entirely without it or under reduced motion. -->
 <div class="hearts" aria-hidden="true" data-hearts></div>
 
-<!-- ===================================================== ACT 00 — Threshold -->
+<!-- ===================================================== ACT 00 — Threshold
+     The first screen, and the only one that is a room rather than a page. The
+     photograph sits behind the wax seal; opening the seal sharpens it, settles
+     the greeting in, and lets the room go.
+
+     Balloons, butterflies and birds are all drawn in CSS rather than shipped as
+     images — nothing extra to download, and they re-tint from tokens.css along
+     with everything else. The balloons are always present, because a balloon is
+     a shape and not a behaviour; the butterflies and the birds exist only once
+     .is-open is set, so the gate itself stays quiet and the celebration lands
+     after it rather than behind it. -->
 <section class="act act-threshold" id="act-00" aria-labelledby="act-00-title">
-  <h1 id="act-00-title" class="visually-hidden">Happy birthday, <span data-her-name>Rin</span></h1>
 
   <div class="act-threshold__media">
     <img src="./assets/img/hero-1315.webp"
@@ -103,6 +112,34 @@
          width="1315" height="739"
          alt="Rin with a finger to her lips, in a warm-lit room"
          fetchpriority="high" decoding="async">
+  </div>
+
+  <!-- Seven, because an odd number never pairs up and reads as scattered. -->
+  <div class="balloons" aria-hidden="true">
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+  </div>
+
+  <div class="flutter" aria-hidden="true">
+    <i></i><i></i><i></i><i></i><i></i>
+  </div>
+
+  <div class="birds" aria-hidden="true">
+    <i></i><i></i><i></i><i></i>
+  </div>
+
+  <!-- The page's only <h1>, and the loudest type on it. With JS off there is no
+       gate, so it is simply there and the document opens on the greeting. -->
+  <div class="threshold-greeting">
+    <p class="threshold-greeting__date"><span data-her-birthday>3rd October</span></p>
+
+    <h1 id="act-00-title" class="threshold-greeting__title">
+      <span>Happy birthday,</span>
+      <span class="threshold-greeting__name" data-her-name>Rin</span>
+    </h1>
+
+    <p class="threshold-greeting__line">
+      Sixteen months of missing you, and today I get to be loud about it.
+    </p>
   </div>
 </section>
 
