@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# regenerable diagnostic output from tools/*.mjs
+tools/build/
+
+# ---------------------------------------------------------------------------
+# Raw source media — deliberately NOT committed.
+#
+# These are the unedited originals: 14 photographs and 10 videos of a real
+# person, 27 MB at full original resolution, including clips the site does not
+# use (12.19.56.mp4 alone is 11.4 MB).
+#
+# This repo is a GitHub Pages user site, which is public. Committing these
+# would publish the un-cropped, un-rotated, full-quality originals to the open
+# internet — a different thing from the processed, web-sized versions the site
+# actually serves, which live in 2026/assets/.
+#
+# The files remain on disk. To version them, use a private repository, or
+# commit them locally on a branch that is never pushed:
+#   git add -f "pictures and video"
+# ---------------------------------------------------------------------------
+pictures and video/
+WhatsApp Image 2026-10-02 at 11.54.24 (1).jpeg
+WhatsApp Video 2026-10-02 at 11.53.11.mp4
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
